@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "shuttle-stalk": {
+      "hosting": {
+        "shuttle_stalk_admin": [
+          "shuttle-stalk"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "shuttle-stalk"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "hosting": [
+    {
+      "target": "shuttle_stalk_admin",
+      "source": ".",
+      "frameworksBackend": {}
+    }
+  ]
+}

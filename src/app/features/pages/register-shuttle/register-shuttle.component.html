@@ -1,0 +1,72 @@
+<div>
+    <div class="content-container">
+        <h1 style="color: #1D3557">Register Shuttle</h1>
+    </div>
+
+    <div class="content">
+        <mat-card>
+            <form class="driver-form">
+                <table class="table-field" cellspacing="0">
+                  <tr>
+                      <td>
+                          <mat-form-field class="field">
+                              <mat-label>Shuttle Plate no.</mat-label>
+                              <input matInput placeholder="ABC 1234">
+                          </mat-form-field>
+                      </td>
+                      <td>
+                          <mat-form-field class="field">
+                              <mat-label>Route name</mat-label>
+                              <input matInput placeholder="Route Sg. Ara">
+                          </mat-form-field>
+                      </td>
+                  </tr>
+                  <tr>
+                    <td>
+                        <mat-form-field class="field">
+                            <mat-label>Set Driver</mat-label>
+                            <mat-select>
+                              <mat-option value="option1">Driver 1</mat-option>
+                              <mat-option value="option2">Driver 2</mat-option>
+                              <mat-option value="option3">Driver 3</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                      </td>
+                      <td>
+                        <mat-form-field class="field">
+                            <mat-label>Choose Shuttle Image (.jpeg, .png)</mat-label>
+                            <ngx-mat-file-input></ngx-mat-file-input>
+                          </mat-form-field>
+                      </td>
+                  </tr>
+              </table>
+              
+              <table class="table-field" cellspacing="0">
+                <div>
+                    <h3 style="color: #1D3557">Add shuttle schedules</h3>
+                </div>
+
+                <tr class="schedule-picker">
+                    <td>
+                        <tag-input [secondaryPlaceholder]="'Pickup time (e.g. 9:00AM)'" [placeholder]="'Enter pickup time'"></tag-input>
+                    </td>
+                </tr>
+
+                <tr class="schedule-picker">
+                    <td>
+                        <tag-input [secondaryPlaceholder]="'Dropoff time (e.g. 3:00PM)'" [placeholder]="'Enter dropoff time'"></tag-input>
+                    </td>
+                </tr>
+
+                <div>
+                    <h3 style="color: #1D3557">Add routes</h3>
+                </div>
+              </table>
+  
+              <button mat-raised-button class="action-button cancel">Cancel</button>
+              <button mat-raised-button class="action-button register">Register</button>
+            
+          </form>
+        </mat-card>
+    </div>
+</div>
