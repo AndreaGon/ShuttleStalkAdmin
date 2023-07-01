@@ -14,6 +14,8 @@ import { environment } from '../environments/environment';
 import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { provideStorage,getStorage } from '@angular/fire/storage';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { AngularFireModule } from '@angular/fire/compat';
 
 @NgModule({
   declarations: [
@@ -27,8 +29,8 @@ import { provideStorage,getStorage } from '@angular/fire/storage';
     SharedModule,
     CoreModule,
     AdminModule,
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideAuth(() => getAuth()),
+    AngularFireAuthModule,
+    AngularFireModule.initializeApp(environment.firebase),
     provideFirestore(() => getFirestore()),
     provideStorage(() => getStorage())
     

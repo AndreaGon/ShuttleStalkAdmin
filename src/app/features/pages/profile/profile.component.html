@@ -1,0 +1,31 @@
+<div>
+    <div class="content-container">
+        <h1 style="color: #1D3557">My Profile</h1>
+    </div>
+
+    <div class="content">
+        <mat-card>
+            <form class="driver-form">
+                <table class="table-field" cellspacing="0">
+                  <tr>
+                      <td>
+                          <mat-form-field class="field">
+                              <mat-label>Fullname</mat-label>
+                              <input matInput value="Andrea" disabled>
+                          </mat-form-field>
+                      </td>
+                      <td>
+                          <mat-form-field class="field">
+                              <mat-label>Email</mat-label>
+                              <input matInput value="andrea010403@gmail.com" disabled>
+                          </mat-form-field>
+                      </td>
+                  </tr>
+              </table>
+  
+              <button mat-raised-button class="action-button cancel" type="button" (click)="signOut()">Sign out</button>
+            
+          </form>
+        </mat-card>
+    </div>
+</div>

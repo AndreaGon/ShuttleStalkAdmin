@@ -2,9 +2,9 @@
     <div class="login-container">
         <h1 class="header">Login to Shuttle Stalk Admin Dashboard</h1>
         <div class="input-container">
-            <input type="email" matInput placeholder="Email">
-            <input type="password" matInput placeholder="Password">
-            <button mat-raised-button>Login</button>
+            <input type="email" [(ngModel)]="email" matInput placeholder="Email">
+            <input type="password" [(ngModel)]="password" matInput placeholder="Password">
+            <button (click)="signIn()" mat-raised-button>Login</button>
         </div>
         
     </div>

@@ -13,6 +13,7 @@ import { MoreInformationComponent } from './pages/more-information/more-informat
 import { EditShuttleComponent } from './pages/edit-shuttle/edit-shuttle.component';
 
 import { NgxMatFileInputModule } from '@angular-material-components/file-input';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { NgxMatFileInputModule } from '@angular-material-components/file-input';
     RegisterDriverComponent,
     RegisterShuttleComponent,
     MoreInformationComponent,
-    EditShuttleComponent
+    EditShuttleComponent,
+    ProfileComponent
   ],
   imports: [CommonModule, SharedModule, AdminRoutingModule, TagInputModule, FormsModule, ReactiveFormsModule, NgxMatFileInputModule],
   exports: []
