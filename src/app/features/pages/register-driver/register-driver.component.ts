@@ -36,28 +36,16 @@ export class RegisterDriverComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  registerDriver(){
+  async registerDriver(){
     this.account.fullname = this.driverForm.get("fullname")?.value;
     this.account.icNumber = this.driverForm.get("icNumber")?.value;
     this.account.email = this.driverForm.get("email")?.value;
     this.account.role = "DRIVER";
 
     //Register driver
-    this.driverService.signUpDriver(this.driverForm.get("email")?.value, this.driverForm.get("password")?.value).then((value: any) =>{
-
-      if(value){
-        this.accountService.addNewAccount(this.account).then((res)=>{
-          new Toast("Driver successfully added!", {
-            position: 'top',
-            theme: 'light'
-          });
-
-          this.router.navigate(["drivers"]);
-        });
-      }
-      
-    })
-  
+    await this.driverService.signUpDriver(this.driverForm.get("email")?.value, this.driverForm.get("password")?.value, this.account);
+    
+    this.router.navigate(["drivers"]);
   }
 
   cancelRegister(){

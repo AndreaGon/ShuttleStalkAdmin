@@ -23,6 +23,7 @@
     "@angular/platform-browser-dynamic": "~13.3.0",
     "@angular/router": "~13.3.0",
     "awesome-toast-component": "^2.0.6",
+    "firebase-admin": "^11.9.0",
     "ngx-chips": "^3.0.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
