@@ -5,19 +5,19 @@
 
     <div class="content">
         <mat-card>
-            <form class="driver-form">
+            <form class="driver-form" [formGroup]="driverForm">
                 <table class="table-field" cellspacing="0">
                   <tr>
                       <td>
                           <mat-form-field class="field">
                               <mat-label>Driver's fullname</mat-label>
-                              <input matInput placeholder="Derek Hans">
+                              <input formControlName="fullname" matInput placeholder="Ex. Derek Hans">
                           </mat-form-field>
                       </td>
                       <td>
                           <mat-form-field class="field">
                               <mat-label>I.C</mat-label>
-                              <input matInput placeholder="Ex. 12345678">
+                              <input formControlName="icNumber" matInput placeholder="Ex. 12345678">
                           </mat-form-field>
                       </td>
                   </tr>
@@ -25,20 +25,20 @@
                       <td>
                           <mat-form-field class="field">
                               <mat-label>Email for Driver</mat-label>
-                              <input matInput placeholder="derekhans@mail.com">
+                              <input formControlName="email" matInput placeholder="Ex. derekhans@mail.com">
                           </mat-form-field>
                       </td>
                       <td>
                           <mat-form-field class="field">
                               <mat-label>Password for Driver</mat-label>
-                              <input type="password" matInput placeholder="Ex. 12345678">
+                              <input type="password" formControlName="password" matInput placeholder="Ex. 12345678">
                           </mat-form-field>
                       </td>
                   </tr>
               </table>
   
-              <button mat-raised-button class="action-button cancel">Cancel</button>
-              <button mat-raised-button class="action-button register">Register</button>
+              <button (click) = "cancelRegister()" mat-raised-button class="action-button cancel">Cancel</button>
+              <button (click)="registerDriver()" mat-raised-button class="action-button register">Register</button>
             
           </form>
         </mat-card>

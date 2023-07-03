@@ -8,23 +8,13 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class AuthService {
 
-  userData: Observable<any> | undefined;
-  loggedIn = new BehaviorSubject<boolean>(false);
+  loggedIn = new BehaviorSubject<any>(null);
   loggedIn$ = this.loggedIn.asObservable();
 
   constructor(
     private firebase: AngularFireAuth,
     private router: Router
-  ) {
-    this.userData = firebase.authState;
-    this.firebase.onAuthStateChanged((user) => {
-      if (user) {
-        this.loggedIn.next(true);
-      } else {
-        this.loggedIn.next(false);
-      } 
-    });
-   }
+  ) {}
 
    signUp(email: string, password: string){
     this.firebase.createUserWithEmailAndPassword(email, password).then(res => {
@@ -48,7 +38,19 @@ export class AuthService {
 
    signOut(){
     this.firebase.signOut();
+    localStorage.removeItem("user");
     this.router.navigate(['login']);
+   }
+
+   autoLogin(){
+    this.firebase.onAuthStateChanged((user) => {
+      if (user) {
+        localStorage.setItem("user", JSON.stringify(user));
+        this.loggedIn.next(true);
+      } else {
+        this.loggedIn.next(false);
+      } 
+    });
    }
 
 }
