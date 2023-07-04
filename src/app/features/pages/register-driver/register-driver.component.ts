@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Account } from 'src/app/core/models/account.model';
-import { AccountService } from 'src/app/core/services/account.service';
+import { Driver } from 'src/app/core/models/driver.model';
 import { DriverService } from 'src/app/core/services/driver.service';
 import Toast from 'awesome-toast-component'
 import { Router } from '@angular/router';
@@ -14,7 +13,6 @@ import { Router } from '@angular/router';
 export class RegisterDriverComponent implements OnInit {
 
   constructor(
-    private accountService: AccountService,
     private driverService: DriverService,
     private router: Router
   ) { }
@@ -26,11 +24,12 @@ export class RegisterDriverComponent implements OnInit {
     password: new FormControl()
   })
 
-  account: Account = {
+  account: Driver = {
     fullname: "",
     icNumber: "",
     email: "",
-    role: ""
+    role: "",
+    password: ""
   }
 
   ngOnInit(): void {
@@ -40,10 +39,22 @@ export class RegisterDriverComponent implements OnInit {
     this.account.fullname = this.driverForm.get("fullname")?.value;
     this.account.icNumber = this.driverForm.get("icNumber")?.value;
     this.account.email = this.driverForm.get("email")?.value;
+    this.account.password = this.driverForm.get("password")?.value;
     this.account.role = "DRIVER";
 
     //Register driver
-    await this.driverService.signUpDriver(this.driverForm.get("email")?.value, this.driverForm.get("password")?.value, this.account);
+    await this.driverService.signUpDriver(this.account).then((res)=>{
+      new Toast("Driver successfully added!", {
+          position: 'top',
+          theme: 'light'
+      });
+    })
+    .catch((error)=>{
+      new Toast("Error: " + error.message, {
+        position: 'top',
+        theme: 'light'
+      });
+    });
     
     this.router.navigate(["drivers"]);
   }

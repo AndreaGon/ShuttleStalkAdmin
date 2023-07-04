@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import Toast from 'awesome-toast-component';
-import { AccountService } from './account.service';
-import { Account } from '../models/account.model';
+import { AngularFireAuth, AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { Driver } from '../models/driver.model';
+
+import { addDoc, collection, deleteDoc, doc, getDocs, query, updateDoc, where } from '@angular/fire/firestore';
+import { Firestore } from '@angular/fire/firestore';
+
 
 @Injectable({
   providedIn: 'root'
@@ -10,35 +12,34 @@ import { Account } from '../models/account.model';
 export class DriverService {
 
   constructor(
-    private firebase: AngularFireAuth,
-    private accountService: AccountService
+    private firestore: Firestore
   ) {}
+
+  collection: any = collection(this.firestore, "account");  
   
 
-  async signUpDriver(email: string, password: string, account: Account): Promise<any>{
-    
-    await this.firebase.createUserWithEmailAndPassword(email, password).then(res => {
-      account.accountId = res.user?.uid;
-      this.accountService.addNewAccount(account).then((res)=>{
-        new Toast("Driver successfully added!", {
-          position: 'top',
-          theme: 'light'
-        });
-      });
-        return;
-      })
-      .catch(error =>{
-        console.log('Something is wrong:', error.message);
-        new Toast("Error: " + error.message, {
-          position: 'top',
-          theme: 'light'
-        });
-        return;
-      });
+  async signUpDriver(account: Driver): Promise<any>{
+
+    let newDriver: any = await addDoc(this.collection, {
+      email: account.email,
+      fullname: account.fullname,
+      icNumber: account.icNumber,
+      role: account.role,
+      password: window.btoa(account.password)
+    });
+  
+    return updateDoc(newDriver, {
+      id: newDriver.id
+    });
   }
 
-  deleteDriver(id: string, accountId: string){
-    //TODO: Delete account from Firebase Auth
-    this.accountService.deleteDriverAccount(id);
+  async getAllDriverAccounts(){
+    const q = query(this.collection, where("role", "==", "DRIVER"));
+    const querySnapshot = await getDocs(q);
+    return await querySnapshot;
+  }
+
+  async deleteDriver(id: string){
+    return deleteDoc(doc(this.firestore, "account", id));
   }
 }

@@ -1,8 +1,8 @@
-export interface Account{
+export interface Driver{
     id?: string,
-    accountId?: string,
     fullname: string,
     icNumber: string,
     email: string,
-    role: string
+    role: string,
+    password: string
 }

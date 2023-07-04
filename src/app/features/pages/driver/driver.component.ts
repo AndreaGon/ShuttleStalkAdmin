@@ -2,8 +2,7 @@ import { Component, OnInit, ChangeDetectorRef, ViewChild  } from '@angular/core'
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { Account } from 'src/app/core/models/account.model';
-import { AccountService } from 'src/app/core/services/account.service';
+import Toast from 'awesome-toast-component';
 import { DriverService } from 'src/app/core/services/driver.service';
 
 @Component({
@@ -21,7 +20,6 @@ export class DriverComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private accountService: AccountService,
     private driverService: DriverService,
     private changeDetector: ChangeDetectorRef
     ) { }
@@ -36,15 +34,28 @@ export class DriverComponent implements OnInit {
   }
 
   async refreshTable(): Promise<void>{
-    (await this.accountService.getAllDriverAccounts()).forEach(doc => {
+    this.driverAccounts = [];
+    (await this.driverService.getAllDriverAccounts()).forEach(doc => {
       this.driverAccounts.push(doc.data());
     });
     this.dataSource = new MatTableDataSource(this.driverAccounts);
     this.dataSource.paginator = this.paginator;
   }
 
-  deleteDriver(id: any, accountId: any){
-    return this.driverService.deleteDriver(id, accountId);
+  async deleteDriver(id: any){
+    await this.driverService.deleteDriver(id).then((res)=>{
+      new Toast("Driver successfully deleted!", {
+        position: 'top',
+        theme: 'light'
+    });
+    })
+    .catch((error)=>{
+      new Toast("Error: " + error.message, {
+        position: 'top',
+        theme: 'light'
+      });
+    });
+    this.refreshTable();
   }
 
 }
