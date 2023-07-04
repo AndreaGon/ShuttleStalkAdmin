@@ -15,7 +15,7 @@ export class DriverService {
     private firestore: Firestore
   ) {}
 
-  collection: any = collection(this.firestore, "account");  
+  collection: any = collection(this.firestore, "drivers");  
   
 
   async signUpDriver(account: Driver): Promise<any>{
@@ -31,6 +31,12 @@ export class DriverService {
     return updateDoc(newDriver, {
       id: newDriver.id
     });
+  }
+
+  async checkExistingDriver(email: any){
+    const q = query(this.collection, where("email", "==", email));
+    const querySnapshot = await getDocs(q);
+    return await querySnapshot;
   }
 
   async getAllDriverAccounts(){

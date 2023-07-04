@@ -42,21 +42,31 @@ export class RegisterDriverComponent implements OnInit {
     this.account.password = this.driverForm.get("password")?.value;
     this.account.role = "DRIVER";
 
-    //Register driver
-    await this.driverService.signUpDriver(this.account).then((res)=>{
-      new Toast("Driver successfully added!", {
-          position: 'top',
-          theme: 'light'
-      });
-    })
-    .catch((error)=>{
-      new Toast("Error: " + error.message, {
-        position: 'top',
-        theme: 'light'
-      });
-    });
-    
-    this.router.navigate(["drivers"]);
+    await this.driverService.checkExistingDriver(this.account.email).then(async (res)=>{
+      if(res.size == 0){
+          //Register driver
+          await this.driverService.signUpDriver(this.account).then((res)=>{
+            new Toast("Driver successfully added!", {
+                position: 'top',
+                theme: 'light'
+            });
+          })
+          .catch((error)=>{
+            new Toast("Error: " + error.message, {
+              position: 'top',
+              theme: 'light'
+            });
+          });
+          
+          this.router.navigate(["drivers"]);
+        }
+        else{
+          new Toast("Error: Driver already exists!" , {
+            position: 'top',
+            theme: 'light'
+          });
+        }
+    }); 
   }
 
   cancelRegister(){
