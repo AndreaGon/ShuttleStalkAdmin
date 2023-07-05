@@ -14,6 +14,7 @@ import { EditShuttleComponent } from './pages/edit-shuttle/edit-shuttle.componen
 
 import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { AgmCoreModule } from '@agm/core';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,10 @@ import { ProfileComponent } from './pages/profile/profile.component';
     EditShuttleComponent,
     ProfileComponent
   ],
-  imports: [CommonModule, SharedModule, AdminRoutingModule, TagInputModule, FormsModule, ReactiveFormsModule, NgxMatFileInputModule],
+  imports: [CommonModule, AgmCoreModule.forRoot({
+    apiKey: "AIzaSyBPOUA1S51D3-RZnahp5ZeXEbmIs4iMmmI",
+    libraries: ['places'],
+  }), SharedModule, AdminRoutingModule, TagInputModule, FormsModule, ReactiveFormsModule, NgxMatFileInputModule],
   exports: []
 })
 export class AdminModule {}

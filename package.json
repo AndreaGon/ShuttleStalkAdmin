@@ -10,6 +10,7 @@
   },
   "private": true,
   "dependencies": {
+    "@agm/core": "^3.0.0-beta.0",
     "@angular-material-components/file-input": "^7.0.0",
     "@angular/animations": "~13.3.0",
     "@angular/cdk": "^13.3.9",
@@ -22,6 +23,7 @@
     "@angular/platform-browser": "~13.3.0",
     "@angular/platform-browser-dynamic": "~13.3.0",
     "@angular/router": "~13.3.0",
+    "@types/googlemaps": "^3.39.13",
     "awesome-toast-component": "^2.0.6",
     "encrypt-rsa": "^2.1.5",
     "firebase-functions": "^4.4.1",
