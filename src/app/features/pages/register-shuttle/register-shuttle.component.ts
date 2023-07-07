@@ -38,6 +38,7 @@ export class RegisterShuttleComponent implements OnInit {
     plateNo: new FormControl("",[Validators.required]),
     driver: new FormControl("",[Validators.required]),
     routeName: new FormControl("",[Validators.required]),
+    shuttleImage: new FormControl(),
     pickupTime: new FormControl([],[Validators.required]),
     dropoffTime: new FormControl([],[Validators.required]),
     route: new FormControl([],[Validators.required])
@@ -46,6 +47,7 @@ export class RegisterShuttleComponent implements OnInit {
   newShuttle: Shuttle = {
     plateNo: "",
     routeName: "",
+    shuttleImage: "",
     driver: [""],
     pickupTime: [],
     dropoffTime: [],
@@ -105,7 +107,6 @@ export class RegisterShuttleComponent implements OnInit {
   }
 
   addAddress(){
-    //TODO: add address to ngx chip
     this.listOfAddresses.push(this.address);  
     this.address = {}  
   }
@@ -115,28 +116,32 @@ export class RegisterShuttleComponent implements OnInit {
     this.shuttleForm.get("route")?.setValue(this.listOfAddresses);
 
     if(this.shuttleForm.valid){
-      this.newShuttle.routeName = this.shuttleForm.get("routeName")?.value;
-      this.newShuttle.plateNo = this.shuttleForm.get("plateNo")?.value;
-      this.newShuttle.driver = this.shuttleForm.get("driver")?.value;
-      this.newShuttle.pickupTime = this.shuttleForm.get("pickupTime")?.value;
-      this.newShuttle.dropoffTime = this.shuttleForm.get("dropoffTime")?.value;
-      this.newShuttle.route = this.shuttleForm.get("route")?.value;
 
-      
+      this.shuttleService.addImageToStorage(this.shuttleForm.get("shuttleImage")?.value).then((res)=>{
+        this.newShuttle.shuttleImage = res;
 
-      this.shuttleService.addNewShuttle(this.newShuttle).then(()=>{
-        this.router.navigate(["shuttle"]);
-        new Toast("Shuttle successfully added!", {
-          position: 'top',
-          theme: 'light'
-        });
-      })
-      .catch((error)=>{
-        new Toast("Error: " + error.message, {
-          position: 'top',
-          theme: 'light'
+        this.newShuttle.routeName = this.shuttleForm.get("routeName")?.value;
+        this.newShuttle.plateNo = this.shuttleForm.get("plateNo")?.value;
+        this.newShuttle.driver = this.shuttleForm.get("driver")?.value;
+        this.newShuttle.pickupTime = this.shuttleForm.get("pickupTime")?.value;
+        this.newShuttle.dropoffTime = this.shuttleForm.get("dropoffTime")?.value;
+        this.newShuttle.route = this.shuttleForm.get("route")?.value;
+
+        this.shuttleService.addNewShuttle(this.newShuttle).then(()=>{
+          this.router.navigate(["shuttle"]);
+          new Toast("Shuttle successfully added!", {
+            position: 'top',
+            theme: 'light'
+          });
+        })
+        .catch((error)=>{
+          new Toast("Error: " + error.message, {
+            position: 'top',
+            theme: 'light'
+          });
         });
       });
+      
     }
     else{
       new Toast("Error: Please fill up all inputs", {
