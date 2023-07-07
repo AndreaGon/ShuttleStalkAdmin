@@ -25,8 +25,8 @@
                     <td>
                         <mat-form-field class="field">
                             <mat-label>Set Driver</mat-label>
-                            <mat-select>
-                              <mat-option *ngFor="let driver of listOfDrivers" value="driver.id">{{driver.fullname}}</mat-option>
+                            <mat-select formControlName="driver">
+                              <mat-option *ngFor="let driver of listOfDrivers" value="{{driver.id}}">{{driver.fullname}}</mat-option>
                             </mat-select>
                           </mat-form-field>
                       </td>
@@ -85,7 +85,7 @@
                         </agm-marker>
                     </agm-map>
 
-                    <tag-input [secondaryPlaceholder]="'Addresses'" [placeholder]="'Enter pickup time'"></tag-input>
+                    <tag-input [(ngModel)]="listOfAddresses" [ngModelOptions]="{standalone: true}" [secondaryPlaceholder]="'Addresses'" [placeholder]="'Enter pickup time'"></tag-input>
                 </div>
               </table>
   
