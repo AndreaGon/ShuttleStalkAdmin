@@ -117,9 +117,33 @@ export class RegisterShuttleComponent implements OnInit {
 
     if(this.shuttleForm.valid){
 
-      this.shuttleService.addImageToStorage(this.shuttleForm.get("shuttleImage")?.value).then((res)=>{
-        this.newShuttle.shuttleImage = res;
-
+      if(this.shuttleForm.get("shuttleImage")?.value != null){
+        this.shuttleService.addImageToStorage(this.shuttleForm.get("shuttleImage")?.value).then((res)=>{
+          this.newShuttle.shuttleImage = res;
+  
+          this.newShuttle.routeName = this.shuttleForm.get("routeName")?.value;
+          this.newShuttle.plateNo = this.shuttleForm.get("plateNo")?.value;
+          this.newShuttle.driver = this.shuttleForm.get("driver")?.value;
+          this.newShuttle.pickupTime = this.shuttleForm.get("pickupTime")?.value;
+          this.newShuttle.dropoffTime = this.shuttleForm.get("dropoffTime")?.value;
+          this.newShuttle.route = this.shuttleForm.get("route")?.value;
+  
+          this.shuttleService.addNewShuttle(this.newShuttle).then(()=>{
+            this.router.navigate(["shuttle"]);
+            new Toast("Shuttle successfully added!", {
+              position: 'top',
+              theme: 'light'
+            });
+          })
+          .catch((error)=>{
+            new Toast("Error: " + error.message, {
+              position: 'top',
+              theme: 'light'
+            });
+          });
+        });
+      }
+      else{
         this.newShuttle.routeName = this.shuttleForm.get("routeName")?.value;
         this.newShuttle.plateNo = this.shuttleForm.get("plateNo")?.value;
         this.newShuttle.driver = this.shuttleForm.get("driver")?.value;
@@ -140,7 +164,7 @@ export class RegisterShuttleComponent implements OnInit {
             theme: 'light'
           });
         });
-      });
+      }
       
     }
     else{

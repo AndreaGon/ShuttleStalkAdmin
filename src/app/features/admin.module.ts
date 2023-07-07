@@ -15,6 +15,7 @@ import { EditShuttleComponent } from './pages/edit-shuttle/edit-shuttle.componen
 import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { AgmCoreModule } from '@agm/core';
+import { AnnouncementsComponent } from './pages/announcements/announcements.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { AgmCoreModule } from '@agm/core';
     RegisterShuttleComponent,
     MoreInformationComponent,
     EditShuttleComponent,
-    ProfileComponent
+    ProfileComponent,
+    AnnouncementsComponent
   ],
   imports: [CommonModule, AgmCoreModule.forRoot({
     apiKey: "AIzaSyBPOUA1S51D3-RZnahp5ZeXEbmIs4iMmmI",

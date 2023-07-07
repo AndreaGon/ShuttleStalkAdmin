@@ -46,6 +46,6 @@ export class DriverService {
   }
 
   async deleteDriver(id: string){
-    return deleteDoc(doc(this.firestore, "account", id));
+    return deleteDoc(doc(this.firestore, "drivers", id));
   }
 }

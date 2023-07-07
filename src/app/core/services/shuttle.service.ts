@@ -17,9 +17,18 @@ export class ShuttleService {
     private storage: AngularFireStorage
   ) {}
 
-  downloadUrl: any;
-
   collection: any = collection(this.firestore, "shuttles");
+
+  async getAllShuttles(): Promise<any>{
+    const querySnapshot = await getDocs(this.collection);
+
+    let documents: any[] = [];
+    querySnapshot.forEach((doc)=>{
+      documents.push(doc.data());
+    });
+
+    return documents;
+  }
 
   async addNewShuttle(shuttle: Shuttle): Promise<any>{
     let newShuttle: any = await addDoc(this.collection, {
@@ -44,5 +53,14 @@ export class ShuttleService {
 
     await this.storage.upload(filePath, file);
     return filePath;
+  }
+
+  async getImageDownloadUrl(filePath: string){
+    const fileRef = this.storage.ref(filePath);
+    
+    let downloadUrl = await fileRef.getDownloadURL();
+
+    return downloadUrl;
+    
   }
 }

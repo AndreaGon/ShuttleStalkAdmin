@@ -4,13 +4,11 @@
         <button mat-raised-button (click)="navigateToRegisterShuttles()" class="add-button">Register shuttle</button>
     </div>
     <mat-grid-list cols="4" rowHeight="410px">
-        <mat-grid-tile style="margin-top: 50px">
+        <mat-grid-tile *ngFor="let shuttle of listOfShuttles" style="margin-top: 50px">
             <div class="container">
-                <!-- <section class="header">
-                    <img src="assets/shuttle-default.png" style="width: 250px"/>  
-                </section> -->    
-                <img src="assets/shuttle-default.png" class="shuttle-img"/>           
-                <h3>PMS 2447</h3>
+                <img *ngIf="shuttle.downloadUrl == 'no image'" src="assets/shuttle-default.png" class="shuttle-img"/>
+                <img *ngIf="shuttle.downloadUrl != 'no image'" [src]="shuttle.downloadUrl" class="shuttle-img"/>
+                <h3>{{shuttle.routeName}}</h3>
                 <button mat-raised-button class="settings-button">More Information</button>
                 <button mat-raised-button class="delete-button">Delete</button>
             </div>

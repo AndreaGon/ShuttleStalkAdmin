@@ -6,12 +6,14 @@ import { RegisterDriverComponent } from './pages/register-driver/register-driver
 import { RegisterShuttleComponent } from './pages/register-shuttle/register-shuttle.component';
 import { AuthGuard } from '../core/guard/auth.guard';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { AnnouncementsComponent } from './pages/announcements/announcements.component';
 
 const routes: Routes = [
   { path: 'shuttle', component: ShuttleComponent, canActivate: [AuthGuard] },
   { path: 'drivers', component: DriverComponent, canActivate: [AuthGuard] },
   { path: 'register-driver', component: RegisterDriverComponent, canActivate: [AuthGuard]},
   { path: 'register-shuttle', component: RegisterShuttleComponent, canActivate: [AuthGuard]},
+  { path: 'announcements', component: AnnouncementsComponent, canActivate: [AuthGuard]},
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]}
 ];
 
