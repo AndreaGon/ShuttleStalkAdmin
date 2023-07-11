@@ -30,6 +30,12 @@ export class ShuttleService {
     return documents;
   }
 
+  async getShuttleOnQuery(id: string): Promise<any>{
+    const q = query(this.collection, where("id", "==", id));
+    const querySnapshot = await getDocs(q);
+    return await querySnapshot;
+  }
+
   async addNewShuttle(shuttle: Shuttle): Promise<any>{
     let newShuttle: any = await addDoc(this.collection, {
         plateNo: shuttle.plateNo,
@@ -62,5 +68,9 @@ export class ShuttleService {
 
     return downloadUrl;
     
+  }
+
+  async deleteShuttle(id: string){
+    return deleteDoc(doc(this.firestore, "shuttles", id));
   }
 }

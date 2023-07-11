@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ShuttleService } from 'src/app/core/services/shuttle.service';
 
 @Component({
@@ -11,12 +12,31 @@ export class ShuttleComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private shuttleService: ShuttleService
+    private shuttleService: ShuttleService,
+    private spinner: NgxSpinnerService
   ) { }
 
   listOfShuttles: any[] = [];
 
   ngOnInit(): void {
+    this.setRegisteredShuttles();
+  }
+
+  navigateToRegisterShuttles(){
+    this.router.navigate(['register-shuttle']);
+  }
+
+  navigateToInfoPage(shuttle: any){
+    this.router.navigate(['more-information', {id: shuttle.id}]);
+  }
+
+  async deleteShuttle(shuttle: any){
+    await this.shuttleService.deleteShuttle(shuttle.id);
+    this.setRegisteredShuttles();
+  }
+
+  setRegisteredShuttles(){
+    this.spinner.show();
     this.shuttleService.getAllShuttles().then((res)=>{
       res.forEach((doc: any, index: number) => {
         if(doc.shuttleImage != ""){
@@ -34,12 +54,7 @@ export class ShuttleComponent implements OnInit {
       })
 
       this.listOfShuttles = res;
-      console.log(this.listOfShuttles)
+      this.spinner.hide();
     });
   }
-
-  navigateToRegisterShuttles(){
-    this.router.navigate(['register-shuttle']);
-  }
-
 }

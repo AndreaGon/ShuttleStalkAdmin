@@ -28,6 +28,7 @@
     "encrypt-rsa": "^2.1.5",
     "firebase-functions": "^4.4.1",
     "ngx-chips": "^3.0.0",
+    "ngx-spinner": "^12.0.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

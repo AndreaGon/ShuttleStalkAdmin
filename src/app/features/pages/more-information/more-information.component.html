@@ -1,1 +1,99 @@
-<p>more-information works!</p>
+<div>
+    <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "ball-clip-rotate-multiple" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
+    <div class="content-container">
+        <h1 style="color: #1D3557">Shuttle Information</h1>
+    </div>
+
+    <div class="content">
+        <mat-card>
+            <form class="driver-form" [formGroup]="shuttleForm">
+                <table class="table-field" cellspacing="0">
+                  <tr>
+                      <td>
+                          <mat-form-field class="field">
+                              <mat-label>Shuttle Plate no.</mat-label>
+                              <input formControlName="plateNo" matInput placeholder="ABC 1234">
+                          </mat-form-field>
+                      </td>
+                      <td>
+                          <mat-form-field class="field">
+                              <mat-label>Route name</mat-label>
+                              <input formControlName="routeName" matInput placeholder="Route Sg. Ara">
+                          </mat-form-field>
+                      </td>
+                  </tr>
+                  <tr>
+                    <td>
+                        <mat-form-field class="field">
+                            <mat-label>Set Driver</mat-label>
+                            <mat-select formControlName="driver">
+                              <mat-option *ngFor="let driver of listOfDrivers" value="{{driver.id}}">{{driver.fullname}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                      </td>
+                      <td>
+                        <mat-form-field class="field">
+                            <mat-label>Choose Shuttle Image (.jpeg, .png)</mat-label>
+                            <ngx-mat-file-input formControlName = "shuttleImage"></ngx-mat-file-input>
+                          </mat-form-field>
+                      </td>
+                  </tr>
+              </table>
+              
+              <table class="table-field" cellspacing="0">
+                <div>
+                    <h3 style="color: #1D3557">Add shuttle schedules</h3>
+                </div>
+
+                <tr class="schedule-picker">
+                    <td>
+                        <tag-input formControlName="pickupTime" [secondaryPlaceholder]="'Pickup time (e.g. 9:00AM)'" [placeholder]="'Enter pickup time'"></tag-input>
+                    </td>
+                </tr>
+
+                <tr class="schedule-picker">
+                    <td>
+                        <tag-input formControlName="dropoffTime" [secondaryPlaceholder]="'Dropoff time (e.g. 3:00PM)'" [placeholder]="'Enter dropoff time'"></tag-input>
+                    </td>
+                </tr>
+
+                <div>
+                    <h3 style="color: #1D3557">Add routes</h3>
+                    <div class="form-group">
+                        <table class="table-field" cellspacing="0">
+                            <tr>
+                                <td>
+                                    <mat-form-field class="field">
+                                        <mat-label>Search address</mat-label>
+                                        <input matInput placeholder="Bus stop" #searchAddress>
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <button (click)="addAddress()" mat-raised-button class="action-button" style="width: 150px;">Add address</button>
+                                </td>
+                            </tr>
+                        </table>
+                        
+                      </div>
+                    <agm-map 
+                        [latitude]="latitude" 
+                        [longitude]="longitude" 
+                        [zoom]="zoom" >
+                        <agm-marker 
+                            [latitude]="latitude" 
+                            [longitude]="longitude"
+                            >
+                        </agm-marker>
+                    </agm-map>
+
+                    <tag-input [(ngModel)]="listOfAddresses" [ngModelOptions]="{standalone: true}" [secondaryPlaceholder]="'Addresses'" [placeholder]="'Address'"></tag-input>
+                </div>
+              </table>
+  
+              <button mat-raised-button class="action-button cancel" (click)="cancelEditShuttle()">Cancel</button>
+              <button mat-raised-button class="action-button register" (click)="editShuttle()">Save changes</button>
+            
+          </form>
+        </mat-card>
+    </div>
+</div>

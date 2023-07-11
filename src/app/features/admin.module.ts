@@ -9,13 +9,13 @@ import { RegisterShuttleComponent } from './pages/register-shuttle/register-shut
 
 import { TagInputModule } from 'ngx-chips';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MoreInformationComponent } from './pages/more-information/more-information.component';
-import { EditShuttleComponent } from './pages/edit-shuttle/edit-shuttle.component';
 
 import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { AgmCoreModule } from '@agm/core';
 import { AnnouncementsComponent } from './pages/announcements/announcements.component';
+import { MoreInformationComponent } from './pages/more-information/more-information.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -24,14 +24,15 @@ import { AnnouncementsComponent } from './pages/announcements/announcements.comp
     RegisterDriverComponent,
     RegisterShuttleComponent,
     MoreInformationComponent,
-    EditShuttleComponent,
     ProfileComponent,
     AnnouncementsComponent
   ],
   imports: [CommonModule, AgmCoreModule.forRoot({
     apiKey: "AIzaSyBPOUA1S51D3-RZnahp5ZeXEbmIs4iMmmI",
     libraries: ['places'],
-  }), SharedModule, AdminRoutingModule, TagInputModule, FormsModule, ReactiveFormsModule, NgxMatFileInputModule],
+  }),
+  NgxSpinnerModule,
+  SharedModule, AdminRoutingModule, TagInputModule, FormsModule, ReactiveFormsModule, NgxMatFileInputModule],
   exports: []
 })
 export class AdminModule {}

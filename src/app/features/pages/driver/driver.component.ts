@@ -3,6 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import Toast from 'awesome-toast-component';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { DriverService } from 'src/app/core/services/driver.service';
 
 @Component({
@@ -21,7 +22,8 @@ export class DriverComponent implements OnInit {
   constructor(
     private router: Router,
     private driverService: DriverService,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    private spinner: NgxSpinnerService
     ) { }
 
   ngOnInit(){
@@ -34,12 +36,15 @@ export class DriverComponent implements OnInit {
   }
 
   async refreshTable(): Promise<void>{
+    this.spinner.show();
     this.driverAccounts = [];
     (await this.driverService.getAllDriverAccounts()).forEach(doc => {
       this.driverAccounts.push(doc.data());
     });
     this.dataSource = new MatTableDataSource(this.driverAccounts);
     this.dataSource.paginator = this.paginator;
+
+    this.spinner.hide();
   }
 
   async deleteDriver(id: any){
