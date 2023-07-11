@@ -61,6 +61,8 @@ export class MoreInformationComponent implements OnInit {
     componentRestrictions: {country: "my"}
    };
 
+   imageName: string = "";
+
   ngOnInit(): void {
     this.setDriversData();
     this.setShuttleInformation();
@@ -115,6 +117,12 @@ export class MoreInformationComponent implements OnInit {
           this.shuttleForm.get("pickupTime")?.setValue(doc.data().pickupTime);
           this.shuttleForm.get("dropoffTime")?.setValue(doc.data().dropoffTime);
           this.shuttleForm.get("driver")?.setValue(doc.data().driver);
+          if(doc.data().shuttleImage != ""){
+            this.imageName = doc.data().shuttleImage;
+          }
+          else{
+            this.imageName = "No Image";
+          }
           this.listOfAddresses = doc.data().route;
         })
       })
@@ -144,6 +152,8 @@ export class MoreInformationComponent implements OnInit {
 
     if(this.shuttleForm.valid){
 
+      let shuttleId = this.route.snapshot.paramMap.get("id") || "";
+
       if(this.shuttleForm.get("shuttleImage")?.value != null){
         this.shuttleService.addImageToStorage(this.shuttleForm.get("shuttleImage")?.value).then((res)=>{
           this.newShuttle.shuttleImage = res;
@@ -154,10 +164,12 @@ export class MoreInformationComponent implements OnInit {
           this.newShuttle.pickupTime = this.shuttleForm.get("pickupTime")?.value;
           this.newShuttle.dropoffTime = this.shuttleForm.get("dropoffTime")?.value;
           this.newShuttle.route = this.shuttleForm.get("route")?.value;
+
+          
   
-          this.shuttleService.addNewShuttle(this.newShuttle).then(()=>{
+          this.shuttleService.updateShuttle(this.newShuttle, shuttleId).then(()=>{
             this.router.navigate(["shuttle"]);
-            new Toast("Shuttle successfully added!", {
+            new Toast("Shuttle successfully updated!", {
               position: 'top',
               theme: 'light'
             });
@@ -178,7 +190,9 @@ export class MoreInformationComponent implements OnInit {
         this.newShuttle.dropoffTime = this.shuttleForm.get("dropoffTime")?.value;
         this.newShuttle.route = this.shuttleForm.get("route")?.value;
 
-        this.shuttleService.addNewShuttle(this.newShuttle).then(()=>{
+        console.log(shuttleId);
+
+        this.shuttleService.updateShuttle(this.newShuttle, shuttleId).then(()=>{
           this.router.navigate(["shuttle"]);
           new Toast("Shuttle successfully added!", {
             position: 'top',
@@ -186,6 +200,7 @@ export class MoreInformationComponent implements OnInit {
           });
         })
         .catch((error)=>{
+          console.log(error)
           new Toast("Error: " + error.message, {
             position: 'top',
             theme: 'light'

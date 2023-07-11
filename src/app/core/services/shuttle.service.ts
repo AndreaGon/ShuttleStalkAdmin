@@ -52,6 +52,22 @@ export class ShuttleService {
       });
   }
 
+  async updateShuttle(shuttle: Shuttle, shuttleId: string): Promise<any>{
+    
+    let shuttleDoc = doc(this.firestore, "shuttles", shuttleId);
+    console.log(shuttleDoc);
+    
+    return updateDoc(shuttleDoc, {
+        plateNo: shuttle.plateNo,
+        shuttleImage: shuttle.shuttleImage,
+        routeName: shuttle.routeName,
+        driver: shuttle.driver,
+        pickupTime: shuttle.pickupTime,
+        dropoffTime: shuttle.dropoffTime,
+        route: shuttle.route
+    })
+  }
+
   async addImageToStorage(file: File){
     let date = Date.now();
     const filePath = `ShuttleImages/${date}`;
