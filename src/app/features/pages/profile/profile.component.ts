@@ -8,11 +8,14 @@ import { AuthService } from 'src/app/core/services/auth.service';
 })
 export class ProfileComponent implements OnInit {
 
+  email: string = "";
+
   constructor(
     private authService: AuthService
   ) { }
 
   ngOnInit(): void {
+    this.email = this.authService.getEmail()!.email;
   }
 
   signOut(){

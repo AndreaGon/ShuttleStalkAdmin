@@ -53,4 +53,8 @@ export class AuthService {
     });
    }
 
+   getEmail(){
+    return JSON.parse(localStorage.getItem("user")!);
+   }
+
 }
