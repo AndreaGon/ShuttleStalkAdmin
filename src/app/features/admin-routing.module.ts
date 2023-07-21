@@ -8,6 +8,8 @@ import { AuthGuard } from '../core/guard/auth.guard';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { AnnouncementsComponent } from './pages/announcements/announcements.component';
 import { MoreInformationComponent } from './pages/more-information/more-information.component';
+import { NewAnnouncementComponent } from './pages/new-announcement/new-announcement.component';
+import { AnnouncementInfoComponent } from './pages/announcement-info/announcement-info.component';
 
 const routes: Routes = [
   { path: 'shuttle', component: ShuttleComponent, canActivate: [AuthGuard] },
@@ -16,7 +18,9 @@ const routes: Routes = [
   { path: 'register-shuttle', component: RegisterShuttleComponent, canActivate: [AuthGuard]},
   { path: 'announcements', component: AnnouncementsComponent, canActivate: [AuthGuard]},
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
-  { path: 'more-information', component: MoreInformationComponent, canActivate: [AuthGuard]}
+  { path: 'more-information', component: MoreInformationComponent, canActivate: [AuthGuard]},
+  { path: 'new-announcement', component: NewAnnouncementComponent, canActivate: [AuthGuard]},
+  { path: 'announcements/announcement-info', component: AnnouncementInfoComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

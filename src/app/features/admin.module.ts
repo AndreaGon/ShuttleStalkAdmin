@@ -16,6 +16,8 @@ import { AgmCoreModule } from '@agm/core';
 import { AnnouncementsComponent } from './pages/announcements/announcements.component';
 import { MoreInformationComponent } from './pages/more-information/more-information.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { NewAnnouncementComponent } from './pages/new-announcement/new-announcement.component';
+import { AnnouncementInfoComponent } from './pages/announcement-info/announcement-info.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     RegisterShuttleComponent,
     MoreInformationComponent,
     ProfileComponent,
-    AnnouncementsComponent
+    AnnouncementsComponent,
+    NewAnnouncementComponent,
+    AnnouncementInfoComponent
   ],
   imports: [CommonModule, AgmCoreModule.forRoot({
     apiKey: "AIzaSyBPOUA1S51D3-RZnahp5ZeXEbmIs4iMmmI",
