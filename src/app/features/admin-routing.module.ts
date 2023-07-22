@@ -10,6 +10,7 @@ import { AnnouncementsComponent } from './pages/announcements/announcements.comp
 import { MoreInformationComponent } from './pages/more-information/more-information.component';
 import { NewAnnouncementComponent } from './pages/new-announcement/new-announcement.component';
 import { AnnouncementInfoComponent } from './pages/announcement-info/announcement-info.component';
+import { StudentsComponent } from './pages/students/students.component';
 
 const routes: Routes = [
   { path: 'shuttle', component: ShuttleComponent, canActivate: [AuthGuard] },
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
   { path: 'more-information', component: MoreInformationComponent, canActivate: [AuthGuard]},
   { path: 'new-announcement', component: NewAnnouncementComponent, canActivate: [AuthGuard]},
+  { path: 'students', component: StudentsComponent, canActivate: [AuthGuard]},
   { path: 'announcements/announcement-info/:id', component: AnnouncementInfoComponent, canActivate: [AuthGuard]}
 ];
 

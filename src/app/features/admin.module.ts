@@ -18,6 +18,7 @@ import { MoreInformationComponent } from './pages/more-information/more-informat
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NewAnnouncementComponent } from './pages/new-announcement/new-announcement.component';
 import { AnnouncementInfoComponent } from './pages/announcement-info/announcement-info.component';
+import { StudentsComponent } from './pages/students/students.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { AnnouncementInfoComponent } from './pages/announcement-info/announcemen
     ProfileComponent,
     AnnouncementsComponent,
     NewAnnouncementComponent,
-    AnnouncementInfoComponent
+    AnnouncementInfoComponent,
+    StudentsComponent
   ],
   imports: [CommonModule, AgmCoreModule.forRoot({
     apiKey: "AIzaSyBPOUA1S51D3-RZnahp5ZeXEbmIs4iMmmI",
