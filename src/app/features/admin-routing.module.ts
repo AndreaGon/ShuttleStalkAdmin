@@ -20,7 +20,7 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
   { path: 'more-information', component: MoreInformationComponent, canActivate: [AuthGuard]},
   { path: 'new-announcement', component: NewAnnouncementComponent, canActivate: [AuthGuard]},
-  { path: 'announcements/announcement-info', component: AnnouncementInfoComponent, canActivate: [AuthGuard]}
+  { path: 'announcements/announcement-info/:id', component: AnnouncementInfoComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

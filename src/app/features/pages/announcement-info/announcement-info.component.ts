@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import Toast from 'awesome-toast-component';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { Announcement } from 'src/app/core/models/announcement.model';
 import { AnnouncementService } from 'src/app/core/services/announcement.service';
 
@@ -14,7 +15,9 @@ export class AnnouncementInfoComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private announcementService: AnnouncementService,
+    private spinner: NgxSpinnerService
   ) { }
 
   announcementForm = new FormGroup({
@@ -28,29 +31,46 @@ export class AnnouncementInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.showInformation();
   }
 
   navigateToAnnouncement(){
     this.router.navigate(["announcements"]);
   }
 
-  async createAnnouncement(){
+  async showInformation(){
+    let id = this.route.snapshot.paramMap.get('id') || "";
+    this.announcementService.getAnnouncementById(id).then((res)=>{
+      let announcementDoc = res.docs.map((doc: any)=>{
+        this.announcementForm.get("title")?.setValue(doc.data().title);
+        this.announcementForm.get("content")?.setValue(doc.data().content);
+      })
+    });
+  }
+
+  async editAnnouncement(){
+    this.spinner.show();
+
+    let id = this.route.snapshot.paramMap.get('id') || "";
+
     this.announcementModel.title = this.announcementForm.get("title")?.value;
     this.announcementModel.content = this.announcementForm.get("content")?.value;
 
-    await this.announcementService.createAnnouncement(this.announcementModel).then((res)=>{
-      new Toast("Announcement successfully created!", {
+    this.announcementService.updateAnnouncement(this.announcementModel, id).then(()=>{
+      this.router.navigate(["announcements"]);
+      new Toast("Announcement successfully updated!", {
         position: 'top',
         theme: 'light'
       });
-    }).catch((error)=>{
+    })
+    .catch((error)=>{
       new Toast("Error: " + error.message, {
         position: 'top',
         theme: 'light'
       });
     });
-    
-    this.router.navigate(["announcements"]);
+
+    this.spinner.hide();
   }
 
 }

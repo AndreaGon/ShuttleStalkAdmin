@@ -42,8 +42,7 @@ export class AnnouncementsComponent implements OnInit {
     });
     this.dataSource = new MatTableDataSource(this.announcements);
     this.dataSource.paginator = this.paginator;
-
-    console.log(this.announcements)
+    
     this.spinner.hide();
   }
 
