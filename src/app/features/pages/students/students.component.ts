@@ -94,7 +94,7 @@ export class StudentsComponent implements OnInit {
   // Called on Filter change
   filterChange(filter: any, event: any) {
     //let filterValues = {}
-    this.filterValues[filter.columnProp] = event.target.value.trim();
+    this.filterValues[filter.columnProp] = event.value.trim();
     this.dataSource.filter = JSON.stringify(this.filterValues);
   }
 

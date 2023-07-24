@@ -4,25 +4,38 @@
         <h1 style="color: #1D3557">Manage Students</h1>
 
         <mat-card style="width: 90%;">
-            <mat-card-content>
-                <mat-form-field class="filter-card" style="width: 50%;">
-                    <mat-label>Search by Name</mat-label>
-                    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
-                </mat-form-field>
 
-                  <div>
-                    <mat-form-field *ngFor="let filter of filterSelectObj" class="filter-card">
-                      <mat-label>Filter {{filter.name}}</mat-label>
-                      <select matNativeControl name="{{filter.columnProp}}" [(ngModel)]="filter.modelValue"
-                        (change)="filterChange(filter,$event)">
-                        <option value="">-- Select {{filter.name}} --</option>
-                        <option [value]="item" *ngFor="let item of filter.options">{{item}}</option>
-                      </select>
-                    </mat-form-field>
-                    &nbsp;
-                    <button mat-flat-button color="warn" (click)="resetFilters()">Reset Filter</button>
-                  </div>
+            <mat-card-content>
+                  <table class="table-field" cellspacing="0">
+                    <tr>
+                        <td>
+                            <mat-form-field class="field">
+                                <mat-label>Search by Name</mat-label>
+                                <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <div>
+                                <mat-form-field *ngFor="let filter of filterSelectObj" class="filter-card">
+                                  <mat-label>Filter {{filter.name}}</mat-label>
+                                  <mat-select matNativeControl name="{{filter.columnProp}}" [(ngModel)]="filter.modelValue"
+                                    (selectionChange)="filterChange(filter,$event)">
+                                    <mat-option value="">-- Select {{filter.name}} --</mat-option>
+                                    <mat-option [value]="item" *ngFor="let item of filter.options">{{item}}</mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                                &nbsp;
+                                <button mat-flat-button color="warn" (click)="resetFilters()">Reset Filter</button>
+                            </div>
+                        </td>
+                    </tr>
+                
+                </table>
             </mat-card-content>
+            
+
+
+            
         </mat-card>
     </div>
 
