@@ -23,4 +23,8 @@ export class StudentService {
 
     return documents;
   }
+
+  async deleteStudent(id: string){
+    return deleteDoc(doc(this.firestore, "students", id));
+  }
 }

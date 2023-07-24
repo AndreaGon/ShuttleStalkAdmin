@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import Toast from 'awesome-toast-component';
 import { NgxSpinner, NgxSpinnerService } from 'ngx-spinner';
 import { StudentService } from 'src/app/core/services/student.service';
 
@@ -76,8 +77,20 @@ export class StudentsComponent implements OnInit {
     this.dataSource.filter = JSON.stringify(this.filterValues);
   }
 
-  deleteStudent(id: any){
-
+  async deleteStudent(id: any){
+    await this.studentService.deleteStudent(id).then((res)=>{
+      new Toast("Student successfully deleted!", {
+        position: 'top',
+        theme: 'light'
+    });
+    })
+    .catch((error)=>{
+      new Toast("Error: " + error.message, {
+        position: 'top',
+        theme: 'light'
+      });
+    });
+    this.refreshStudentTable();
   }
 
   getFilterObject(fullObj: any, key: any) {
