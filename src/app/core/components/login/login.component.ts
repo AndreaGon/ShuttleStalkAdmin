@@ -24,8 +24,8 @@ export class LoginComponent implements OnInit {
     this.password = "";
   }
 
-  signIn(){
-    this.authService.signIn(this.email, this.password);
+  async signIn(){
+    await this.authService.signIn(this.email, this.password);
     this.email = "";
     this.password = "";
   }
