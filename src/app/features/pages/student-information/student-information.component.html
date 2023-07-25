@@ -1,0 +1,58 @@
+<div>
+    <div class="content-container">
+        <h1 style="color: #1D3557">Student Information</h1>
+    </div>
+
+    <div class="content">
+        <mat-card>
+            <form class="student-form">
+                <table class="table-field" cellspacing="0">
+                  <tr>
+                      <td>
+                          <mat-form-field class="field">
+                              <mat-label>Student's Name</mat-label>
+                              <input value="{{name}}" matInput placeholder="Ex. Update on shuttle" disabled>
+                          </mat-form-field>
+                      </td>
+                      <td>
+                        <mat-form-field class="field">
+                            <mat-label>Student Email</mat-label>
+                            <input value="{{email}}" matInput placeholder="Ex. p12345678@student.newinti.edu.my" disabled>
+                        </mat-form-field>
+                      </td>
+                      <td>
+                        <mat-form-field class="field">
+                            <mat-label>I.C Number</mat-label>
+                            <input value="{{ic_number}}" matInput placeholder="Ex. 123456789" disabled>
+                        </mat-form-field>
+                      </td>
+                  </tr>
+                  <tr>
+                    <td>
+                        <mat-form-field class="field">
+                            <mat-label>Program</mat-label>
+                            <input value="{{program}}" matInput placeholder="Ex. BCSCUN" disabled>
+                        </mat-form-field>
+                    </td>
+                    <td>
+                      <mat-form-field class="field">
+                          <mat-label>Graduation Month</mat-label>
+                          <input value="{{graduation_month}}" matInput placeholder="Ex. p12345678@student.newinti.edu.my" disabled>
+                      </mat-form-field>
+                    </td>
+                    <td>
+                      <mat-form-field class="field">
+                          <mat-label>Graduation Year</mat-label>
+                          <input value="{{graduation_year}}" matInput placeholder="Ex. 123456789" disabled>
+                      </mat-form-field>
+                    </td>
+                </tr>
+              </table>
+  
+              <!-- <button (click)="navigateToAnnouncement()" mat-raised-button class="action-button cancel">Cancel</button>
+              <button (click)="editAnnouncement()" mat-raised-button class="action-button register">Save changes</button> -->
+            
+          </form>
+        </mat-card>
+    </div>
+</div>

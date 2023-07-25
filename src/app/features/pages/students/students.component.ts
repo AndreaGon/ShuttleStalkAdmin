@@ -12,7 +12,7 @@ import { StudentService } from 'src/app/core/services/student.service';
   styleUrls: ['./students.component.sass']
 })
 export class StudentsComponent implements OnInit {
-  displayedColumns: string[] = ['select', 'name', 'email', 'icnumber', 'program', 'graduation_month', 'graduation_year', 'action'];
+  displayedColumns: string[] = ['select', 'name', 'email', 'icnumber', 'program', 'graduation_month', 'graduation_year', 'is_banned', 'action'];
   dataSource?: any = new MatTableDataSource();
 
   listOfStudents: any[] = [];

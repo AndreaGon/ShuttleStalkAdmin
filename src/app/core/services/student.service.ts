@@ -24,6 +24,12 @@ export class StudentService {
     return documents;
   }
 
+  async getStudentById(id: string): Promise<any>{
+    const q = query(this.collection, where("id", "==", id));
+    const querySnapshot = await getDocs(q);
+    return await querySnapshot;
+  }
+
   async deleteStudent(id: string){
     return deleteDoc(doc(this.firestore, "students", id));
   }

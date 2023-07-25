@@ -52,7 +52,7 @@
         <!-- Name Column -->
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef> Name </th>
-          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          <td mat-cell *matCellDef="let element"> <a [routerLink]="['student-info', element.id]" routerLinkActive="active">{{element.name}}</a></td>
         </ng-container>
       
         <ng-container matColumnDef="email">
@@ -78,6 +78,11 @@
         <ng-container matColumnDef="graduation_year">
             <th mat-header-cell *matHeaderCellDef> Graduation Year </th>
             <td mat-cell *matCellDef="let element"> {{element.graduation_year}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="is_banned">
+          <th mat-header-cell *matHeaderCellDef> Is Banned </th>
+          <td mat-cell *matCellDef="let element"> {{(element.is_banned == 'true') ? 'YES' : 'NO'}} </td>
         </ng-container>
 
         <ng-container matColumnDef="action">
