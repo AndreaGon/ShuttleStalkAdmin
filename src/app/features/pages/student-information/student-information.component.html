@@ -7,50 +7,71 @@
         <mat-card>
             <form class="student-form">
                 <table class="table-field" cellspacing="0">
-                  <tr>
-                      <td>
-                          <mat-form-field class="field">
-                              <mat-label>Student's Name</mat-label>
-                              <input value="{{name}}" matInput placeholder="Ex. Update on shuttle" disabled>
-                          </mat-form-field>
-                      </td>
-                      <td>
+                    <h3 style="color: #1D3557">Information</h3>
+                    <tr>
+                        <td>
+                            <mat-form-field class="field">
+                                <mat-label>Student's Name</mat-label>
+                                <input value="{{name}}" matInput placeholder="Ex. Update on shuttle" disabled>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field class="field">
+                                <mat-label>Student Email</mat-label>
+                                <input value="{{email}}" matInput placeholder="Ex. p12345678@student.newinti.edu.my" disabled>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field class="field">
+                                <mat-label>I.C Number</mat-label>
+                                <input value="{{ic_number}}" matInput placeholder="Ex. 123456789" disabled>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <mat-form-field class="field">
+                                <mat-label>Program</mat-label>
+                                <input value="{{program}}" matInput placeholder="Ex. BCSCUN" disabled>
+                            </mat-form-field>
+                        </td>
+                        <td>
                         <mat-form-field class="field">
-                            <mat-label>Student Email</mat-label>
-                            <input value="{{email}}" matInput placeholder="Ex. p12345678@student.newinti.edu.my" disabled>
+                            <mat-label>Graduation Month</mat-label>
+                            <input value="{{graduation_month}}" matInput placeholder="Ex. p12345678@student.newinti.edu.my" disabled>
                         </mat-form-field>
-                      </td>
-                      <td>
+                        </td>
+                        <td>
                         <mat-form-field class="field">
-                            <mat-label>I.C Number</mat-label>
-                            <input value="{{ic_number}}" matInput placeholder="Ex. 123456789" disabled>
+                            <mat-label>Graduation Year</mat-label>
+                            <input value="{{graduation_year}}" matInput placeholder="Ex. 123456789" disabled>
                         </mat-form-field>
-                      </td>
-                  </tr>
-                  <tr>
-                    <td>
+                        </td>
+                    </tr>
+
+                    <h3 style="color: #1D3557">Others</h3>
+
+                    <tr>
+                        <td>
                         <mat-form-field class="field">
-                            <mat-label>Program</mat-label>
-                            <input value="{{program}}" matInput placeholder="Ex. BCSCUN" disabled>
+                            <mat-label>Number of No-Show</mat-label>
+                            <input value="{{num_no_show}}" matInput disabled>
                         </mat-form-field>
-                    </td>
-                    <td>
-                      <mat-form-field class="field">
-                          <mat-label>Graduation Month</mat-label>
-                          <input value="{{graduation_month}}" matInput placeholder="Ex. p12345678@student.newinti.edu.my" disabled>
-                      </mat-form-field>
-                    </td>
-                    <td>
-                      <mat-form-field class="field">
-                          <mat-label>Graduation Year</mat-label>
-                          <input value="{{graduation_year}}" matInput placeholder="Ex. 123456789" disabled>
-                      </mat-form-field>
-                    </td>
-                </tr>
+                        </td>
+                        <td>
+                        <mat-form-field class="field">
+                            <mat-label>Banned From Taking Shuttle?</mat-label>
+                            <mat-select [formControl]="is_banned">
+                                <mat-option value="true">Yes</mat-option>
+                                <mat-option value="false">No</mat-option>
+                              </mat-select>
+                        </mat-form-field>
+                        </td>
+                    </tr>
               </table>
   
-              <!-- <button (click)="navigateToAnnouncement()" mat-raised-button class="action-button cancel">Cancel</button>
-              <button (click)="editAnnouncement()" mat-raised-button class="action-button register">Save changes</button> -->
+              <button (click)="navigateToStudentPage()" mat-raised-button class="action-button cancel">Back</button>
+              <button (click)="changeIsBanned()" mat-raised-button class="action-button register">Save changes</button>
             
           </form>
         </mat-card>

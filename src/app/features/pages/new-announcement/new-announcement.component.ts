@@ -43,14 +43,13 @@ export class NewAnnouncementComponent implements OnInit {
         position: 'top',
         theme: 'light'
       });
+      this.router.navigate(["announcements"]);
     }).catch((error)=>{
       new Toast("Error: " + error.message, {
         position: 'top',
         theme: 'light'
       });
     });
-    
-    this.router.navigate(["announcements"]);
   }
 
 }

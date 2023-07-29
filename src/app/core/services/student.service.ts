@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { addDoc, collection, deleteDoc, doc, getDocs, query, updateDoc, where } from '@angular/fire/firestore';
 import { Firestore } from '@angular/fire/firestore';
+import { Student } from '../models/student.model';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,16 @@ export class StudentService {
     const q = query(this.collection, where("id", "==", id));
     const querySnapshot = await getDocs(q);
     return await querySnapshot;
+  }
+
+  async updateShuttle(student: Student, id: string): Promise<any>{
+    
+    let studentDoc = doc(this.firestore, "students", id);
+    
+    return updateDoc(studentDoc, {
+        is_banned: student.is_banned,
+        num_no_show: student.num_no_show
+    })
   }
 
   async deleteStudent(id: string){
