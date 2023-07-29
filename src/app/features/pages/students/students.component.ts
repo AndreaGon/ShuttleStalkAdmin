@@ -19,6 +19,8 @@ export class StudentsComponent implements OnInit {
   filterSelectObj: any[] = [];
   filterValues: any = {};
 
+  bulkData: any[] = [];
+
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
 
   constructor(
@@ -51,12 +53,53 @@ export class StudentsComponent implements OnInit {
     this.changeDetector.detectChanges();
   }
 
+  checkUncheckAll(event: any){
+    this.dataSource.data.forEach((data: any) => {
+      data.is_selected = event.checked
+      
+      if(event.checked){
+        this.bulkData.push(data.id);
+      }
+      else{
+        this.bulkData = [];
+      }
+    })
+
+    console.log(this.bulkData)
+  }
+
+  selectData(event: any, id: string){
+    if(event.checked){
+      this.bulkData.push(id);
+    }
+    else{
+      this.bulkData.splice(this.bulkData.indexOf(id), 1);
+    }
+  }
+
+  deleteBatch(){
+    this.studentService.deleteListOfStudents(this.bulkData).then(()=>{
+      new Toast("Successfully deleted students!", {
+        position: 'top',
+        theme: 'light'
+      });
+
+      this.refreshStudentTable();
+    }).catch((error)=>{
+      new Toast("Error: " + error.message, {
+        position: 'top',
+        theme: 'light'
+      });
+    });
+  }
+
   async refreshStudentTable(): Promise<void>{
     this.spinner.show();
     this.listOfStudents = [];
 
     (await this.studentService.getAllStudents().then((res)=>{
       res.forEach((doc: any, index: number) =>{
+        doc.is_selected = false;
         this.listOfStudents.push(doc);
       })
     }))

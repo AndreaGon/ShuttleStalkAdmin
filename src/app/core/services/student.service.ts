@@ -44,4 +44,10 @@ export class StudentService {
   async deleteStudent(id: string){
     return deleteDoc(doc(this.firestore, "students", id));
   }
+
+  async deleteListOfStudents(ids: string[]){
+    ids.forEach((id)=>{
+      deleteDoc(doc(this.firestore, "students", id));
+    })
+  }
 }
