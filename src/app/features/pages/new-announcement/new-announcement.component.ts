@@ -38,12 +38,14 @@ export class NewAnnouncementComponent implements OnInit {
     this.announcementModel.title = this.announcementForm.get("title")?.value;
     this.announcementModel.content = this.announcementForm.get("content")?.value;
 
-    await this.announcementService.createAnnouncement(this.announcementModel).then((res)=>{
+    await this.announcementService.createAnnouncement(this.announcementModel).then(async (res)=>{
       new Toast("Announcement successfully created!", {
         position: 'top',
         theme: 'light'
       });
-      this.router.navigate(["announcements"]);
+
+      await this.announcementService.sendPushNotifFCM(this.announcementModel.title, this.announcementModel.content);
+       
     }).catch((error)=>{
       new Toast("Error: " + error.message, {
         position: 'top',

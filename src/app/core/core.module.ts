@@ -6,12 +6,15 @@ import { RouterModule } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { HeaderComponent } from './components/header/header.component';
 
+
+import {HttpClientModule} from '@angular/common/http';
+
 @NgModule({
   declarations: [
     LoginComponent,
     HeaderComponent
   ],
-  imports: [CommonModule, SharedModule, MaterialModule, RouterModule],
+  imports: [CommonModule, SharedModule, MaterialModule, RouterModule, HttpClientModule],
   exports: [LoginComponent, HeaderComponent]
 })
 export class CoreModule {}

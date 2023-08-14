@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Firestore, addDoc, collection, deleteDoc, doc, getDocs, query, updateDoc, where } from '@angular/fire/firestore';
 import { Announcement } from '../models/announcement.model';
+import { environment } from 'src/environments/environment';
+import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
+
+const API_URL = environment.api_url;
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +12,8 @@ import { Announcement } from '../models/announcement.model';
 export class AnnouncementService {
 
   constructor(
-    private firestore: Firestore
+    private firestore: Firestore,
+    private http: HttpClient
   ) { }
 
   collection: any = collection(this.firestore, "announcements");
@@ -49,5 +54,15 @@ export class AnnouncementService {
 
   async deleteShuttle(id: string){
     return deleteDoc(doc(this.firestore, "announcements", id));
+  }
+
+  async sendPushNotifFCM(title: string, content: string){
+    let data = {title: title, content: content};
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+    this.http.post(`${API_URL}/send-notif`, data, { headers: headers })
+    .subscribe(data => {
+      console.log(data);
+    });
   }
 }

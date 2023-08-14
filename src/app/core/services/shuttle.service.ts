@@ -42,6 +42,7 @@ export class ShuttleService {
         shuttleImage: shuttle.shuttleImage,
         routeName: shuttle.routeName,
         driver: shuttle.driver,
+        seats: shuttle.seats,
         pickupTime: shuttle.pickupTime,
         dropoffTime: shuttle.dropoffTime,
         route: shuttle.route
@@ -61,6 +62,7 @@ export class ShuttleService {
         plateNo: shuttle.plateNo,
         shuttleImage: shuttle.shuttleImage,
         routeName: shuttle.routeName,
+        seats: shuttle.seats,
         driver: shuttle.driver,
         pickupTime: shuttle.pickupTime,
         dropoffTime: shuttle.dropoffTime,

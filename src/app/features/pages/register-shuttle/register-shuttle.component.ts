@@ -39,6 +39,7 @@ export class RegisterShuttleComponent implements OnInit {
     driver: new FormControl("",[Validators.required]),
     routeName: new FormControl("",[Validators.required]),
     shuttleImage: new FormControl(),
+    seats: new FormControl(),
     pickupTime: new FormControl([],[Validators.required]),
     dropoffTime: new FormControl([],[Validators.required]),
     route: new FormControl([],[Validators.required])
@@ -49,6 +50,7 @@ export class RegisterShuttleComponent implements OnInit {
     routeName: "",
     shuttleImage: "",
     driver: [""],
+    seats: 1,
     pickupTime: [],
     dropoffTime: [],
     route: [""]
@@ -127,6 +129,8 @@ export class RegisterShuttleComponent implements OnInit {
           this.newShuttle.pickupTime = this.shuttleForm.get("pickupTime")?.value;
           this.newShuttle.dropoffTime = this.shuttleForm.get("dropoffTime")?.value;
           this.newShuttle.route = this.shuttleForm.get("route")?.value;
+
+          this.newShuttle.seats = this.shuttleForm.get("seats")?.value;
   
           this.shuttleService.addNewShuttle(this.newShuttle).then(()=>{
             this.router.navigate(["shuttle"]);
@@ -150,6 +154,8 @@ export class RegisterShuttleComponent implements OnInit {
         this.newShuttle.pickupTime = this.shuttleForm.get("pickupTime")?.value;
         this.newShuttle.dropoffTime = this.shuttleForm.get("dropoffTime")?.value;
         this.newShuttle.route = this.shuttleForm.get("route")?.value;
+
+        this.newShuttle.seats = this.shuttleForm.get("seats")?.value;
 
         this.shuttleService.addNewShuttle(this.newShuttle).then(()=>{
           this.router.navigate(["shuttle"]);

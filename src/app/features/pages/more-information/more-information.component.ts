@@ -42,6 +42,7 @@ export class MoreInformationComponent implements OnInit {
     driver: new FormControl("",[Validators.required]),
     routeName: new FormControl("",[Validators.required]),
     shuttleImage: new FormControl(),
+    seats: new FormControl(),
     pickupTime: new FormControl([],[Validators.required]),
     dropoffTime: new FormControl([],[Validators.required]),
     route: new FormControl([],[Validators.required])
@@ -52,6 +53,7 @@ export class MoreInformationComponent implements OnInit {
     routeName: "",
     shuttleImage: "",
     driver: [""],
+    seats: 1,
     pickupTime: [],
     dropoffTime: [],
     route: [""]
@@ -117,6 +119,9 @@ export class MoreInformationComponent implements OnInit {
           this.shuttleForm.get("pickupTime")?.setValue(doc.data().pickupTime);
           this.shuttleForm.get("dropoffTime")?.setValue(doc.data().dropoffTime);
           this.shuttleForm.get("driver")?.setValue(doc.data().driver);
+
+          this.shuttleForm.get("seats")?.setValue(doc.data().seats);
+
           if(doc.data().shuttleImage != ""){
             this.imageName = doc.data().shuttleImage;
           }
@@ -165,6 +170,7 @@ export class MoreInformationComponent implements OnInit {
           this.newShuttle.dropoffTime = this.shuttleForm.get("dropoffTime")?.value;
           this.newShuttle.route = this.shuttleForm.get("route")?.value;
 
+          this.newShuttle.seats = this.shuttleForm.get("seats")?.value;
           
   
           this.shuttleService.updateShuttle(this.newShuttle, shuttleId).then(()=>{
@@ -189,6 +195,8 @@ export class MoreInformationComponent implements OnInit {
         this.newShuttle.pickupTime = this.shuttleForm.get("pickupTime")?.value;
         this.newShuttle.dropoffTime = this.shuttleForm.get("dropoffTime")?.value;
         this.newShuttle.route = this.shuttleForm.get("route")?.value;
+
+        this.newShuttle.seats = this.shuttleForm.get("seats")?.value;
 
         console.log(shuttleId);
 
