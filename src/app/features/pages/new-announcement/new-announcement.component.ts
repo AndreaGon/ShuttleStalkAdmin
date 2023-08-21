@@ -44,7 +44,9 @@ export class NewAnnouncementComponent implements OnInit {
         theme: 'light'
       });
 
-      await this.announcementService.sendPushNotifFCM(this.announcementModel.title, this.announcementModel.content);
+      await this.announcementService.sendPushNotifFCM(this.announcementModel.title, this.announcementModel.content).then(()=>{
+        this.navigateToAnnouncement();
+      });
        
     }).catch((error)=>{
       new Toast("Error: " + error.message, {

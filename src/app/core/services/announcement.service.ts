@@ -4,7 +4,7 @@ import { Announcement } from '../models/announcement.model';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 
-const API_URL = environment.api_url;
+const API_URL = environment.api_url + "/announcements";
 
 @Injectable({
   providedIn: 'root'
