@@ -23,7 +23,7 @@ export class DriverService {
   collection: any = collection(this.firestore, "drivers");  
   
 
-  async signUpDriver(account: Driver): Promise<any>{
+  async signUpDriver(account: Driver){
     let newAccount = {
       fullname: account.fullname,
       icNumber: account.icNumber,
@@ -31,7 +31,10 @@ export class DriverService {
       password: account.password
     };
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.http.post<any>(`${API_URL}/register-driver`, newAccount, { headers: headers });
+    console.log("SIGN UP");
+    await this.http.post<any>(`${API_URL}/register-driver`, newAccount, { headers: headers }).subscribe((res)=>{
+      console.log(res);
+    });
   }
 
   async checkExistingDriver(email: any){

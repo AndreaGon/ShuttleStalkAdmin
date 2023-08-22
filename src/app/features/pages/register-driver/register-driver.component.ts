@@ -45,7 +45,7 @@ export class RegisterDriverComponent implements OnInit {
     await this.driverService.checkExistingDriver(this.account.email).then(async (res)=>{
       if(res.size == 0){
           //Register driver
-          await this.driverService.signUpDriver(this.account).then((res)=>{
+          this.driverService.signUpDriver(this.account).then((res)=>{
             new Toast("Driver successfully added!", {
                 position: 'top',
                 theme: 'light'
