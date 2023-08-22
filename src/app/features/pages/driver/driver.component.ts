@@ -47,8 +47,8 @@ export class DriverComponent implements OnInit {
     });    
   }
 
-  async deleteDriver(id: any){
-    await this.driverService.deleteDriver(id).then((res)=>{
+  deleteDriver(id: any, email: any){
+    this.driverService.deleteDriver(id, email).then((res)=>{
       new Toast("Driver successfully deleted!", {
         position: 'top',
         theme: 'light'

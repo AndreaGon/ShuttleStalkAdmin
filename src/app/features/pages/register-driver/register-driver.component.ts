@@ -42,8 +42,9 @@ export class RegisterDriverComponent implements OnInit {
     this.account.password = this.driverForm.get("password")?.value;
     this.account.role = "DRIVER";
 
-    await this.driverService.checkExistingDriver(this.account.email).then(async (res)=>{
-      if(res.size == 0){
+    (await this.driverService.checkExistingDriver(this.account.email)).subscribe((res)=>{
+      console.log(res)
+      if(res.length == 0){
           //Register driver
           this.driverService.signUpDriver(this.account).then((res)=>{
             new Toast("Driver successfully added!", {
@@ -60,13 +61,13 @@ export class RegisterDriverComponent implements OnInit {
             });
           });
           
-        }
-        else{
-          new Toast("Error: Driver already exists!" , {
-            position: 'top',
-            theme: 'light'
-          });
-        }
+      }
+      else{
+        new Toast("Error: Driver already exists!" , {
+          position: 'top',
+          theme: 'light'
+        });
+      }
     }); 
   }
 
