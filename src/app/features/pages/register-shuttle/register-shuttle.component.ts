@@ -103,9 +103,13 @@ export class RegisterShuttleComponent implements OnInit {
 
   async setDriversData(){
     this.listOfDrivers = [];
-    (await this.driverService.getAllDriverAccounts()).forEach(doc => {
-      this.listOfDrivers.push(doc.data());
-    });
+    // (await this.driverService.getAllDriverAccounts()).forEach(doc => {
+    //   this.listOfDrivers.push(doc.data());
+    // });
+
+    (this.driverService.getAllDriverAccounts()).subscribe((data)=>{
+      this.listOfDrivers = data;
+    });  
   }
 
   addAddress(){

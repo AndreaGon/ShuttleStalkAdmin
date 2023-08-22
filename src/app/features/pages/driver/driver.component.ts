@@ -38,13 +38,13 @@ export class DriverComponent implements OnInit {
   async refreshTable(): Promise<void>{
     this.spinner.show();
     this.driverAccounts = [];
-    (await this.driverService.getAllDriverAccounts()).forEach(doc => {
-      this.driverAccounts.push(doc.data());
-    });
-    this.dataSource = new MatTableDataSource(this.driverAccounts);
-    this.dataSource.paginator = this.paginator;
+    (this.driverService.getAllDriverAccounts()).subscribe((data)=>{
+      this.driverAccounts = data;
+      this.dataSource = new MatTableDataSource(this.driverAccounts);
+      this.dataSource.paginator = this.paginator;
 
-    this.spinner.hide();
+      this.spinner.hide();
+    });    
   }
 
   async deleteDriver(id: any){

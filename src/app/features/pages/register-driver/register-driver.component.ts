@@ -50,6 +50,8 @@ export class RegisterDriverComponent implements OnInit {
                 position: 'top',
                 theme: 'light'
             });
+            console.log(res)
+            this.router.navigate(["drivers"]);
           })
           .catch((error)=>{
             new Toast("Error: " + error.message, {
@@ -58,7 +60,6 @@ export class RegisterDriverComponent implements OnInit {
             });
           });
           
-          this.router.navigate(["drivers"]);
         }
         else{
           new Toast("Error: Driver already exists!" , {
