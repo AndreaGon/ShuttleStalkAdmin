@@ -40,11 +40,15 @@ export class AnnouncementInfoComponent implements OnInit {
 
   async showInformation(){
     let id = this.route.snapshot.paramMap.get('id') || "";
-    this.announcementService.getAnnouncementById(id).then((res)=>{
-      let announcementDoc = res.docs.map((doc: any)=>{
-        this.announcementForm.get("title")?.setValue(doc.data().title);
-        this.announcementForm.get("content")?.setValue(doc.data().content);
-      })
+    // this.announcementService.getAnnouncementById(id).then((res)=>{
+    //   let announcementDoc = res.docs.map((doc: any)=>{
+    //     this.announcementForm.get("title")?.setValue(doc.data().title);
+    //     this.announcementForm.get("content")?.setValue(doc.data().content);
+    //   })
+    // });
+    (await this.announcementService.getAnnouncementById(id)).subscribe((value: any)=>{
+        this.announcementForm.get("title")?.setValue(value[0].title);
+        this.announcementForm.get("content")?.setValue(value[0].content);
     });
   }
 

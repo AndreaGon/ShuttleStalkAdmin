@@ -38,22 +38,14 @@ export class DriverService {
   }
 
   async checkExistingDriver(email: any){
-    // const q = query(this.collection, where("email", "==", email));
-    // const querySnapshot = await getDocs(q);
-    // return await querySnapshot;
     return this.http.get<any[]>(`${API_URL}/get-driver/${email}`);
   }
 
   getAllDriverAccounts(){
-    // const q = query(this.collection, where("role", "==", "DRIVER"));
-    // const querySnapshot = await getDocs(q);
-    // return await querySnapshot;
-
     return this.http.get<any[]>(`${API_URL}/get-drivers`);
   }
 
   async deleteDriver(id: string, email: string){
-    //return deleteDoc(doc(this.firestore, "drivers", id));
     await this.http.delete<any>(`${API_URL}/delete-driver/${id}/${email}`).subscribe((value)=>{
       console.log(value);
     });

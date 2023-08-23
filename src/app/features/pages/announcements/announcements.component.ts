@@ -37,13 +37,14 @@ export class AnnouncementsComponent implements OnInit {
   async refreshTable(){
     this.spinner.show();
     this.announcements = [];
-    (await this.announcementService.getAllAnnouncements()).forEach((doc: any) => {
-      this.announcements.push(doc.data());
-    });
-    this.dataSource = new MatTableDataSource(this.announcements);
-    this.dataSource.paginator = this.paginator;
-    
-    this.spinner.hide();
+
+    (await this.announcementService.getAllAnnouncements()).subscribe((data: any[])=>{
+      this.announcements = data;
+      this.dataSource = new MatTableDataSource(this.announcements);
+      this.dataSource.paginator = this.paginator;
+      
+      this.spinner.hide();
+    })
   }
 
   async deleteAnnouncement(id: any){

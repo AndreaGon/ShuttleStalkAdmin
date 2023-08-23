@@ -19,41 +19,51 @@ export class AnnouncementService {
   collection: any = collection(this.firestore, "announcements");
 
   async getAllAnnouncements(): Promise<any>{
-    const querySnapshot = await getDocs(this.collection);
-    return await querySnapshot;
+    return this.http.get<any>(`${API_URL}/get-announcements`);
   }
 
   async getAnnouncementById(id: string): Promise<any>{
-    const q = query(this.collection, where("id", "==", id));
-    const querySnapshot = await getDocs(q);
-    return await querySnapshot;
+    return this.http.get<any>(`${API_URL}/get-announcement/${id}`);
   }
 
   async updateAnnouncement(announcement: Announcement, id: string): Promise<any>{
     
-    let announcementDoc = doc(this.firestore, "announcements", id);
-    console.log(announcementDoc);
+    // let announcementDoc = doc(this.firestore, "announcements", id);
+    // console.log(announcementDoc);
     
-    return updateDoc(announcementDoc, {
-        title: announcement.title,
-        content: announcement.content
-    })
+    // return updateDoc(announcementDoc, {
+    //     title: announcement.title,
+    //     content: announcement.content
+    // })
+
+    let modifiedAnnouncement = {
+      title: announcement.title,
+      content: announcement.content
+    };
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+    return this.http.put<any>( `${API_URL}/update-announcement/${id}`, modifiedAnnouncement, { headers: headers }).subscribe((res)=>{
+      console.log(res);
+    });
   }
 
-  async createAnnouncement(announcement: Announcement): Promise<any>{
-    let newAnnouncement: any = await addDoc(this.collection, {
+  async createAnnouncement(announcement: Announcement){
+    let newAnnouncement = {
       title: announcement.title,
       content: announcement.content,
       timestamp: Date.now()
-    });
+    };
 
-    return updateDoc(newAnnouncement, {
-      id: newAnnouncement.id
-    })
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    await this.http.post<any>(`${API_URL}/new-announcement`, newAnnouncement, { headers: headers }).subscribe((res)=>{
+      console.log(res);
+    });
   }
 
   async deleteShuttle(id: string){
-    return deleteDoc(doc(this.firestore, "announcements", id));
+    return this.http.delete(`${API_URL}/delete-announcement/${id}`).subscribe((value)=>{
+      console.log(value);
+    });
   }
 
   async sendPushNotifFCM(title: string, content: string){
