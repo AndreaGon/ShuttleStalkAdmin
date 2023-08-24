@@ -35,9 +35,10 @@ export class ShuttleComponent implements OnInit {
     this.setRegisteredShuttles();
   }
 
-  setRegisteredShuttles(){
+  async setRegisteredShuttles(){
     this.spinner.show();
-    this.shuttleService.getAllShuttles().then((res)=>{
+
+    (await this.shuttleService.getAllShuttles()).subscribe((res: any[])=>{
       res.forEach((doc: any, index: number) => {
         if(doc.shuttleImage != ""){
           this.shuttleService.getImageDownloadUrl(doc.shuttleImage).then((observable)=>{

@@ -5,7 +5,10 @@ import { Firestore } from '@angular/fire/firestore';
 import { Shuttle } from '../models/shuttle.model';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { HttpClient } from '@angular/common/http';
 
+const API_URL = environment.api_url + "/shuttles";
 
 @Injectable({
   providedIn: 'root'
@@ -14,20 +17,14 @@ export class ShuttleService {
 
   constructor(
     private firestore: Firestore,
-    private storage: AngularFireStorage
+    private storage: AngularFireStorage,
+    private http: HttpClient
   ) {}
 
   collection: any = collection(this.firestore, "shuttles");
 
   async getAllShuttles(): Promise<any>{
-    const querySnapshot = await getDocs(this.collection);
-
-    let documents: any[] = [];
-    querySnapshot.forEach((doc)=>{
-      documents.push(doc.data());
-    });
-
-    return documents;
+    return this.http.get<any>(`${API_URL}/get-shuttles`);
   }
 
   async getShuttleOnQuery(id: string): Promise<any>{
