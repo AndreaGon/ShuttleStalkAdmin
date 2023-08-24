@@ -27,15 +27,6 @@ export class AnnouncementService {
   }
 
   async updateAnnouncement(announcement: Announcement, id: string): Promise<any>{
-    
-    // let announcementDoc = doc(this.firestore, "announcements", id);
-    // console.log(announcementDoc);
-    
-    // return updateDoc(announcementDoc, {
-    //     title: announcement.title,
-    //     content: announcement.content
-    // })
-
     let modifiedAnnouncement = {
       title: announcement.title,
       content: announcement.content

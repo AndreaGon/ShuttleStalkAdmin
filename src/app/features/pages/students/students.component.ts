@@ -19,7 +19,8 @@ export class StudentsComponent implements OnInit {
   filterSelectObj: any[] = [];
   filterValues: any = {};
 
-  bulkData: any[] = [];
+  bulkId: any[] = [];
+  bulkEmail: any[] = [];
 
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
 
@@ -58,27 +59,32 @@ export class StudentsComponent implements OnInit {
       data.is_selected = event.checked
       
       if(event.checked){
-        this.bulkData.push(data.id);
+        this.bulkId.push(data.id);
+        this.bulkEmail.push(data.email);
       }
       else{
-        this.bulkData = [];
+        this.bulkId = [];
+        this.bulkEmail = [];
       }
     })
 
-    console.log(this.bulkData)
+    console.log(this.bulkId)
+    console.log(this.bulkEmail);
   }
 
-  selectData(event: any, id: string){
+  selectData(event: any, id: string, email: string){
     if(event.checked){
-      this.bulkData.push(id);
+      this.bulkId.push(id);
+      this.bulkEmail.push(email);
     }
     else{
-      this.bulkData.splice(this.bulkData.indexOf(id), 1);
+      this.bulkId.splice(this.bulkId.indexOf(id), 1);
+      this.bulkEmail.splice(this.bulkEmail.indexOf(id), 1);
     }
   }
 
   deleteBatch(){
-    this.studentService.deleteListOfStudents(this.bulkData).then(()=>{
+    this.studentService.deleteListOfStudents(this.bulkId, this.bulkEmail).then(()=>{
       new Toast("Successfully deleted students!", {
         position: 'top',
         theme: 'light'
@@ -97,21 +103,28 @@ export class StudentsComponent implements OnInit {
     this.spinner.show();
     this.listOfStudents = [];
 
-    (await this.studentService.getAllStudents().then((res)=>{
+    // (await this.studentService.getAllStudents().then((res)=>{
+    //   res.forEach((doc: any, index: number) =>{
+    //     doc.is_selected = false;
+    //     this.listOfStudents.push(doc);
+    //   })
+    // }))
+
+    (await this.studentService.getAllStudents()).subscribe((res: any)=>{
       res.forEach((doc: any, index: number) =>{
         doc.is_selected = false;
         this.listOfStudents.push(doc);
       })
-    }))
 
-    this.dataSource.data = this.listOfStudents;
-    this.dataSource.paginator = this.paginator;
+      this.dataSource.data = this.listOfStudents;
+      this.dataSource.paginator = this.paginator;
 
-    this.filterSelectObj.filter((o) => {
-      o.options = this.getFilterObject(this.listOfStudents, o.columnProp);
-    });
+      this.filterSelectObj.filter((o) => {
+        o.options = this.getFilterObject(this.listOfStudents, o.columnProp);
+      });
 
-    this.spinner.hide();
+      this.spinner.hide();
+    })
   }
 
   applyFilter(event: Event) {
@@ -120,8 +133,8 @@ export class StudentsComponent implements OnInit {
     this.dataSource.filter = JSON.stringify(this.filterValues);
   }
 
-  async deleteStudent(id: any){
-    await this.studentService.deleteStudent(id).then((res)=>{
+  async deleteStudent(id: string, email: string){
+    await this.studentService.deleteStudent(id, email).then((res)=>{
       new Toast("Student successfully deleted!", {
         position: 'top',
         theme: 'light'

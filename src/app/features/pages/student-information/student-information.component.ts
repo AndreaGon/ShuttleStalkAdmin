@@ -24,7 +24,7 @@ export class StudentInformationComponent implements OnInit {
 
   studentModel: Student = {
     is_banned: "",
-    num_no_show: ""
+    num_of_no_show: ""
   }
 
   constructor(
@@ -40,18 +40,16 @@ export class StudentInformationComponent implements OnInit {
 
   async showInformation(){
     let id = this.route.snapshot.paramMap.get('id') || "";
-    this.studentService.getStudentById(id).then((res)=>{
-      let studentDoc = res.docs.map((doc: any)=>{
-        this.name = doc.data().name;
-        this.email = doc.data().email;
-        this.ic_number = doc.data().ic_number;
-        this.program = doc.data().program;
-        this.graduation_month = doc.data().graduation_month;
-        this.graduation_year = doc.data().graduation_year;
-        this.num_no_show = doc.data().num_no_show;
-        this.is_banned.setValue(doc.data().is_banned)
-
-      })
+    (await this.studentService.getStudentById(id)).subscribe((res: any)=>{
+        console.log(res);
+        this.name = res.fullname;
+        this.email = res.email;
+        this.ic_number = res.ic_number;
+        this.program = res.program;
+        this.graduation_month = res.graduation_month;
+        this.graduation_year = res.graduation_year;
+        this.num_no_show = res.num_no_show;
+        this.is_banned.setValue(res.is_banned)
     });
   }
 
@@ -65,10 +63,10 @@ export class StudentInformationComponent implements OnInit {
     this.studentModel.is_banned = this.is_banned.value;
 
     if(this.is_banned.value == "false"){
-      this.studentModel.num_no_show = "0";
+      this.studentModel.num_of_no_show = "0";
     }
     else{
-      this.studentModel.num_no_show = "3";
+      this.studentModel.num_of_no_show = "3";
     }
     this.studentService.updateShuttle(this.studentModel, id).then(()=>{
       new Toast("Ban option successfully changed!", {
