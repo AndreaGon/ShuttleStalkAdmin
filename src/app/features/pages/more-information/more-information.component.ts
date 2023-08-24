@@ -107,29 +107,27 @@ export class MoreInformationComponent implements OnInit {
     }
   }
 
-  setShuttleInformation(){
+  async setShuttleInformation(){
     this.spinner.show();
     let shuttleId = this.route.snapshot.paramMap.get("id") || "";
 
     if(shuttleId != ""){
-      this.shuttleService.getShuttleOnQuery(shuttleId).then((res)=>{
-        let shuttleDoc = res.docs.map((doc: any)=>{
-          this.shuttleForm.get("plateNo")?.setValue(doc.data().plateNo);
-          this.shuttleForm.get("routeName")?.setValue(doc.data().routeName);
-          this.shuttleForm.get("pickupTime")?.setValue(doc.data().pickupTime);
-          this.shuttleForm.get("dropoffTime")?.setValue(doc.data().dropoffTime);
-          this.shuttleForm.get("driver")?.setValue(doc.data().driver);
+      (await this.shuttleService.getShuttleOnQuery(shuttleId)).subscribe((res: any)=>{
+        this.shuttleForm.get("plateNo")?.setValue(res.plateNo);
+          this.shuttleForm.get("routeName")?.setValue(res.routeName);
+          this.shuttleForm.get("pickupTime")?.setValue(res.pickupTime);
+          this.shuttleForm.get("dropoffTime")?.setValue(res.dropoffTime);
+          this.shuttleForm.get("driver")?.setValue(res.driver);
 
-          this.shuttleForm.get("seats")?.setValue(doc.data().seats);
+          this.shuttleForm.get("seats")?.setValue(res.seats);
 
-          if(doc.data().shuttleImage != ""){
-            this.imageName = doc.data().shuttleImage;
+          if(res.shuttleImage != ""){
+            this.imageName = res.shuttleImage;
           }
           else{
             this.imageName = "No Image";
           }
-          this.listOfAddresses = doc.data().route;
-        })
+          this.listOfAddresses = res.route;
       })
     }
     else{

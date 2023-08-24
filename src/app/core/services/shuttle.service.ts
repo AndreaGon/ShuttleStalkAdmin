@@ -28,9 +28,7 @@ export class ShuttleService {
   }
 
   async getShuttleOnQuery(id: string): Promise<any>{
-    const q = query(this.collection, where("id", "==", id));
-    const querySnapshot = await getDocs(q);
-    return await querySnapshot;
+    return this.http.get<any>(`${API_URL}/get-shuttle/${id}`);
   }
 
   async addNewShuttle(shuttle: Shuttle): Promise<any>{
@@ -86,6 +84,9 @@ export class ShuttleService {
   }
 
   async deleteShuttle(id: string){
-    return deleteDoc(doc(this.firestore, "shuttles", id));
+    // return deleteDoc(doc(this.firestore, "shuttles", id));
+    return this.http.delete(`${API_URL}/delete-shuttle/${id}`).subscribe((value)=>{
+      console.log(value);
+    });
   }
 }
