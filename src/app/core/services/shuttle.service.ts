@@ -6,7 +6,7 @@ import { Shuttle } from '../models/shuttle.model';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 const API_URL = environment.api_url + "/shuttles";
 
@@ -32,59 +32,65 @@ export class ShuttleService {
   }
 
   async addNewShuttle(shuttle: Shuttle): Promise<any>{
-    let newShuttle: any = await addDoc(this.collection, {
-        plateNo: shuttle.plateNo,
-        shuttleImage: shuttle.shuttleImage,
-        routeName: shuttle.routeName,
-        driver: shuttle.driver,
-        seats: shuttle.seats,
-        pickupTime: shuttle.pickupTime,
-        dropoffTime: shuttle.dropoffTime,
-        route: shuttle.route
-      });
-    
-      return updateDoc(newShuttle, {
-        id: newShuttle.id
-      });
+    let newShuttle: any = {
+      plateNo: shuttle.plateNo,
+      shuttleImage: shuttle.shuttleImage,
+      routeName: shuttle.routeName,
+      driverId: shuttle.driver,
+      seats: shuttle.seats,
+      pickupTime: shuttle.pickupTime,
+      dropoffTime: shuttle.dropoffTime,
+      route: shuttle.route
+    };
+
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    await this.http.post<any>(`${API_URL}/add-shuttle`, newShuttle, { headers: headers }).subscribe((res)=>{
+      console.log(res);
+    });
   }
 
-  async updateShuttle(shuttle: Shuttle, shuttleId: string): Promise<any>{
-    
-    let shuttleDoc = doc(this.firestore, "shuttles", shuttleId);
-    console.log(shuttleDoc);
-    
-    return updateDoc(shuttleDoc, {
-        plateNo: shuttle.plateNo,
-        shuttleImage: shuttle.shuttleImage,
-        routeName: shuttle.routeName,
-        seats: shuttle.seats,
-        driver: shuttle.driver,
-        pickupTime: shuttle.pickupTime,
-        dropoffTime: shuttle.dropoffTime,
-        route: shuttle.route
-    })
+  async updateShuttle(shuttle: Shuttle, id: string): Promise<any>{
+    let modifiedShuttle: any = {
+      plateNo: shuttle.plateNo,
+      shuttleImage: shuttle.shuttleImage,
+      routeName: shuttle.routeName,
+      driverId: shuttle.driver,
+      seats: shuttle.seats,
+      pickupTime: shuttle.pickupTime,
+      dropoffTime: shuttle.dropoffTime,
+      route: shuttle.route
+    };
+
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+    return this.http.put<any>( `${API_URL}/update-shuttle/${id}`, modifiedShuttle, { headers: headers }).subscribe((res)=>{
+      console.log(res);
+    });
   }
 
-  async addImageToStorage(file: File){
+  async addImageToStorage(image: File){
+    let formData = new FormData();
     let date = Date.now();
-    const filePath = `ShuttleImages/${date}`;
-    const fileRef = this.storage.ref(filePath);
+    const fileExtension = "." + image.type.split("/")[1];
+    const imageName = `${date}`;
+    formData.append("image", image, imageName);
 
-    await this.storage.upload(filePath, file);
-    return filePath;
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    await this.http.post<any>(`${API_URL}/upload-shuttle-image`, formData).subscribe(()=>{});
+
+    return imageName + fileExtension;
   }
 
   async getImageDownloadUrl(filePath: string){
-    const fileRef = this.storage.ref(filePath);
+    const fileRef = this.storage.ref(`ShuttleImages/${filePath}`);
     
     let downloadUrl = await fileRef.getDownloadURL();
 
     return downloadUrl;
-    
+    //return this.http.get(`${API_URL}/get-shuttle-image/${filePath}`);
   }
 
   async deleteShuttle(id: string){
-    // return deleteDoc(doc(this.firestore, "shuttles", id));
     return this.http.delete(`${API_URL}/delete-shuttle/${id}`).subscribe((value)=>{
       console.log(value);
     });

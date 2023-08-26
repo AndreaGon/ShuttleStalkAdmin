@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Driver } from 'src/app/core/models/driver.model';
 import { DriverService } from 'src/app/core/services/driver.service';
 import Toast from 'awesome-toast-component'
@@ -18,10 +18,12 @@ export class RegisterDriverComponent implements OnInit {
   ) { }
 
   driverForm = new FormGroup({
-    fullname: new FormControl(),
-    icNumber: new FormControl(),
-    email: new FormControl(),
-    password: new FormControl()
+    fullname: new FormControl("", Validators.required),
+    icNumber: new FormControl("", Validators.required),
+    email: new FormControl("",[
+      Validators.required,
+      Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]),
+    password: new FormControl("", Validators.required)
   })
 
   account: Driver = {
@@ -40,35 +42,45 @@ export class RegisterDriverComponent implements OnInit {
     this.account.icNumber = this.driverForm.get("icNumber")?.value;
     this.account.email = this.driverForm.get("email")?.value;
     this.account.password = this.driverForm.get("password")?.value;
-    this.account.role = "DRIVER";
 
-    (await this.driverService.checkExistingDriver(this.account.email)).subscribe((res)=>{
-      console.log(res)
-      if(res.length == 0){
-          //Register driver
-          this.driverService.signUpDriver(this.account).then((res)=>{
-            new Toast("Driver successfully added!", {
+    if(
+      this.driverForm.valid
+    ){
+      (await this.driverService.checkExistingDriver(this.account.email)).subscribe((res)=>{
+        console.log(res)
+        if(res.length == 0){
+            //Register driver
+            this.driverService.signUpDriver(this.account).then((res)=>{
+              new Toast("Driver successfully added!", {
+                  position: 'top',
+                  theme: 'light'
+              });
+              console.log(res)
+              this.router.navigate(["drivers"]);
+            })
+            .catch((error)=>{
+              new Toast("Error: " + error.message, {
                 position: 'top',
                 theme: 'light'
+              });
             });
-            console.log(res)
-            this.router.navigate(["drivers"]);
-          })
-          .catch((error)=>{
-            new Toast("Error: " + error.message, {
-              position: 'top',
-              theme: 'light'
-            });
+            
+        }
+        else{
+          new Toast("Error: Driver already exists!" , {
+            position: 'top',
+            theme: 'light'
           });
-          
-      }
-      else{
-        new Toast("Error: Driver already exists!" , {
-          position: 'top',
-          theme: 'light'
-        });
-      }
-    }); 
+        }
+      }); 
+    }
+
+    else{
+      new Toast("Error: Please fill up all the driver information" , {
+        position: 'top',
+        theme: 'light'
+      });
+    }
   }
 
   cancelRegister(){

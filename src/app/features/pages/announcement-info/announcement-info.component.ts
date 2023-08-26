@@ -47,6 +47,7 @@ export class AnnouncementInfoComponent implements OnInit {
     //   })
     // });
     (await this.announcementService.getAnnouncementById(id)).subscribe((value: any)=>{
+        console.log(value);
         this.announcementForm.get("title")?.setValue(value[0].title);
         this.announcementForm.get("content")?.setValue(value[0].content);
     });

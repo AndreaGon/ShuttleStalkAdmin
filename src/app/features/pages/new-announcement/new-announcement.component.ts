@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import Toast from 'awesome-toast-component';
 import { Announcement } from 'src/app/core/models/announcement.model';
@@ -18,8 +18,8 @@ export class NewAnnouncementComponent implements OnInit {
   ) { }
 
   announcementForm = new FormGroup({
-    title: new FormControl(),
-    content: new FormControl()
+    title: new FormControl(''),
+    content: new FormControl('')
   });
 
   announcementModel: Announcement = {
@@ -38,22 +38,34 @@ export class NewAnnouncementComponent implements OnInit {
     this.announcementModel.title = this.announcementForm.get("title")?.value;
     this.announcementModel.content = this.announcementForm.get("content")?.value;
 
-    await this.announcementService.createAnnouncement(this.announcementModel).then(async (res)=>{
-      new Toast("Announcement successfully created!", {
+    if(
+      this.announcementModel.title != '' ||
+      this.announcementModel.content != ''
+    ){
+      await this.announcementService.createAnnouncement(this.announcementModel).then(async (res)=>{
+        new Toast("Announcement successfully created!", {
+          position: 'top',
+          theme: 'light'
+        });
+  
+        await this.announcementService.sendPushNotifFCM(this.announcementModel.title, this.announcementModel.content).then(()=>{
+          this.navigateToAnnouncement();
+        });
+         
+      }).catch((error)=>{
+        new Toast("Error: " + error.message, {
+          position: 'top',
+          theme: 'light'
+        });
+      });
+    }
+    else{
+      new Toast("Error: Please fill up the title and announcement content", {
         position: 'top',
         theme: 'light'
       });
-
-      await this.announcementService.sendPushNotifFCM(this.announcementModel.title, this.announcementModel.content).then(()=>{
-        this.navigateToAnnouncement();
-      });
-       
-    }).catch((error)=>{
-      new Toast("Error: " + error.message, {
-        position: 'top',
-        theme: 'light'
-      });
-    });
+    }
+    
   }
 
 }

@@ -39,6 +39,7 @@ export class AnnouncementsComponent implements OnInit {
     this.announcements = [];
 
     (await this.announcementService.getAllAnnouncements()).subscribe((data: any[])=>{
+      console.log(data);
       this.announcements = data;
       this.dataSource = new MatTableDataSource(this.announcements);
       this.dataSource.paginator = this.paginator;

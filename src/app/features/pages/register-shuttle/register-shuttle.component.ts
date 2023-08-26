@@ -117,14 +117,14 @@ export class RegisterShuttleComponent implements OnInit {
     this.address = {}  
   }
 
-  registerShuttle(){
+  async registerShuttle(){
     //TODO: add data to firebase
     this.shuttleForm.get("route")?.setValue(this.listOfAddresses);
 
     if(this.shuttleForm.valid){
 
       if(this.shuttleForm.get("shuttleImage")?.value != null){
-        this.shuttleService.addImageToStorage(this.shuttleForm.get("shuttleImage")?.value).then((res)=>{
+        this.shuttleService.addImageToStorage(this.shuttleForm.get("shuttleImage")?.value).then(async (res)=>{
           this.newShuttle.shuttleImage = res;
   
           this.newShuttle.routeName = this.shuttleForm.get("routeName")?.value;
@@ -136,7 +136,7 @@ export class RegisterShuttleComponent implements OnInit {
 
           this.newShuttle.seats = this.shuttleForm.get("seats")?.value;
   
-          this.shuttleService.addNewShuttle(this.newShuttle).then(()=>{
+          await this.shuttleService.addNewShuttle(this.newShuttle).then(()=>{
             this.router.navigate(["shuttle"]);
             new Toast("Shuttle successfully added!", {
               position: 'top',
@@ -161,7 +161,7 @@ export class RegisterShuttleComponent implements OnInit {
 
         this.newShuttle.seats = this.shuttleForm.get("seats")?.value;
 
-        this.shuttleService.addNewShuttle(this.newShuttle).then(()=>{
+        await this.shuttleService.addNewShuttle(this.newShuttle).then(()=>{
           this.router.navigate(["shuttle"]);
           new Toast("Shuttle successfully added!", {
             position: 'top',

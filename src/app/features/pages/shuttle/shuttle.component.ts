@@ -50,6 +50,16 @@ export class ShuttleComponent implements OnInit {
         else{
           res[index].downloadUrl = "no image";
         }
+
+        // if(doc.shuttleImage != ""){
+        //   (await this.shuttleService.getImageDownloadUrl(doc.shuttleImage)).subscribe((value: any)=>{
+        //     let imagePath = JSON.parse(value);
+        //     res[index].downloadUrl = imagePath.image;
+        //   });
+        // }
+        // else{
+        //   res[index].downloadUrl = "no image";
+        // }
         
         
       })
