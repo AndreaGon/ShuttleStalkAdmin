@@ -18,8 +18,8 @@ export class NewAnnouncementComponent implements OnInit {
   ) { }
 
   announcementForm = new FormGroup({
-    title: new FormControl(''),
-    content: new FormControl('')
+    title: new FormControl('', Validators.required),
+    content: new FormControl('', Validators.required)
   });
 
   announcementModel: Announcement = {
@@ -39,8 +39,7 @@ export class NewAnnouncementComponent implements OnInit {
     this.announcementModel.content = this.announcementForm.get("content")?.value;
 
     if(
-      this.announcementModel.title != '' ||
-      this.announcementModel.content != ''
+      this.announcementForm.valid
     ){
       await this.announcementService.createAnnouncement(this.announcementModel).then(async (res)=>{
         new Toast("Announcement successfully created!", {

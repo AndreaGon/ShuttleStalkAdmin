@@ -12,12 +12,16 @@ import { NewAnnouncementComponent } from './pages/new-announcement/new-announcem
 import { AnnouncementInfoComponent } from './pages/announcement-info/announcement-info.component';
 import { StudentsComponent } from './pages/students/students.component';
 import { StudentInformationComponent } from './pages/student-information/student-information.component';
+import { RouteComponent } from './pages/route/route.component';
+import { RegisterRouteComponent } from './pages/register-route/register-route.component';
 
 const routes: Routes = [
   { path: 'shuttle', component: ShuttleComponent, canActivate: [AuthGuard] },
+  { path: 'route', component: RouteComponent, canActivate: [AuthGuard] },
   { path: 'drivers', component: DriverComponent, canActivate: [AuthGuard] },
   { path: 'register-driver', component: RegisterDriverComponent, canActivate: [AuthGuard]},
   { path: 'register-shuttle', component: RegisterShuttleComponent, canActivate: [AuthGuard]},
+  { path: 'register-route', component: RegisterRouteComponent, canActivate: [AuthGuard]},
   { path: 'announcements', component: AnnouncementsComponent, canActivate: [AuthGuard]},
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
   { path: 'more-information', component: MoreInformationComponent, canActivate: [AuthGuard]},

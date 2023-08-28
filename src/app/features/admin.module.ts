@@ -20,6 +20,8 @@ import { NewAnnouncementComponent } from './pages/new-announcement/new-announcem
 import { AnnouncementInfoComponent } from './pages/announcement-info/announcement-info.component';
 import { StudentsComponent } from './pages/students/students.component';
 import { StudentInformationComponent } from './pages/student-information/student-information.component';
+import { RouteComponent } from './pages/route/route.component';
+import { RegisterRouteComponent } from './pages/register-route/register-route.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import { StudentInformationComponent } from './pages/student-information/student
     NewAnnouncementComponent,
     AnnouncementInfoComponent,
     StudentsComponent,
-    StudentInformationComponent
+    StudentInformationComponent,
+    RouteComponent,
+    RegisterRouteComponent
   ],
   imports: [CommonModule, AgmCoreModule.forRoot({
     apiKey: "AIzaSyBPOUA1S51D3-RZnahp5ZeXEbmIs4iMmmI",

@@ -1,0 +1,18 @@
+<div>
+    <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "ball-clip-rotate-multiple" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
+    <div class="content-container">
+        <h1 style="color: #1D3557">Manage Routes</h1>
+        <button mat-raised-button (click)="navigateToRegisterRoutes()" class="add-button">Register route</button>
+    </div>
+    <mat-grid-list cols="4" rowHeight="410px">
+        <mat-grid-tile *ngFor="let route of listOfRoutes" style="margin-top: 50px">
+            <div class="container">
+                <img *ngIf="route.downloadUrl == 'no image'" src="assets/shuttle-default.png" class="route-img"/>
+                <img *ngIf="route.downloadUrl != 'no image'" [src]="route.downloadUrl" class="route-img"/>
+                <h3>{{route.routeName}}</h3>
+                <button mat-raised-button (click)="navigateToInfoPage(route)" class="settings-button">More Information</button>
+                <button mat-raised-button (click)="deleteRoute(route)" class="delete-button">Delete</button>
+            </div>
+        </mat-grid-tile>
+      </mat-grid-list>
+</div>
