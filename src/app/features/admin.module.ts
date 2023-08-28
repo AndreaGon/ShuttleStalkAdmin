@@ -14,7 +14,7 @@ import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { AgmCoreModule } from '@agm/core';
 import { AnnouncementsComponent } from './pages/announcements/announcements.component';
-import { MoreInformationComponent } from './pages/more-information/more-information.component';
+import { RouteInformationComponent } from './pages/route-information/route-information.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NewAnnouncementComponent } from './pages/new-announcement/new-announcement.component';
 import { AnnouncementInfoComponent } from './pages/announcement-info/announcement-info.component';
@@ -22,6 +22,7 @@ import { StudentsComponent } from './pages/students/students.component';
 import { StudentInformationComponent } from './pages/student-information/student-information.component';
 import { RouteComponent } from './pages/route/route.component';
 import { RegisterRouteComponent } from './pages/register-route/register-route.component';
+import { ShuttleInformationComponent } from './pages/shuttle-information/shuttle-information.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,7 @@ import { RegisterRouteComponent } from './pages/register-route/register-route.co
     DriverComponent,
     RegisterDriverComponent,
     RegisterShuttleComponent,
-    MoreInformationComponent,
+    RouteInformationComponent,
     ProfileComponent,
     AnnouncementsComponent,
     NewAnnouncementComponent,
@@ -37,7 +38,8 @@ import { RegisterRouteComponent } from './pages/register-route/register-route.co
     StudentsComponent,
     StudentInformationComponent,
     RouteComponent,
-    RegisterRouteComponent
+    RegisterRouteComponent,
+    ShuttleInformationComponent
   ],
   imports: [CommonModule, AgmCoreModule.forRoot({
     apiKey: "AIzaSyBPOUA1S51D3-RZnahp5ZeXEbmIs4iMmmI",

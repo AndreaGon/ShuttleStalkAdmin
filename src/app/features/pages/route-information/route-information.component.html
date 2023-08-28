@@ -1,48 +1,43 @@
 <div>
     <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "ball-clip-rotate-multiple" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
     <div class="content-container">
-        <h1 style="color: #1D3557">Shuttle Information</h1>
+        <h1 style="color: #1D3557">Route Information</h1>
     </div>
 
     <div class="content">
         <mat-card>
-            <form class="driver-form" [formGroup]="shuttleForm">
+            <form class="driver-form" [formGroup]="routeForm">
                 <table class="table-field" cellspacing="0">
-                  <tr>
-                      <td>
+                    <tr>
+                        <td>
+                            <mat-form-field class="field">
+                                <mat-label>Route name</mat-label>
+                                <input formControlName="routeName" matInput placeholder="Route Sg. Ara">
+                            </mat-form-field>
+                        </td>
+                        <td>
                           <mat-form-field class="field">
-                              <mat-label>Shuttle Plate no.</mat-label>
-                              <input formControlName="plateNo" matInput placeholder="ABC 1234">
+                              <mat-label>Choose Route Image (.jpeg, .png)</mat-label>
+                              <ngx-mat-file-input formControlName = "routeImage"></ngx-mat-file-input>
                           </mat-form-field>
                       </td>
-                      <td>
-                          <mat-form-field class="field">
-                              <mat-label>Route name</mat-label>
-                              <input formControlName="routeName" matInput placeholder="Route Sg. Ara">
-                          </mat-form-field>
-                      </td>
-                  </tr>
+                    </tr>
                   <tr>
                     <td>
                         <mat-form-field class="field">
-                            <mat-label>Set Driver</mat-label>
-                            <mat-select formControlName="driver">
-                              <mat-option *ngFor="let driver of listOfDrivers" value="{{driver.id}}">{{driver.fullname}}</mat-option>
+                            <mat-label>Set Shuttle</mat-label>
+                            <mat-select formControlName="shuttle">
+                              <mat-option *ngFor="let shuttle of listOfShuttles" value="{{shuttle.id}}">{{shuttle.plateNo}}</mat-option>
                             </mat-select>
                           </mat-form-field>
                       </td>
-                      <td>
-                        <mat-form-field class="field">
-                            <ngx-mat-file-input formControlName = "shuttleImage" placeholder="{{imageName}}"></ngx-mat-file-input>
-                          </mat-form-field>
-                      </td>
-                  </tr>
-                  <tr>
                     <td>
                       <mat-form-field class="field">
-                          <mat-label>No. of seatings</mat-label>
-                          <input formControlName="seats" matInput placeholder="Ex. 10">
-                      </mat-form-field>
+                          <mat-label>Set Driver</mat-label>
+                          <mat-select formControlName="driver">
+                            <mat-option *ngFor="let driver of listOfDrivers" value="{{driver.id}}">{{driver.fullname}}</mat-option>
+                          </mat-select>
+                        </mat-form-field>
                     </td>
                 </tr>
               </table>

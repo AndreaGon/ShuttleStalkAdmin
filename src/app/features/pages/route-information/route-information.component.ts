@@ -7,14 +7,14 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Route } from 'src/app/core/models/route.model';
 import { DriverService } from 'src/app/core/services/driver.service';
 import { RouteService } from 'src/app/core/services/route.service';
+import { ShuttleService } from 'src/app/core/services/shuttle.service';
 
 @Component({
-  selector: 'app-more-information',
-  templateUrl: './more-information.component.html',
-  styleUrls: ['./more-information.component.sass']
+  selector: 'app-route-information',
+  templateUrl: './route-information.component.html',
+  styleUrls: ['./route-information.component.sass']
 })
-export class MoreInformationComponent implements OnInit {
-  title: string = 'AGM project';
+export class RouteInformationComponent implements OnInit {
   latitude!: number;
   longitude!: number;
   zoom!:number;
@@ -22,6 +22,7 @@ export class MoreInformationComponent implements OnInit {
 
   listOfAddresses: any[] = [];
   listOfDrivers!: any[]; 
+  listOfShuttles!: any[]; 
 
   address: any = {};
 
@@ -32,23 +33,23 @@ export class MoreInformationComponent implements OnInit {
     private route: ActivatedRoute,
     private driverService: DriverService,
     private routeService: RouteService,
+    private shuttleService: ShuttleService,
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone,
     private spinner: NgxSpinnerService
   ) { }
 
-  shuttleForm = new FormGroup({
-    plateNo: new FormControl("",[Validators.required]),
+  routeForm = new FormGroup({
+    shuttle: new FormControl("",[Validators.required]),
     driver: new FormControl("",[Validators.required]),
     routeName: new FormControl("",[Validators.required]),
-    shuttleImage: new FormControl(),
-    seats: new FormControl(),
     pickupTime: new FormControl([],[Validators.required]),
     dropoffTime: new FormControl([],[Validators.required]),
-    route: new FormControl([],[Validators.required])
+    route: new FormControl([],[Validators.required]),
+    routeImage: new FormControl(),
   })
 
-  newShuttle: Route = {
+  newRoute: Route = {
     routeName: "",
     driver: [""],
     shuttle: [""],
@@ -66,6 +67,7 @@ export class MoreInformationComponent implements OnInit {
 
   ngOnInit(): void {
     this.setDriversData();
+    this.setShuttlesData();
     this.setShuttleInformation();
 
     this.mapsAPILoader.load().then(() => {
@@ -112,21 +114,20 @@ export class MoreInformationComponent implements OnInit {
 
     if(shuttleId != ""){
       (await this.routeService.getRouteOnQuery(shuttleId)).subscribe((res: any)=>{
-        this.shuttleForm.get("plateNo")?.setValue(res.plateNo);
-          this.shuttleForm.get("routeName")?.setValue(res.routeName);
-          this.shuttleForm.get("pickupTime")?.setValue(res.pickupTime);
-          this.shuttleForm.get("dropoffTime")?.setValue(res.dropoffTime);
-          this.shuttleForm.get("driver")?.setValue(res.driver);
+        this.routeForm.get("routeName")?.setValue(res.routeName);
+        this.routeForm.get("pickupTime")?.setValue(res.pickupTime);
+        this.routeForm.get("dropoffTime")?.setValue(res.dropoffTime);
+        this.routeForm.get("driver")?.setValue(res.driverId);
 
-          this.shuttleForm.get("seats")?.setValue(res.seats);
+        this.routeForm.get("shuttle")?.setValue(res.shuttleId);
 
-          if(res.shuttleImage != ""){
-            this.imageName = res.shuttleImage;
-          }
-          else{
-            this.imageName = "No Image";
-          }
-          this.listOfAddresses = res.route;
+        if(res.shuttleImage != ""){
+          this.imageName = res.shuttleImage;
+        }
+        else{
+          this.imageName = "No Image";
+        }
+        this.listOfAddresses = res.route;
       })
     }
     else{
@@ -134,6 +135,13 @@ export class MoreInformationComponent implements OnInit {
     }
 
     this.spinner.hide();
+  }
+
+  async setShuttlesData(){
+    this.listOfShuttles = [];
+    (await this.shuttleService.getAllShuttles()).subscribe((data: any)=>{
+      this.listOfShuttles = data;
+    });  
   }
 
   async setDriversData(){
@@ -150,25 +158,25 @@ export class MoreInformationComponent implements OnInit {
 
   editShuttle(){
     //TODO: add data to firebase
-    this.shuttleForm.get("route")?.setValue(this.listOfAddresses);
+    this.routeForm.get("route")?.setValue(this.listOfAddresses);
 
-    if(this.shuttleForm.valid){
+    if(this.routeForm.valid){
 
       let shuttleId = this.route.snapshot.paramMap.get("id") || "";
 
-      if(this.shuttleForm.get("shuttleImage")?.value != null){
-        this.routeService.addImageToStorage(this.shuttleForm.get("shuttleImage")?.value).then((res)=>{
+      if(this.routeForm.get("routeImage")?.value != null){
+        this.routeService.addImageToStorage(this.routeForm.get("routeImage")?.value).then((res)=>{
   
-          this.newShuttle.routeName = this.shuttleForm.get("routeName")?.value;
-          this.newShuttle.driver = this.shuttleForm.get("driver")?.value;
-          this.newShuttle.pickupTime = this.shuttleForm.get("pickupTime")?.value;
-          this.newShuttle.dropoffTime = this.shuttleForm.get("dropoffTime")?.value;
-          this.newShuttle.route = this.shuttleForm.get("route")?.value;
+          this.newRoute.routeName = this.routeForm.get("routeName")?.value;
+          this.newRoute.driver = this.routeForm.get("driver")?.value;
+          this.newRoute.pickupTime = this.routeForm.get("pickupTime")?.value;
+          this.newRoute.dropoffTime = this.routeForm.get("dropoffTime")?.value;
+          this.newRoute.route = this.routeForm.get("route")?.value;
 
           
   
-          this.routeService.updateRoute(this.newShuttle, shuttleId).then(()=>{
-            this.router.navigate(["shuttle"]);
+          this.routeService.updateRoute(this.newRoute, shuttleId).then(()=>{
+            this.router.navigate(["route"]);
             new Toast("Shuttle successfully updated!", {
               position: 'top',
               theme: 'light'
@@ -183,17 +191,16 @@ export class MoreInformationComponent implements OnInit {
         });
       }
       else{
-        this.newShuttle.routeName = this.shuttleForm.get("routeName")?.value;
-        this.newShuttle.driver = this.shuttleForm.get("driver")?.value;
-        this.newShuttle.pickupTime = this.shuttleForm.get("pickupTime")?.value;
-        this.newShuttle.dropoffTime = this.shuttleForm.get("dropoffTime")?.value;
-        this.newShuttle.route = this.shuttleForm.get("route")?.value;
+        this.newRoute.routeName = this.routeForm.get("routeName")?.value;
+        this.newRoute.driver = this.routeForm.get("driver")?.value;
+        this.newRoute.pickupTime = this.routeForm.get("pickupTime")?.value;
+        this.newRoute.dropoffTime = this.routeForm.get("dropoffTime")?.value;
+        this.newRoute.route = this.routeForm.get("route")?.value;
 
-        console.log(shuttleId);
 
-        this.routeService.updateRoute(this.newShuttle, shuttleId).then(()=>{
-          this.router.navigate(["shuttle"]);
-          new Toast("Shuttle successfully added!", {
+        this.routeService.updateRoute(this.newRoute, shuttleId).then(()=>{
+          this.router.navigate(["route"]);
+          new Toast("Route successfully edited!", {
             position: 'top',
             theme: 'light'
           });
@@ -219,7 +226,7 @@ export class MoreInformationComponent implements OnInit {
   }
 
   cancelEditShuttle(){
-    this.router.navigate(['shuttle']);
+    this.router.navigate(['route']);
   }
 
 }

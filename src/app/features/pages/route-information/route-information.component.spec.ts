@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MoreInformationComponent } from './more-information.component';
+import { RouteInformationComponent } from './route-information.component';
 
 describe('MoreInformationComponent', () => {
-  let component: MoreInformationComponent;
-  let fixture: ComponentFixture<MoreInformationComponent>;
+  let component: RouteInformationComponent;
+  let fixture: ComponentFixture<RouteInformationComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MoreInformationComponent ]
+      declarations: [ RouteInformationComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MoreInformationComponent);
+    fixture = TestBed.createComponent(RouteInformationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

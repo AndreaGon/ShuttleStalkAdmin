@@ -27,7 +27,7 @@ export class ShuttleComponent implements OnInit {
   }
 
   navigateToInfoPage(shuttle: any){
-    this.router.navigate(['more-information', {id: shuttle.id}]);
+    this.router.navigate(['shuttle-information', {id: shuttle.id}]);
   }
 
   async deleteShuttle(shuttle: any){
