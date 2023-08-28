@@ -32,14 +32,13 @@ export class RouteService {
 
   async addNewRoute(route: Route): Promise<any>{
     let newShuttle: any = {
-      plateNo: route.plateNo,
-      shuttleImage: route.shuttleImage,
       routeName: route.routeName,
       driverId: route.driver,
-      seats: route.seats,
+      shuttleId: route.shuttle,
       pickupTime: route.pickupTime,
       dropoffTime: route.dropoffTime,
-      route: route.route
+      route: route.route,
+      routeImage: route.routeImage
     };
 
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
@@ -50,14 +49,13 @@ export class RouteService {
 
   async updateRoute(route: Route, id: string): Promise<any>{
     let modifiedShuttle: any = {
-      plateNo: route.plateNo,
-      shuttleImage: route.shuttleImage,
       routeName: route.routeName,
       driverId: route.driver,
-      seats: route.seats,
+      shuttleId: route.shuttle,
       pickupTime: route.pickupTime,
       dropoffTime: route.dropoffTime,
-      route: route.route
+      route: route.route,
+      routeImage: route.routeName
     };
 
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
@@ -81,7 +79,7 @@ export class RouteService {
   }
 
   async getImageDownloadUrl(filePath: string){
-    const fileRef = this.storage.ref(`ShuttleImages/${filePath}`);
+    const fileRef = this.storage.ref(`RouteImages/${filePath}`);
     
     let downloadUrl = await fileRef.getDownloadURL();
 

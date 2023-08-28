@@ -1,11 +1,10 @@
 export interface Route{
     id?: string,
-    plateNo: string,
     routeName: string,
-    shuttleImage?: string,
     driver: string[],
-    seats: number,
+    shuttle: string[],
     pickupTime: string[],
     dropoffTime: string[],
-    route: string[]
+    route: string[],
+    routeImage: string
 }

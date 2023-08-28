@@ -35,12 +35,7 @@ export class ShuttleService {
     let newShuttle: any = {
       plateNo: shuttle.plateNo,
       shuttleImage: shuttle.shuttleImage,
-      routeName: shuttle.routeName,
-      driverId: shuttle.driver,
-      seats: shuttle.seats,
-      pickupTime: shuttle.pickupTime,
-      dropoffTime: shuttle.dropoffTime,
-      route: shuttle.route
+      seats: shuttle.seats
     };
 
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
@@ -53,12 +48,7 @@ export class ShuttleService {
     let modifiedShuttle: any = {
       plateNo: shuttle.plateNo,
       shuttleImage: shuttle.shuttleImage,
-      routeName: shuttle.routeName,
-      driverId: shuttle.driver,
-      seats: shuttle.seats,
-      pickupTime: shuttle.pickupTime,
-      dropoffTime: shuttle.dropoffTime,
-      route: shuttle.route
+      seats: shuttle.seats
     };
 
     const headers = new HttpHeaders().set('Content-Type', 'application/json');

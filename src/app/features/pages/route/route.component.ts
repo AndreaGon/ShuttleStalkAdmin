@@ -40,8 +40,8 @@ export class RouteComponent implements OnInit {
 
     (await this.routeService.getAllRoutes()).subscribe((res: any[])=>{
       res.forEach((doc: any, index: number) => {
-        if(doc.shuttleImage != ""){
-          this.routeService.getImageDownloadUrl(doc.shuttleImage).then((observable)=>{
+        if(doc.routeImage != ""){
+          this.routeService.getImageDownloadUrl(doc.routeImage).then((observable)=>{
             observable.subscribe((url)=>{
               res[index].downloadUrl = url;
             })

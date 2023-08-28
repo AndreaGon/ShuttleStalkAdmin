@@ -6,6 +6,7 @@ import Toast from 'awesome-toast-component';
 import { Route } from 'src/app/core/models/route.model';
 import { DriverService } from 'src/app/core/services/driver.service';
 import { RouteService } from 'src/app/core/services/route.service';
+import { ShuttleService } from 'src/app/core/services/shuttle.service';
 
 @Component({
   selector: 'app-register-route',
@@ -20,6 +21,7 @@ export class RegisterRouteComponent implements OnInit {
 
   listOfAddresses: any[] = [];
   listOfDrivers!: any[]; 
+  listOfShuttles!: any[]; 
 
   address: any = {};
 
@@ -29,30 +31,29 @@ export class RegisterRouteComponent implements OnInit {
     private router: Router,
     private driverService: DriverService,
     private routeService: RouteService,
+    private shuttleService: ShuttleService,
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone
   ) { }
 
   routeForm = new FormGroup({
-    plateNo: new FormControl("",[Validators.required]),
+    shuttle: new FormControl("",[Validators.required]),
     driver: new FormControl("",[Validators.required]),
     routeName: new FormControl("",[Validators.required]),
-    shuttleImage: new FormControl(),
-    seats: new FormControl(),
     pickupTime: new FormControl([],[Validators.required]),
     dropoffTime: new FormControl([],[Validators.required]),
-    route: new FormControl([],[Validators.required])
+    route: new FormControl([],[Validators.required]),
+    routeImage: new FormControl(),
   })
 
   newRoute: Route = {
-    plateNo: "",
     routeName: "",
-    shuttleImage: "",
     driver: [""],
-    seats: 1,
+    shuttle: [""],
     pickupTime: [],
     dropoffTime: [],
-    route: [""]
+    route: [""],
+    routeImage: ""
   };
 
   options = {
@@ -61,6 +62,7 @@ export class RegisterRouteComponent implements OnInit {
 
   ngOnInit(): void {
     this.setDriversData();
+    this.setShuttlesData();
 
     this.mapsAPILoader.load().then(() => {
       this.setCurrentLocation();
@@ -100,6 +102,13 @@ export class RegisterRouteComponent implements OnInit {
     }
   }
 
+  async setShuttlesData(){
+    this.listOfShuttles = [];
+    (await this.shuttleService.getAllShuttles()).subscribe((data: any)=>{
+      this.listOfShuttles = data;
+    });  
+  }
+
   async setDriversData(){
     this.listOfDrivers = [];
     (this.driverService.getAllDriverAccounts()).subscribe((data)=>{
@@ -118,22 +127,20 @@ export class RegisterRouteComponent implements OnInit {
 
     if(this.routeForm.valid){
 
-      if(this.routeForm.get("shuttleImage")?.value != null){
-        this.routeService.addImageToStorage(this.routeForm.get("shuttleImage")?.value).then(async (res)=>{
-          this.newRoute.shuttleImage = res;
-  
+      if(this.routeForm.get("routeImage")?.value != null){
+        this.routeService.addImageToStorage(this.routeForm.get("routeImage")?.value).then(async (res)=>{
+          console.log(res);
+          this.newRoute.routeImage = res;
           this.newRoute.routeName = this.routeForm.get("routeName")?.value;
-          this.newRoute.plateNo = this.routeForm.get("plateNo")?.value;
           this.newRoute.driver = this.routeForm.get("driver")?.value;
           this.newRoute.pickupTime = this.routeForm.get("pickupTime")?.value;
           this.newRoute.dropoffTime = this.routeForm.get("dropoffTime")?.value;
           this.newRoute.route = this.routeForm.get("route")?.value;
-
-          this.newRoute.seats = this.routeForm.get("seats")?.value;
+          this.newRoute.shuttle = this.routeForm.get("shuttle")?.value;
   
           await this.routeService.addNewRoute(this.newRoute).then(()=>{
             this.router.navigate(["route"]);
-            new Toast("Route successfully added!", {
+            new Toast("Shuttle successfully added!", {
               position: 'top',
               theme: 'light'
             });
@@ -148,13 +155,11 @@ export class RegisterRouteComponent implements OnInit {
       }
       else{
         this.newRoute.routeName = this.routeForm.get("routeName")?.value;
-        this.newRoute.plateNo = this.routeForm.get("plateNo")?.value;
         this.newRoute.driver = this.routeForm.get("driver")?.value;
         this.newRoute.pickupTime = this.routeForm.get("pickupTime")?.value;
         this.newRoute.dropoffTime = this.routeForm.get("dropoffTime")?.value;
         this.newRoute.route = this.routeForm.get("route")?.value;
-
-        this.newRoute.seats = this.routeForm.get("seats")?.value;
+        this.newRoute.shuttle = this.routeForm.get("shuttle")?.value;
 
         await this.routeService.addNewRoute(this.newRoute).then(()=>{
           this.router.navigate(["route"]);

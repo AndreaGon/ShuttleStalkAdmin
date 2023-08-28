@@ -9,7 +9,7 @@
             <div class="container">
                 <img *ngIf="shuttle.downloadUrl == 'no image'" src="assets/shuttle-default.png" class="shuttle-img"/>
                 <img *ngIf="shuttle.downloadUrl != 'no image'" [src]="shuttle.downloadUrl" class="shuttle-img"/>
-                <h3>{{shuttle.routeName}}</h3>
+                <h3>{{shuttle.plateNo}}</h3>
                 <button mat-raised-button (click)="navigateToInfoPage(shuttle)" class="settings-button">More Information</button>
                 <button mat-raised-button (click)="deleteShuttle(shuttle)" class="delete-button">Delete</button>
             </div>

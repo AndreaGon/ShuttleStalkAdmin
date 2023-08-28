@@ -49,14 +49,13 @@ export class MoreInformationComponent implements OnInit {
   })
 
   newShuttle: Route = {
-    plateNo: "",
     routeName: "",
-    shuttleImage: "",
     driver: [""],
-    seats: 1,
+    shuttle: [""],
     pickupTime: [],
     dropoffTime: [],
-    route: [""]
+    route: [""],
+    routeImage: ""
   };
 
   options = {
@@ -159,16 +158,13 @@ export class MoreInformationComponent implements OnInit {
 
       if(this.shuttleForm.get("shuttleImage")?.value != null){
         this.routeService.addImageToStorage(this.shuttleForm.get("shuttleImage")?.value).then((res)=>{
-          this.newShuttle.shuttleImage = res;
   
           this.newShuttle.routeName = this.shuttleForm.get("routeName")?.value;
-          this.newShuttle.plateNo = this.shuttleForm.get("plateNo")?.value;
           this.newShuttle.driver = this.shuttleForm.get("driver")?.value;
           this.newShuttle.pickupTime = this.shuttleForm.get("pickupTime")?.value;
           this.newShuttle.dropoffTime = this.shuttleForm.get("dropoffTime")?.value;
           this.newShuttle.route = this.shuttleForm.get("route")?.value;
 
-          this.newShuttle.seats = this.shuttleForm.get("seats")?.value;
           
   
           this.routeService.updateRoute(this.newShuttle, shuttleId).then(()=>{
@@ -188,13 +184,10 @@ export class MoreInformationComponent implements OnInit {
       }
       else{
         this.newShuttle.routeName = this.shuttleForm.get("routeName")?.value;
-        this.newShuttle.plateNo = this.shuttleForm.get("plateNo")?.value;
         this.newShuttle.driver = this.shuttleForm.get("driver")?.value;
         this.newShuttle.pickupTime = this.shuttleForm.get("pickupTime")?.value;
         this.newShuttle.dropoffTime = this.shuttleForm.get("dropoffTime")?.value;
         this.newShuttle.route = this.shuttleForm.get("route")?.value;
-
-        this.newShuttle.seats = this.shuttleForm.get("seats")?.value;
 
         console.log(shuttleId);
 

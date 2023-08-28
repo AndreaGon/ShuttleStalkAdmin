@@ -7,7 +7,7 @@
     <mat-grid-list cols="4" rowHeight="410px">
         <mat-grid-tile *ngFor="let route of listOfRoutes" style="margin-top: 50px">
             <div class="container">
-                <img *ngIf="route.downloadUrl == 'no image'" src="assets/shuttle-default.png" class="route-img"/>
+                <img *ngIf="route.downloadUrl == 'no image'" src="assets/route-default.png" class="route-img"/>
                 <img *ngIf="route.downloadUrl != 'no image'" [src]="route.downloadUrl" class="route-img"/>
                 <h3>{{route.routeName}}</h3>
                 <button mat-raised-button (click)="navigateToInfoPage(route)" class="settings-button">More Information</button>

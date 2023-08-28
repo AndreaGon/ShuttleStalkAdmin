@@ -10,46 +10,40 @@
                   <tr>
                       <td>
                           <mat-form-field class="field">
-                              <mat-label>Shuttle Plate no.</mat-label>
-                              <input formControlName="plateNo" matInput placeholder="ABC 1234">
-                          </mat-form-field>
-                      </td>
-                      <td>
-                          <mat-form-field class="field">
                               <mat-label>Route name</mat-label>
                               <input formControlName="routeName" matInput placeholder="Route Sg. Ara">
                           </mat-form-field>
                       </td>
+                      <td>
+                        <mat-form-field class="field">
+                            <mat-label>Choose Route Image (.jpeg, .png)</mat-label>
+                            <ngx-mat-file-input formControlName = "routeImage"></ngx-mat-file-input>
+                        </mat-form-field>
+                    </td>
                   </tr>
                   <tr>
                     <td>
                         <mat-form-field class="field">
-                            <mat-label>Set Driver</mat-label>
-                            <mat-select formControlName="driver">
-                              <mat-option *ngFor="let driver of listOfDrivers" value="{{driver.id}}">{{driver.fullname}}</mat-option>
+                            <mat-label>Set Shuttle</mat-label>
+                            <mat-select formControlName="shuttle">
+                              <mat-option *ngFor="let shuttle of listOfShuttles" value="{{shuttle.id}}">{{shuttle.plateNo}}</mat-option>
                             </mat-select>
                           </mat-form-field>
                       </td>
-                      <td>
-                        <mat-form-field class="field">
-                            <mat-label>Choose Shuttle Image (.jpeg, .png)</mat-label>
-                            <ngx-mat-file-input formControlName = "shuttleImage"></ngx-mat-file-input>
-                          </mat-form-field>
-                      </td>
-                  </tr>
-                  <tr>
-                      <td>
-                        <mat-form-field class="field">
-                            <mat-label>No. of seatings</mat-label>
-                            <input formControlName="seats" matInput placeholder="Ex. 10">
+                    <td>
+                      <mat-form-field class="field">
+                          <mat-label>Set Driver</mat-label>
+                          <mat-select formControlName="driver">
+                            <mat-option *ngFor="let driver of listOfDrivers" value="{{driver.id}}">{{driver.fullname}}</mat-option>
+                          </mat-select>
                         </mat-form-field>
-                      </td>
-                  </tr>
+                    </td>
+                </tr>
               </table>
               
               <table class="table-field" cellspacing="0">
                 <div>
-                    <h3 style="color: #1D3557">Add shuttle schedules</h3>
+                    <h3 style="color: #1D3557">Add route schedules</h3>
                 </div>
 
                 <tr class="schedule-picker">
@@ -65,7 +59,7 @@
                 </tr>
 
                 <div>
-                    <h3 style="color: #1D3557">Add routes</h3>
+                    <h3 style="color: #1D3557">Add route locations</h3>
                     <div class="form-group">
                         <table class="table-field" cellspacing="0">
                             <tr>
