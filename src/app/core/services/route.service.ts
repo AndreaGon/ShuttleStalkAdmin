@@ -48,19 +48,21 @@ export class RouteService {
   }
 
   async updateRoute(route: Route, id: string): Promise<any>{
-    let modifiedShuttle: any = {
+    let modifiedRoute: any = {
       routeName: route.routeName,
       driverId: route.driver,
       shuttleId: route.shuttle,
       pickupTime: route.pickupTime,
       dropoffTime: route.dropoffTime,
       route: route.route,
-      routeImage: route.routeName
+      routeImage: route.routeImage
     };
+
+    console.log(modifiedRoute);
 
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-    return this.http.put<any>( `${API_URL}/update-route/${id}`, modifiedShuttle, { headers: headers }).subscribe((res)=>{
+    return this.http.put<any>( `${API_URL}/update-route/${id}`, modifiedRoute, { headers: headers }).subscribe((res)=>{
       console.log(res);
     });
   }

@@ -163,8 +163,6 @@ export class RouteInformationComponent implements OnInit {
     //TODO: add data to firebase
     this.routeForm.get("route")?.setValue(this.listOfAddresses);
 
-    console.log(this.routeForm);
-
     if(this.routeForm.valid){
 
       let routeId = this.route.snapshot.paramMap.get("id") || "";
@@ -180,7 +178,7 @@ export class RouteInformationComponent implements OnInit {
           this.newRoute.shuttle = this.routeForm.get("shuttle")?.value;
 
           
-  
+          console.log(this.newRoute);
           this.routeService.updateRoute(this.newRoute, routeId).then(()=>{
             this.router.navigate(["route"]);
             new Toast("Shuttle successfully updated!", {

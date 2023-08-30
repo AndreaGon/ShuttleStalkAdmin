@@ -79,11 +79,13 @@ export class ShuttleInformationComponent implements OnInit {
 
       let shuttleId = this.route.snapshot.paramMap.get("id") || "";
 
+      console.log(this.shuttleForm.get("shuttleImage")?.value)
+
       if(
         this.shuttleForm.get("seats")?.value >= 1 &&
         this.shuttleForm.get("seats")?.value <= 50
       ){
-        if(this.shuttleForm.get("shuttleImage")?.value != null){
+        if(this.shuttleForm.get("shuttleImage")?.value != ""){
           this.shuttleService.addImageToStorage(this.shuttleForm.get("shuttleImage")?.value).then(async (res)=>{
             this.newShuttle.shuttleImage = res;
             this.newShuttle.plateNo = this.shuttleForm.get("plateNo")?.value;
