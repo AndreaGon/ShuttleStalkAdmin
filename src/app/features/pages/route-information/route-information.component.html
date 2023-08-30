@@ -49,13 +49,15 @@
 
                 <tr class="schedule-picker">
                     <td>
-                        <tag-input formControlName="pickupTime" [secondaryPlaceholder]="'Pickup time (e.g. 9:00AM)'" [placeholder]="'Enter pickup time'"></tag-input>
+                        <tag-input (click)="onSelectPickupPicker()" [validators]="[timePickerValidator()]" formControlName="pickupTime" [secondaryPlaceholder]="'Pickup time (e.g. 9:00AM)'" [placeholder]="'Enter pickup time'"></tag-input>
+                        <ngx-mat-timepicker [format]="24" (timeSet)="updatePickupTime($event)" #pickupPicker></ngx-mat-timepicker>  
                     </td>
                 </tr>
 
                 <tr class="schedule-picker">
                     <td>
-                        <tag-input formControlName="dropoffTime" [secondaryPlaceholder]="'Dropoff time (e.g. 3:00PM)'" [placeholder]="'Enter dropoff time'"></tag-input>
+                        <tag-input (click)="onSelectDropoffPicker()" [validators]="[timePickerValidator()]" formControlName="dropoffTime" [secondaryPlaceholder]="'Dropoff time (e.g. 3:00PM)'" [placeholder]="'Enter dropoff time'"></tag-input>
+                        <ngx-mat-timepicker [format]="24" (timeSet)="updateDropoffTime($event)" #dropoffPicker></ngx-mat-timepicker>  
                     </td>
                 </tr>
 

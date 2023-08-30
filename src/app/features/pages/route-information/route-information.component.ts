@@ -1,6 +1,6 @@
 import { MapsAPILoader } from '@agm/core';
 import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import Toast from 'awesome-toast-component';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -27,6 +27,9 @@ export class RouteInformationComponent implements OnInit {
   address: any = {};
 
   @ViewChild('searchAddress') searchElementRef!: ElementRef;
+
+  @ViewChild('pickupPicker') pickupPicker: any;
+  @ViewChild('dropoffPicker') dropoffPicker: any;
 
   constructor(
     private router: Router,
@@ -160,9 +163,11 @@ export class RouteInformationComponent implements OnInit {
     //TODO: add data to firebase
     this.routeForm.get("route")?.setValue(this.listOfAddresses);
 
+    console.log(this.routeForm);
+
     if(this.routeForm.valid){
 
-      let shuttleId = this.route.snapshot.paramMap.get("id") || "";
+      let routeId = this.route.snapshot.paramMap.get("id") || "";
 
       if(this.routeForm.get("routeImage")?.value != null){
         this.routeService.addImageToStorage(this.routeForm.get("routeImage")?.value).then((res)=>{
@@ -172,10 +177,11 @@ export class RouteInformationComponent implements OnInit {
           this.newRoute.pickupTime = this.routeForm.get("pickupTime")?.value;
           this.newRoute.dropoffTime = this.routeForm.get("dropoffTime")?.value;
           this.newRoute.route = this.routeForm.get("route")?.value;
+          this.newRoute.shuttle = this.routeForm.get("shuttle")?.value;
 
           
   
-          this.routeService.updateRoute(this.newRoute, shuttleId).then(()=>{
+          this.routeService.updateRoute(this.newRoute, routeId).then(()=>{
             this.router.navigate(["route"]);
             new Toast("Shuttle successfully updated!", {
               position: 'top',
@@ -196,9 +202,9 @@ export class RouteInformationComponent implements OnInit {
         this.newRoute.pickupTime = this.routeForm.get("pickupTime")?.value;
         this.newRoute.dropoffTime = this.routeForm.get("dropoffTime")?.value;
         this.newRoute.route = this.routeForm.get("route")?.value;
+        this.newRoute.shuttle = this.routeForm.get("shuttle")?.value;
 
-
-        this.routeService.updateRoute(this.newRoute, shuttleId).then(()=>{
+        this.routeService.updateRoute(this.newRoute, routeId).then(()=>{
           this.router.navigate(["route"]);
           new Toast("Route successfully edited!", {
             position: 'top',
@@ -227,6 +233,37 @@ export class RouteInformationComponent implements OnInit {
 
   cancelEditShuttle(){
     this.router.navigate(['route']);
+  }
+
+  onSelectPickupPicker(){
+    this.pickupPicker.open();
+  }
+
+  onSelectDropoffPicker(){
+    this.dropoffPicker.open();
+  }
+
+  updatePickupTime(event: any){
+    const currentItemsArray = this.routeForm.get('pickupTime')?.value;
+    const newItemsArray = [...currentItemsArray, event];
+
+    this.routeForm.get('pickupTime')?.setValue(newItemsArray);
+  }
+
+  updateDropoffTime(event: any){
+    const currentItemsArray = this.routeForm.get('dropoffTime')?.value;
+    const newItemsArray = [...currentItemsArray, event];
+
+    this.routeForm.get('dropoffTime')?.setValue(newItemsArray);
+  }
+
+  timePickerValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const timePattern = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
+      const isValid = timePattern.test(control.value);
+  
+      return isValid ? null : { timeFormat: true };
+    };
   }
 
 }

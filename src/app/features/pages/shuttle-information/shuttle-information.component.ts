@@ -32,7 +32,7 @@ export class ShuttleInformationComponent implements OnInit {
   shuttleForm = new FormGroup({
     plateNo: new FormControl("",[Validators.required]),
     shuttleImage: new FormControl(),
-    seats: new FormControl(),
+    seats: new FormControl("", Validators.required),
   });
 
   newShuttle: Shuttle = {
@@ -79,8 +79,10 @@ export class ShuttleInformationComponent implements OnInit {
 
       let shuttleId = this.route.snapshot.paramMap.get("id") || "";
 
-      if(this.shuttleForm.valid){
-
+      if(
+        this.shuttleForm.get("seats")?.value >= 1 &&
+        this.shuttleForm.get("seats")?.value <= 50
+      ){
         if(this.shuttleForm.get("shuttleImage")?.value != null){
           this.shuttleService.addImageToStorage(this.shuttleForm.get("shuttleImage")?.value).then(async (res)=>{
             this.newShuttle.shuttleImage = res;
@@ -120,10 +122,9 @@ export class ShuttleInformationComponent implements OnInit {
             });
           });
         }
-        
       }
       else{
-        new Toast("Error: Please fill up all inputs", {
+        new Toast("Error: seating must be between 1 to 50 only!", {
           position: 'top',
           theme: 'light'
         });
@@ -132,6 +133,22 @@ export class ShuttleInformationComponent implements OnInit {
     }
     else{
       new Toast("Error: Please fill up all inputs", {
+        position: 'top',
+        theme: 'light'
+      });
+    }
+  }
+
+  validateFile(){
+    let file = this.shuttleForm.get("shuttleImage")?.value;
+
+    if(
+      file.type != "image/jpeg" &&
+      file.type != "image/png" &&
+      file.type != "image/jpg"
+    ){
+      this.shuttleForm.get("shuttleImage")?.setValue("");
+      new Toast("Error: Please insert a JPG or PNG image file", {
         position: 'top',
         theme: 'light'
       });

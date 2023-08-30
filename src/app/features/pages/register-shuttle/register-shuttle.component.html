@@ -17,7 +17,7 @@
                       <td>
                         <mat-form-field class="field">
                             <mat-label>No. of seatings</mat-label>
-                            <input formControlName="seats" matInput placeholder="Ex. 10">
+                            <input formControlName="seats" type="number" matInput placeholder="Ex. 10">
                         </mat-form-field>
                       </td>
                   </tr>
@@ -25,7 +25,7 @@
                     <td>
                         <mat-form-field class="field">
                             <mat-label>Choose Shuttle Image (.jpeg, .png)</mat-label>
-                            <ngx-mat-file-input formControlName = "shuttleImage"></ngx-mat-file-input>
+                            <ngx-mat-file-input formControlName = "shuttleImage" accept="image/*"  (change)="validateFile()"></ngx-mat-file-input>
                         </mat-form-field>
                     </td>
                   </tr>

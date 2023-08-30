@@ -27,7 +27,7 @@ export class RegisterShuttleComponent implements OnInit {
   shuttleForm = new FormGroup({
     plateNo: new FormControl("",[Validators.required]),
     shuttleImage: new FormControl(),
-    seats: new FormControl(),
+    seats: new FormControl("", Validators.required),
   })
 
   newShuttle: Shuttle = {
@@ -50,9 +50,33 @@ export class RegisterShuttleComponent implements OnInit {
 
     if(this.shuttleForm.valid){
 
-      if(this.shuttleForm.get("shuttleImage")?.value != null){
-        this.shuttleService.addImageToStorage(this.shuttleForm.get("shuttleImage")?.value).then(async (res)=>{
-          this.newShuttle.shuttleImage = res;
+      if(
+        this.shuttleForm.get("seats")?.value >= 1 && 
+        this.shuttleForm.get("seats")?.value <= 50
+      )
+      {
+        if(this.shuttleForm.get("shuttleImage")?.value != null){
+          this.shuttleService.addImageToStorage(this.shuttleForm.get("shuttleImage")?.value).then(async (res)=>{
+            this.newShuttle.shuttleImage = res;
+            this.newShuttle.plateNo = this.shuttleForm.get("plateNo")?.value;
+            this.newShuttle.seats = this.shuttleForm.get("seats")?.value;
+    
+            await this.shuttleService.addNewShuttle(this.newShuttle).then(()=>{
+              this.router.navigate(["shuttle"]);
+              new Toast("Shuttle successfully added!", {
+                position: 'top',
+                theme: 'light'
+              });
+            })
+            .catch((error)=>{
+              new Toast("Error: " + error.message, {
+                position: 'top',
+                theme: 'light'
+              });
+            });
+          });
+        }
+        else{
           this.newShuttle.plateNo = this.shuttleForm.get("plateNo")?.value;
           this.newShuttle.seats = this.shuttleForm.get("seats")?.value;
   
@@ -69,27 +93,15 @@ export class RegisterShuttleComponent implements OnInit {
               theme: 'light'
             });
           });
-        });
-      }
-      else{
-        this.newShuttle.plateNo = this.shuttleForm.get("plateNo")?.value;
-        this.newShuttle.seats = this.shuttleForm.get("seats")?.value;
-
-        await this.shuttleService.addNewShuttle(this.newShuttle).then(()=>{
-          this.router.navigate(["shuttle"]);
-          new Toast("Shuttle successfully added!", {
-            position: 'top',
-            theme: 'light'
-          });
-        })
-        .catch((error)=>{
-          new Toast("Error: " + error.message, {
-            position: 'top',
-            theme: 'light'
-          });
-        });
-      }
+        }
+      } 
       
+      else{
+        new Toast("Error: seating must be between 1 to 50 only!", {
+          position: 'top',
+          theme: 'light'
+        });
+      }
     }
     else{
       new Toast("Error: Please fill up all inputs", {
@@ -99,6 +111,22 @@ export class RegisterShuttleComponent implements OnInit {
     }
 
     
+  }
+
+  validateFile(){
+    let file = this.shuttleForm.get("shuttleImage")?.value;
+
+    if(
+      file.type != "image/jpeg" &&
+      file.type != "image/png" &&
+      file.type != "image/jpg"
+    ){
+      this.shuttleForm.get("shuttleImage")?.setValue("");
+      new Toast("Error: Please insert a JPG or PNG image file", {
+        position: 'top',
+        theme: 'light'
+      });
+    }
   }
 
   cancelRegisterShuttle(){

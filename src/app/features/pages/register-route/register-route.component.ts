@@ -1,8 +1,9 @@
 import { MapsAPILoader } from '@agm/core';
-import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
+import { FormGroup, FormControl, Validators, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router } from '@angular/router';
 import Toast from 'awesome-toast-component';
+import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { Route } from 'src/app/core/models/route.model';
 import { DriverService } from 'src/app/core/services/driver.service';
 import { RouteService } from 'src/app/core/services/route.service';
@@ -11,7 +12,8 @@ import { ShuttleService } from 'src/app/core/services/shuttle.service';
 @Component({
   selector: 'app-register-route',
   templateUrl: './register-route.component.html',
-  styleUrls: ['./register-route.component.sass']
+  styleUrls: ['./register-route.component.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegisterRouteComponent implements OnInit {
   latitude!: number;
@@ -27,13 +29,16 @@ export class RegisterRouteComponent implements OnInit {
 
   @ViewChild('searchAddress') searchElementRef!: ElementRef;
 
+  @ViewChild('pickupPicker') pickupPicker: any;
+  @ViewChild('dropoffPicker') dropoffPicker: any;
+
   constructor(
     private router: Router,
     private driverService: DriverService,
     private routeService: RouteService,
     private shuttleService: ShuttleService,
     private mapsAPILoader: MapsAPILoader,
-    private ngZone: NgZone
+    private ngZone: NgZone,
   ) { }
 
   routeForm = new FormGroup({
@@ -183,12 +188,57 @@ export class RegisterRouteComponent implements OnInit {
         theme: 'light'
       });
     }
-
-    
   }
 
+  validateFile(){
+    let file = this.routeForm.get("routeImage")?.value;
+
+    if(
+      file.type != "image/jpeg" &&
+      file.type != "image/png" &&
+      file.type != "image/jpg"
+    ){
+      this.routeForm.get("routeImage")?.setValue("");
+      new Toast("Error: Please insert a JPG or PNG image file", {
+        position: 'top',
+        theme: 'light'
+      });
+    }
+  }
+  
   cancelRegisterRoute(){
     this.router.navigate(['route']);
+  }
+
+  onSelectPickupPicker(){
+    this.pickupPicker.open();
+  }
+
+  onSelectDropoffPicker(){
+    this.dropoffPicker.open();
+  }
+
+  updatePickupTime(event: any){
+    const currentItemsArray = this.routeForm.get('pickupTime')?.value;
+    const newItemsArray = [...currentItemsArray, event];
+
+    this.routeForm.get('pickupTime')?.setValue(newItemsArray);
+  }
+
+  updateDropoffTime(event: any){
+    const currentItemsArray = this.routeForm.get('dropoffTime')?.value;
+    const newItemsArray = [...currentItemsArray, event];
+
+    this.routeForm.get('dropoffTime')?.setValue(newItemsArray);
+  }
+
+  timePickerValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const timePattern = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
+      const isValid = timePattern.test(control.value);
+  
+      return isValid ? null : { timeFormat: true };
+    };
   }
 
 }

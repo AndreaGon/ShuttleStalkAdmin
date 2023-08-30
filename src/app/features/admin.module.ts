@@ -24,6 +24,8 @@ import { RouteComponent } from './pages/route/route.component';
 import { RegisterRouteComponent } from './pages/register-route/register-route.component';
 import { ShuttleInformationComponent } from './pages/shuttle-information/shuttle-information.component';
 
+import {NgxMatTimepickerModule} from 'ngx-mat-timepicker'; 
+
 @NgModule({
   declarations: [
     ShuttleComponent,
@@ -46,7 +48,7 @@ import { ShuttleInformationComponent } from './pages/shuttle-information/shuttle
     libraries: ['places'],
   }),
   NgxSpinnerModule,
-  SharedModule, AdminRoutingModule, TagInputModule, FormsModule, ReactiveFormsModule, NgxMatFileInputModule],
+  SharedModule, AdminRoutingModule, TagInputModule, FormsModule, ReactiveFormsModule, NgxMatFileInputModule, NgxMatTimepickerModule],
   exports: []
 })
 export class AdminModule {}
