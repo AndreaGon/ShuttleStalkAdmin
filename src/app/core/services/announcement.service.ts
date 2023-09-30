@@ -42,7 +42,8 @@ export class AnnouncementService {
     let newAnnouncement = {
       title: announcement.title,
       content: announcement.content,
-      timestamp: Date.now()
+      timestamp: Date.now(),
+      createdBy: announcement.createdBy
     };
 
     const headers = new HttpHeaders().set('Content-Type', 'application/json');

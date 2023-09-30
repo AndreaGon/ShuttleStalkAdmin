@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import Toast from 'awesome-toast-component';
 import { Announcement } from 'src/app/core/models/announcement.model';
 import { AnnouncementService } from 'src/app/core/services/announcement.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-new-announcement',
@@ -15,6 +16,7 @@ export class NewAnnouncementComponent implements OnInit {
   constructor(
     private router: Router,
     private announcementService: AnnouncementService,
+    private authService: AuthService
   ) { }
 
   announcementForm = new FormGroup({
@@ -24,7 +26,8 @@ export class NewAnnouncementComponent implements OnInit {
 
   announcementModel: Announcement = {
     title: "",
-    content: ""
+    content: "",
+    createdBy: ''
   }
 
   ngOnInit(): void {
@@ -35,8 +38,10 @@ export class NewAnnouncementComponent implements OnInit {
   }
 
   async createAnnouncement(){
+    
     this.announcementModel.title = this.announcementForm.get("title")?.value;
     this.announcementModel.content = this.announcementForm.get("content")?.value;
+    this.announcementModel.createdBy = this.authService.getEmail().email;
 
     if(
       this.announcementForm.valid

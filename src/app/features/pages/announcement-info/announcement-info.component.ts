@@ -27,7 +27,8 @@ export class AnnouncementInfoComponent implements OnInit {
 
   announcementModel: Announcement = {
     title: "",
-    content: ""
+    content: "",
+    createdBy: ''
   }
 
   ngOnInit(): void {

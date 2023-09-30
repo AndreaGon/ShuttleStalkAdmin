@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import Toast from 'awesome-toast-component';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AnnouncementService } from 'src/app/core/services/announcement.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-announcements',
@@ -23,7 +24,8 @@ export class AnnouncementsComponent implements OnInit {
   constructor(
     private router: Router,
     private announcementService: AnnouncementService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -39,8 +41,7 @@ export class AnnouncementsComponent implements OnInit {
     this.announcements = [];
 
     (await this.announcementService.getAllAnnouncements()).subscribe((data: any[])=>{
-      console.log(data);
-      this.announcements = data;
+      this.announcements = data.filter(item => item.createdBy == this.authService.getEmail().email);
       this.dataSource = new MatTableDataSource(this.announcements);
       this.dataSource.paginator = this.paginator;
       
