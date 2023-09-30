@@ -19,12 +19,12 @@ export class StudentInformationComponent implements OnInit {
   program: string = "";
   graduation_month: string = "";
   graduation_year: string = "";
-  num_no_show: string = "";
+  no_show: number = 0;
   is_banned = new FormControl("");
 
   studentModel: Student = {
     is_banned: "",
-    num_of_no_show: ""
+    no_show: 0
   }
 
   constructor(
@@ -48,8 +48,14 @@ export class StudentInformationComponent implements OnInit {
         this.program = res.program;
         this.graduation_month = res.graduation_month;
         this.graduation_year = res.graduation_year;
-        this.num_no_show = res.num_no_show;
-        this.is_banned.setValue(res.is_banned)
+        this.no_show = res.no_show;
+        
+        if(this.no_show >= 3){
+          this.is_banned.setValue("true");
+        }
+        else{
+          this.is_banned.setValue("false");
+        }
     });
   }
 
@@ -60,13 +66,11 @@ export class StudentInformationComponent implements OnInit {
   changeIsBanned(){
     let id = this.route.snapshot.paramMap.get('id') || "";
 
-    this.studentModel.is_banned = this.is_banned.value;
-
     if(this.is_banned.value == "false"){
-      this.studentModel.num_of_no_show = "0";
+      this.studentModel.no_show = 0;
     }
     else{
-      this.studentModel.num_of_no_show = "3";
+      this.studentModel.no_show = 3;
     }
     this.studentService.updateShuttle(this.studentModel, id).then(()=>{
       new Toast("Ban option successfully changed!", {

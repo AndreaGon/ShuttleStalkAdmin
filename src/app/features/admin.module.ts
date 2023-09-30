@@ -44,7 +44,7 @@ import {NgxMatTimepickerModule} from 'ngx-mat-timepicker';
     ShuttleInformationComponent
   ],
   imports: [CommonModule, AgmCoreModule.forRoot({
-    apiKey: "AIzaSyBPOUA1S51D3-RZnahp5ZeXEbmIs4iMmmI",
+    apiKey: "AIzaSyAPxN6UrJeSCo6uDciO5EK--QCxo2cvros",
     libraries: ['places'],
   }),
   NgxSpinnerModule,

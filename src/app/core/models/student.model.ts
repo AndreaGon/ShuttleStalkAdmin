@@ -1,5 +1,5 @@
 export interface Student{
     id?: string,
-    num_of_no_show: string,
+    no_show: number,
     is_banned: string
 }

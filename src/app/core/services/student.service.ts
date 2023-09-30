@@ -30,7 +30,7 @@ export class StudentService {
   async updateShuttle(student: Student, id: string): Promise<any>{
     let modifiedStudent = {
       is_banned: student.is_banned,
-      num_of_no_show: student.num_of_no_show
+      no_show: student.no_show
     };
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
