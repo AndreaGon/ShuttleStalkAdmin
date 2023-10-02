@@ -16,11 +16,8 @@ const API_URL = environment.api_url + "/drivers";
 export class DriverService {
 
   constructor(
-    private firestore: Firestore,
     private http: HttpClient
   ) {}
-
-  collection: any = collection(this.firestore, "drivers");  
   
 
   async signUpDriver(account: Driver){

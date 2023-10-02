@@ -1,0 +1,49 @@
+<div>
+    <div class="content-container">
+        <h1 style="color: #1D3557">Register Admin</h1>
+    </div>
+
+    <div class="content">
+        <mat-card>
+            <form class="driver-form" [formGroup]="adminForm">
+                <table class="table-field" cellspacing="0">
+                  <tr>
+                      <td>
+                          <mat-form-field class="field">
+                              <mat-label>New Admin's fullname</mat-label>
+                              <input formControlName="fullname" matInput placeholder="Ex. Derek Hans">
+                          </mat-form-field>
+                      </td>
+                      <td>
+                        <mat-form-field class="field">
+                            <mat-label>Role</mat-label>
+                            <mat-select formControlName="role">
+                                <mat-option value="admin">ADMIN</mat-option>
+                                <mat-option value="superadmin">SUPERADMIN</mat-option>
+                              </mat-select>
+                        </mat-form-field>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>
+                          <mat-form-field class="field">
+                              <mat-label>Email for Admin</mat-label>
+                              <input formControlName="email" matInput placeholder="Ex. derekhans@mail.com">
+                          </mat-form-field>
+                      </td>
+                      <td>
+                          <mat-form-field class="field">
+                              <mat-label>Password for Admin</mat-label>
+                              <input type="password" formControlName="password" matInput placeholder="Ex. 12345678">
+                          </mat-form-field>
+                      </td>
+                  </tr>
+              </table>
+  
+              <button (click) = "cancelRegister()" mat-raised-button class="action-button cancel">Cancel</button>
+              <button (click)="registerAdmin()" mat-raised-button class="action-button register">Register</button>
+            
+          </form>
+        </mat-card>
+    </div>
+</div>

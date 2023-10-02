@@ -15,6 +15,8 @@ import { StudentInformationComponent } from './pages/student-information/student
 import { RouteComponent } from './pages/route/route.component';
 import { RegisterRouteComponent } from './pages/register-route/register-route.component';
 import { ShuttleInformationComponent } from './pages/shuttle-information/shuttle-information.component';
+import { AdminsComponent } from './pages/admins/admins.component';
+import { RegisterAdminComponent } from './pages/register-admin/register-admin.component';
 
 const routes: Routes = [
   { path: 'shuttle', component: ShuttleComponent, canActivate: [AuthGuard] },
@@ -30,7 +32,9 @@ const routes: Routes = [
   { path: 'new-announcement', component: NewAnnouncementComponent, canActivate: [AuthGuard]},
   { path: 'students', component: StudentsComponent, canActivate: [AuthGuard]},
   { path: 'announcements/announcement-info/:id', component: AnnouncementInfoComponent, canActivate: [AuthGuard]},
-  { path: 'students/student-info/:id', component: StudentInformationComponent, canActivate: [AuthGuard]}
+  { path: 'students/student-info/:id', component: StudentInformationComponent, canActivate: [AuthGuard]},
+  { path: 'admins', component: AdminsComponent, canActivate: [AuthGuard]},
+  { path: 'register-admin', component: RegisterAdminComponent, canActivate: [AuthGuard]},
 ];
 
 @NgModule({
