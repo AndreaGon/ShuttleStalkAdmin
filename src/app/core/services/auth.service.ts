@@ -1,8 +1,12 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import Toast from 'awesome-toast-component';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
+
+const API_URL = environment.api_url + "/admins";
 
 @Injectable({
   providedIn: 'root'
@@ -17,18 +21,10 @@ export class AuthService {
   constructor(
     private firebase: AngularFireAuth,
     private router: Router,
+    private http: HttpClient
   ) {
     this.autoLogin();
   }
-
-   signUp(email: string, password: string){
-    this.firebase.createUserWithEmailAndPassword(email, password).then(res => {
-      console.log('You are Successfully signed up!', res);
-    })
-    .catch(error =>{
-      console.log('Something is wrong:', error.message);
-    });
-   }
 
    signIn(email: string, password: string){
       this.firebase.signInWithEmailAndPassword(email, password)
@@ -66,6 +62,10 @@ export class AuthService {
         this.loggedIn.next(false);
       } 
     });
+   }
+
+   async checkExistingAdmin(email: String){
+    return this.http.get<any[]>(`${API_URL}/get-admin/${email}`);
    }
 
    getEmail(){
