@@ -187,7 +187,7 @@ export class StudentsComponent implements OnInit {
         if (isFilterSet) {
           for (const col in searchTerms) {
             searchTerms[col].trim().toLowerCase().split(' ').forEach((word: any) => {
-              if (data[col].toString().toLowerCase().indexOf(word) != -1 && isFilterSet) {
+              if (data[(col == "name") ? "fullname": col].toString().toLowerCase().indexOf(word) != -1 && isFilterSet) {
                 found = true
               }
             });

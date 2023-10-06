@@ -38,7 +38,7 @@ export class DashboardComponent implements OnInit {
         columnProp: 'pickupDropoff',
         options: []
       }, {
-        name: 'Route Name',
+        name: 'Route name',
         columnProp: 'routeName',
         options: []
       }
@@ -74,6 +74,24 @@ export class DashboardComponent implements OnInit {
     })
   }
 
+  exportToCSV(){
+    var toExport: any = []
+    this.listOfBookings.forEach((items: any, index: number)=>{
+      toExport.push({
+        "Booking no.": index + 1,
+        "Booked by": items.studentName,
+        "Matriculation": items.studentMatriculation,
+        "Route name": items.routeName,
+        "Booking date": items.date,
+        "Booking time": items.time,
+        "Pickup / Dropoff": items.pickupDropoff,
+        "Is Journey Ended?": (items.is_invalid == "true") ? "YES" : "NO" ,
+        "Is Attendance Marked?": (items.attendance_marked == "true") ? "YES" : "NO"
+      })
+    })
+    this.bookingService.exportAsExcelFile(toExport, "Booking_Summary_" + Date.now().toString());
+  }
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.filterValues["name"] = filterValue.trim().toLowerCase();
@@ -95,6 +113,11 @@ export class DashboardComponent implements OnInit {
   filterChange(filter: any, event: any) {
     //let filterValues = {}
     this.filterValues[filter.columnProp] = event.value.trim();
+
+    this.listOfBookings = this.listOfBookings.filter((items)=>(items.pickupDropoff == this.filterValues["pickupDropoff"]))
+
+    console.log(this.listOfBookings)
+
     this.dataSource.filter = JSON.stringify(this.filterValues);
   }
 
@@ -111,14 +134,14 @@ export class DashboardComponent implements OnInit {
         }
       }
 
-      console.log(searchTerms);
 
       let nameSearch = () => {
         let found = false;
         if (isFilterSet) {
           for (const col in searchTerms) {
+            console.log(data);
             searchTerms[col].trim().toLowerCase().split(' ').forEach((word: any) => {
-              if (data[col].toString().toLowerCase().indexOf(word) != -1 && isFilterSet) {
+              if (data[(col == "name") ? "studentName": col].toString().toLowerCase().indexOf(word) != -1 && isFilterSet) {
                 found = true
               }
             });
@@ -139,6 +162,7 @@ export class DashboardComponent implements OnInit {
       value.modelValue = undefined;
     })
     this.dataSource.filter = "";
+    this.refreshBookingTable();
   }
 
 }

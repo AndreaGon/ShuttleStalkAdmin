@@ -36,7 +36,7 @@
 
             
         </mat-card>
-        <button mat-raised-button class="add-button">Export to Excel</button>
+        <button mat-raised-button class="add-button" (click)="exportToCSV()">Export to Excel</button>
     </div>
     <table mat-table [dataSource]="dataSource" matSort>
 
