@@ -29,7 +29,7 @@ export class AuthService {
    signIn(email: string, password: string){
       this.firebase.signInWithEmailAndPassword(email, password)
       .then(res => {
-        this.router.navigate(["shuttle"]);
+        this.router.navigate(["dashboard"]);
         new Toast("Successfully logged in!", {
           position: 'top',
           theme: 'light'

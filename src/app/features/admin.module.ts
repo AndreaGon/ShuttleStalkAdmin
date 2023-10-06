@@ -26,7 +26,8 @@ import { ShuttleInformationComponent } from './pages/shuttle-information/shuttle
 
 import {NgxMatTimepickerModule} from 'ngx-mat-timepicker';
 import { AdminsComponent } from './pages/admins/admins.component';
-import { RegisterAdminComponent } from './pages/register-admin/register-admin.component'; 
+import { RegisterAdminComponent } from './pages/register-admin/register-admin.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component'; 
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { RegisterAdminComponent } from './pages/register-admin/register-admin.co
     RegisterRouteComponent,
     ShuttleInformationComponent,
     AdminsComponent,
-    RegisterAdminComponent
+    RegisterAdminComponent,
+    DashboardComponent
   ],
   imports: [CommonModule, AgmCoreModule.forRoot({
     apiKey: "AIzaSyAPxN6UrJeSCo6uDciO5EK--QCxo2cvros",

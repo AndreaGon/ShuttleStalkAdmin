@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { addDoc, collection, deleteDoc, doc, getDocs, query, updateDoc, where } from '@angular/fire/firestore';
 import { Firestore } from '@angular/fire/firestore';
 import { Student } from '../models/student.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -17,7 +16,6 @@ export class StudentService {
     private http: HttpClient
   ) { }
 
-  collection: any = collection(this.firestore, "students");  
 
   async getAllStudents(): Promise<any>{
       return await this.http.get<any>(`${API_URL}/get-students`);

@@ -3,19 +3,20 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import Toast from 'awesome-toast-component';
-import { NgxSpinner, NgxSpinnerService } from 'ngx-spinner';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { BookingService } from 'src/app/core/services/booking.service';
 import { StudentService } from 'src/app/core/services/student.service';
 
 @Component({
-  selector: 'app-students',
-  templateUrl: './students.component.html',
-  styleUrls: ['./students.component.sass']
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.sass']
 })
-export class StudentsComponent implements OnInit {
-  displayedColumns: string[] = ['select', 'name', 'email', 'matriculation', 'program', 'graduation_month', 'graduation_year', 'is_banned', 'action'];
+export class DashboardComponent implements OnInit {
+  displayedColumns: string[] = ['bookingNo', 'name', 'matriculation', 'date', 'time', 'routeName', 'pickupDropoff', 'isJourneyEnded', 'isAttendanceMarked'];
   dataSource?: any = new MatTableDataSource();
 
-  listOfStudents: any[] = [];
+  listOfBookings: any[] = [];
   filterSelectObj: any[] = [];
   filterValues: any = {};
 
@@ -26,101 +27,47 @@ export class StudentsComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private studentService: StudentService,
+    private bookingService: BookingService,
     private changeDetector: ChangeDetectorRef,
     private spinner: NgxSpinnerService
   ) { 
 
     this.filterSelectObj = [
       {
-        name: 'Program',
-        columnProp: 'program',
+        name: 'Pickup/Dropoff',
+        columnProp: 'pickupDropoff',
         options: []
       }, {
-        name: 'Graduation Month',
-        columnProp: 'graduation_month',
-        options: []
-      }, {
-        name: 'Graduation Year',
-        columnProp: 'graduation_year',
+        name: 'Route Name',
+        columnProp: 'routeName',
         options: []
       }
     ]
   }
 
   ngOnInit(): void {
-    this.refreshStudentTable();
+    this.refreshBookingTable();
     this.dataSource.filterPredicate = this.createFilter();
     this.changeDetector.detectChanges();
   }
 
-  checkUncheckAll(event: any){
-    this.dataSource.data.forEach((data: any) => {
-      data.is_selected = event.checked
-      
-      if(event.checked){
-        this.bulkId.push(data.id);
-        this.bulkEmail.push(data.email);
-      }
-      else{
-        this.bulkId = [];
-        this.bulkEmail = [];
-      }
-    })
 
-    console.log(this.bulkId)
-    console.log(this.bulkEmail);
-  }
-
-  selectData(event: any, id: string, email: string){
-    if(event.checked){
-      this.bulkId.push(id);
-      this.bulkEmail.push(email);
-    }
-    else{
-      this.bulkId.splice(this.bulkId.indexOf(id), 1);
-      this.bulkEmail.splice(this.bulkEmail.indexOf(id), 1);
-    }
-  }
-
-  deleteBatch(){
-    this.studentService.deleteListOfStudents(this.bulkId, this.bulkEmail).then(()=>{
-      new Toast("Successfully deleted students!", {
-        position: 'top',
-        theme: 'light'
-      });
-
-      this.refreshStudentTable();
-    }).catch((error)=>{
-      new Toast("Error: " + error.message, {
-        position: 'top',
-        theme: 'light'
-      });
-    });
-  }
-
-  async refreshStudentTable(): Promise<void>{
+  async refreshBookingTable(): Promise<void>{
     this.spinner.show();
-    this.listOfStudents = [];
+    this.listOfBookings = [];
 
-    // (await this.studentService.getAllStudents().then((res)=>{
-    //   res.forEach((doc: any, index: number) =>{
-    //     doc.is_selected = false;
-    //     this.listOfStudents.push(doc);
-    //   })
-    // }))
-
-    (await this.studentService.getAllStudents()).subscribe((res: any)=>{
+    (await this.bookingService.getAllBookings()).subscribe((res: any)=>{
       res.forEach((doc: any, index: number) =>{
-        doc.is_selected = false;
-        this.listOfStudents.push(doc);
+        this.listOfBookings.push(doc);
       })
 
-      this.dataSource.data = this.listOfStudents;
+      console.log(res);
+
+      this.dataSource.data = this.listOfBookings;
       this.dataSource.paginator = this.paginator;
 
       this.filterSelectObj.filter((o) => {
-        o.options = this.getFilterObject(this.listOfStudents, o.columnProp);
+        o.options = this.getFilterObject(this.listOfBookings, o.columnProp);
       });
 
       this.spinner.hide();
@@ -131,22 +78,6 @@ export class StudentsComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.filterValues["name"] = filterValue.trim().toLowerCase();
     this.dataSource.filter = JSON.stringify(this.filterValues);
-  }
-
-  async deleteStudent(id: string, email: string){
-    await this.studentService.deleteStudent(id, email).then((res)=>{
-      new Toast("Student successfully deleted!", {
-        position: 'top',
-        theme: 'light'
-    });
-    })
-    .catch((error)=>{
-      new Toast("Error: " + error.message, {
-        position: 'top',
-        theme: 'light'
-      });
-    });
-    this.refreshStudentTable();
   }
 
   getFilterObject(fullObj: any, key: any) {
