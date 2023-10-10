@@ -85,7 +85,7 @@ export class ShuttleInformationComponent implements OnInit {
         this.shuttleForm.get("seats")?.value >= 1 &&
         this.shuttleForm.get("seats")?.value <= 50
       ){
-        if(this.shuttleForm.get("shuttleImage")?.value != ""){
+        if(this.shuttleForm.get("shuttleImage")?.value instanceof File){
           this.shuttleService.addImageToStorage(this.shuttleForm.get("shuttleImage")?.value).then(async (res)=>{
             this.newShuttle.shuttleImage = res;
             this.newShuttle.plateNo = this.shuttleForm.get("plateNo")?.value;
@@ -107,6 +107,7 @@ export class ShuttleInformationComponent implements OnInit {
           });
         }
         else{
+          this.newShuttle.shuttleImage = this.shuttleForm.get("shuttleImage")?.value;
           this.newShuttle.plateNo = this.shuttleForm.get("plateNo")?.value;
           this.newShuttle.seats = this.shuttleForm.get("seats")?.value;
   

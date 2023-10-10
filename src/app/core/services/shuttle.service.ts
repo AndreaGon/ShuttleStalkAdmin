@@ -45,6 +45,7 @@ export class ShuttleService {
   }
 
   async updateShuttle(shuttle: Shuttle, id: string): Promise<any>{
+    console.log(shuttle.shuttleImage);
     let modifiedShuttle: any = {
       plateNo: shuttle.plateNo,
       shuttleImage: shuttle.shuttleImage,

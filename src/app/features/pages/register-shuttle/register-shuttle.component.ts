@@ -55,6 +55,7 @@ export class RegisterShuttleComponent implements OnInit {
         this.shuttleForm.get("seats")?.value <= 50
       )
       {
+        console.log(this.shuttleForm.get("shuttleImage")?.value);
         if(this.shuttleForm.get("shuttleImage")?.value != null){
           this.shuttleService.addImageToStorage(this.shuttleForm.get("shuttleImage")?.value).then(async (res)=>{
             this.newShuttle.shuttleImage = res;
