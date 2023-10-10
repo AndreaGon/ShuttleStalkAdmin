@@ -81,8 +81,6 @@ export class ShuttleService {
   }
 
   async deleteShuttle(id: string){
-    return this.http.delete(`${API_URL}/delete-shuttle/${id}`).subscribe((value)=>{
-      console.log(value);
-    });
+    return this.http.delete(`${API_URL}/delete-shuttle/${id}`);
   }
 }

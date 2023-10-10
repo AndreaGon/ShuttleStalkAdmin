@@ -43,8 +43,6 @@ export class DriverService {
   }
 
   async deleteDriver(id: string, email: string){
-    await this.http.delete<any>(`${API_URL}/delete-driver/${id}/${email}`).subscribe((value)=>{
-      console.log(value);
-    });
+    return this.http.delete<any>(`${API_URL}/delete-driver/${id}/${email}`);
   }
 }

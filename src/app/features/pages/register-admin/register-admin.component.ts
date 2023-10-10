@@ -79,7 +79,7 @@ export class RegisterAdminComponent implements OnInit {
     }
 
     else{
-      new Toast("Error: Please fill up all the driver information" , {
+      new Toast("Error: Please fill up all the admin information" , {
         position: 'top',
         theme: 'light'
       });

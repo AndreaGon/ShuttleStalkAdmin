@@ -62,21 +62,14 @@ export class AnnouncementInfoComponent implements OnInit {
     this.announcementModel.title = this.announcementForm.get("title")?.value;
     this.announcementModel.content = this.announcementForm.get("content")?.value;
 
-    this.announcementService.updateAnnouncement(this.announcementModel, id).then(()=>{
+    (await this.announcementService.updateAnnouncement(this.announcementModel, id)).subscribe(()=>{
       this.router.navigate(["announcements"]);
       new Toast("Announcement successfully updated!", {
         position: 'top',
         theme: 'light'
       });
+      this.spinner.hide();
     })
-    .catch((error)=>{
-      new Toast("Error: " + error.message, {
-        position: 'top',
-        theme: 'light'
-      });
-    });
-
-    this.spinner.hide();
   }
 
 }

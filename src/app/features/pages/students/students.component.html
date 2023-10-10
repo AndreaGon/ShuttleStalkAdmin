@@ -83,7 +83,7 @@
 
         <ng-container matColumnDef="is_banned">
           <th mat-header-cell *matHeaderCellDef> Is Banned </th>
-          <td mat-cell *matCellDef="let element"> {{(element.is_banned == 'true') ? 'YES' : 'NO'}} </td>
+          <td mat-cell *matCellDef="let element"> {{(element.no_show == 3) ? 'YES' : 'NO'}} </td>
         </ng-container>
 
         <ng-container matColumnDef="action">

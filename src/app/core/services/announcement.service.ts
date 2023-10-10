@@ -33,9 +33,7 @@ export class AnnouncementService {
     };
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-    return this.http.put<any>( `${API_URL}/update-announcement/${id}`, modifiedAnnouncement, { headers: headers }).subscribe((res)=>{
-      console.log(res);
-    });
+    return this.http.put<any>( `${API_URL}/update-announcement/${id}`, modifiedAnnouncement, { headers: headers });
   }
 
   async createAnnouncement(announcement: Announcement){
@@ -53,9 +51,7 @@ export class AnnouncementService {
   }
 
   async deleteShuttle(id: string){
-    return this.http.delete(`${API_URL}/delete-announcement/${id}`).subscribe((value)=>{
-      console.log(value);
-    });
+    return this.http.delete(`${API_URL}/delete-announcement/${id}`);
   }
 
   async sendPushNotifFCM(title: string, content: string){

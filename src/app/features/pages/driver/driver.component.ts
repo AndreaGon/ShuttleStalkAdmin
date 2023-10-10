@@ -47,20 +47,14 @@ export class DriverComponent implements OnInit {
     });    
   }
 
-  deleteDriver(id: any, email: any){
-    this.driverService.deleteDriver(id, email).then((res)=>{
+  async deleteDriver(id: any, email: any){
+    (await this.driverService.deleteDriver(id, email)).subscribe((res)=>{
       new Toast("Driver successfully deleted!", {
         position: 'top',
         theme: 'light'
-    });
-    })
-    .catch((error)=>{
-      new Toast("Error: " + error.message, {
-        position: 'top',
-        theme: 'light'
       });
-    });
-    this.refreshTable();
+      this.refreshTable();
+    })
   }
 
 }

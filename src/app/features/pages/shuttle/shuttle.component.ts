@@ -31,8 +31,10 @@ export class ShuttleComponent implements OnInit {
   }
 
   async deleteShuttle(shuttle: any){
-    await this.shuttleService.deleteShuttle(shuttle.id);
-    this.setRegisteredShuttles();
+    (await this.shuttleService.deleteShuttle(shuttle.id)).subscribe(()=>{
+      this.setRegisteredShuttles();
+    });
+    
   }
 
   async setRegisteredShuttles(){

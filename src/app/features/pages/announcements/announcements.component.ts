@@ -50,21 +50,13 @@ export class AnnouncementsComponent implements OnInit {
   }
 
   async deleteAnnouncement(id: any){
-    this.spinner.show();
-    await this.announcementService.deleteShuttle(id).then((res)=>{
+    (await this.announcementService.deleteShuttle(id)).subscribe((res)=>{
       new Toast("Announcement successfully deleted!", {
         position: 'top',
         theme: 'light'
-    });
-    })
-    .catch((error)=>{
-      new Toast("Error: " + error.message, {
-        position: 'top',
-        theme: 'light'
       });
+      this.refreshTable();  
     });
-    this.refreshTable();
-    this.spinner.hide();
   }
 
 }
