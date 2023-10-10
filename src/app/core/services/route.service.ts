@@ -42,9 +42,7 @@ export class RouteService {
     };
 
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    await this.http.post<any>(`${API_URL}/add-route`, newShuttle, { headers: headers }).subscribe((res)=>{
-      console.log(res);
-    });
+    return this.http.post<any>(`${API_URL}/add-route`, newShuttle, { headers: headers })
   }
 
   async updateRoute(route: Route, id: string): Promise<any>{

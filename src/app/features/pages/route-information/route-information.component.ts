@@ -167,9 +167,9 @@ export class RouteInformationComponent implements OnInit {
 
       let routeId = this.route.snapshot.paramMap.get("id") || "";
 
-      if(this.routeForm.get("routeImage")?.value != null){
+      if(this.routeForm.get("routeImage")?.value instanceof File){
         this.routeService.addImageToStorage(this.routeForm.get("routeImage")?.value).then((res)=>{
-  
+          this.newRoute.routeImage = res;
           this.newRoute.routeName = this.routeForm.get("routeName")?.value;
           this.newRoute.driver = this.routeForm.get("driver")?.value;
           this.newRoute.pickupTime = this.routeForm.get("pickupTime")?.value;
@@ -201,6 +201,8 @@ export class RouteInformationComponent implements OnInit {
         this.newRoute.dropoffTime = this.routeForm.get("dropoffTime")?.value;
         this.newRoute.route = this.routeForm.get("route")?.value;
         this.newRoute.shuttle = this.routeForm.get("shuttle")?.value;
+
+        this.newRoute.routeImage = this.routeForm.get("routeImage")?.value;
 
         this.routeService.updateRoute(this.newRoute, routeId).then(()=>{
           this.router.navigate(["route"]);

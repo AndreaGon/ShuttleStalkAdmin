@@ -143,19 +143,13 @@ export class RegisterRouteComponent implements OnInit {
           this.newRoute.route = this.routeForm.get("route")?.value;
           this.newRoute.shuttle = this.routeForm.get("shuttle")?.value;
   
-          await this.routeService.addNewRoute(this.newRoute).then(()=>{
+          (await this.routeService.addNewRoute(this.newRoute)).subscribe(()=>{
             this.router.navigate(["route"]);
             new Toast("Shuttle successfully added!", {
               position: 'top',
               theme: 'light'
             });
           })
-          .catch((error)=>{
-            new Toast("Error: " + error.message, {
-              position: 'top',
-              theme: 'light'
-            });
-          });
         });
       }
       else{
@@ -166,15 +160,9 @@ export class RegisterRouteComponent implements OnInit {
         this.newRoute.route = this.routeForm.get("route")?.value;
         this.newRoute.shuttle = this.routeForm.get("shuttle")?.value;
 
-        await this.routeService.addNewRoute(this.newRoute).then(()=>{
+        (await this.routeService.addNewRoute(this.newRoute)).subscribe(()=>{
           this.router.navigate(["route"]);
           new Toast("Route successfully added!", {
-            position: 'top',
-            theme: 'light'
-          });
-        })
-        .catch((error)=>{
-          new Toast("Error: " + error.message, {
             position: 'top',
             theme: 'light'
           });
