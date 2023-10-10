@@ -3,6 +3,7 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTr
 import { Observable, map, take } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { AdminService } from '../services/admin.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,14 +21,16 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
       return this.authService.loggedIn$.pipe(take(1), map(auth=>{
-        console.log(auth)
-        if(auth){
+        var userRole = this.authService.getRole();
+        if(auth && userRole == route.data["roles"] || userRole == "superadmin"){
           return true;
         }
-        this.authService.redirectUrl = "dashboard";
 
+        this.authService.redirectUrl = "dashboard";
+          
         this.router.navigate(["login"]);
         return false;
+        
       }))
 
       // return this.authService.loggedIn$.parse(map(auth => {

@@ -41,7 +41,7 @@ export class NewAnnouncementComponent implements OnInit {
     
     this.announcementModel.title = this.announcementForm.get("title")?.value;
     this.announcementModel.content = this.announcementForm.get("content")?.value;
-    this.announcementModel.createdBy = this.authService.getEmail().email;
+    this.announcementModel.createdBy = this.authService.getUser().email;
 
     if(
       this.announcementForm.valid

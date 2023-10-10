@@ -8,7 +8,7 @@
         <span><a [routerLink]="['route']" routerLinkActive="active">Routes</a></span>
         <span><a [routerLink]="['announcements']" routerLinkActive="active">Announcements</a></span>
         <span><a [routerLink]="['students']" routerLinkActive="active">Students</a></span>
-        <span><a [routerLink]="['admins']" routerLinkActive="active">Admins</a></span>
+        <span><a *ngIf = "userRole == 'superadmin'" [routerLink]="['admins']" routerLinkActive="active">Admins</a></span>
         <span><a [routerLink]="['profile']" routerLinkActive="active">Profile</a></span>
     </mat-toolbar>
 </div>

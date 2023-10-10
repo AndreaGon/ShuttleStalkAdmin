@@ -18,6 +18,10 @@ export class AdminService {
     return this.http.get<any[]>(`${API_URL}/get-admins`);
   }
 
+  getAdminByEmail(email: any){
+    return this.http.get<any[]>(`${API_URL}/get-admin/${email}`);
+  }
+
   async signUpAdmin(account: Admin){
     let newAccount = {
       fullname: account.fullname,

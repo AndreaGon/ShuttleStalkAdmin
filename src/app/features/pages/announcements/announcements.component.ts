@@ -41,7 +41,7 @@ export class AnnouncementsComponent implements OnInit {
     this.announcements = [];
 
     (await this.announcementService.getAllAnnouncements()).subscribe((data: any[])=>{
-      this.announcements = data.filter(item => item.createdBy == this.authService.getEmail().email);
+      this.announcements = data.filter(item => item.createdBy == this.authService.getUser().email);
       this.dataSource = new MatTableDataSource(this.announcements);
       this.dataSource.paginator = this.paginator;
       

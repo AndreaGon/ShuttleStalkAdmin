@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import Toast from 'awesome-toast-component';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { AdminService } from './admin.service';
 
 const API_URL = environment.api_url + "/admins";
 
@@ -21,7 +22,8 @@ export class AuthService {
   constructor(
     private firebase: AngularFireAuth,
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private adminService: AdminService
   ) {
     this.autoLogin();
   }
@@ -46,21 +48,27 @@ export class AuthService {
    signOut(){
     this.firebase.signOut();
     localStorage.removeItem("user");
+    localStorage.removeItem("role");
     this.router.navigate(['login']);
    }
 
    autoLogin(){
     this.firebase.onAuthStateChanged((user) => {
-      if (user) {
-        localStorage.setItem("user", JSON.stringify(user));
-        this.loggedIn.next(true);
-
-        if(this.redirectUrl) {
-          this.router.navigate([this.redirectUrl]);
-        }
-      } else {
-        this.loggedIn.next(false);
-      } 
+      var userEmail = user?.email;
+      this.adminService.getAdminByEmail(userEmail).subscribe((userRole)=>{
+      
+        if (user) {
+          localStorage.setItem("user", JSON.stringify(user));
+          localStorage.setItem("role", JSON.stringify(userRole[0].role))
+          this.loggedIn.next(true);
+  
+          if(this.redirectUrl) {
+            this.router.navigate([this.redirectUrl]);
+          }
+        } else {
+          this.loggedIn.next(false);
+        } 
+      });
     });
    }
 
@@ -68,8 +76,12 @@ export class AuthService {
     return this.http.get<any[]>(`${API_URL}/get-admin/${email}`);
    }
 
-   getEmail(){
-    return JSON.parse(localStorage.getItem("user")!);
+   getUser(){
+      return JSON.parse(localStorage.getItem("user")!);
+   }
+
+   getRole(){
+    return JSON.parse(localStorage.getItem("role")!);
    }
 
 }

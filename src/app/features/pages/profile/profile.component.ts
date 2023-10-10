@@ -15,7 +15,7 @@ export class ProfileComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.email = this.authService.getEmail()!.email;
+    this.email = this.authService.getUser()!.email;
   }
 
   signOut(){
