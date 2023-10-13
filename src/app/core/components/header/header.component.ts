@@ -8,14 +8,21 @@ import { AuthService } from '../../services/auth.service';
 })
 export class HeaderComponent implements OnInit {
 
-  userRole: String = "";
+  userRole: String = "admin";
 
   constructor(
     private authService: AuthService
-  ) { }
+  ) {
+
+    this.authService.loggedIn$.subscribe((value)=>{
+      if(value){
+        this.userRole = this.authService.getRole();
+      }
+    })
+   }
 
   ngOnInit(): void {
-    this.userRole = this.authService.getRole();
+        
   }
 
 }

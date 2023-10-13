@@ -33,7 +33,6 @@ export class LoginComponent implements OnInit {
         });
       }
     })
-    // await this.authService.signIn(this.email, this.password);
   }
 
 }

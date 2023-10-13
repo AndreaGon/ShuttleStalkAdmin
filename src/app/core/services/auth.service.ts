@@ -31,11 +31,16 @@ export class AuthService {
    signIn(email: string, password: string){
       this.firebase.signInWithEmailAndPassword(email, password)
       .then(res => {
-        this.router.navigate(["dashboard"]);
+        // this.checkLocalStorage().then(() => {
+        //   this.router.navigate(["dashboard"]);
+        //   console.log(this.getRole());
+        // });
+
+        this.redirectUrl = "dashboard";
         new Toast("Successfully logged in!", {
           position: 'top',
           theme: 'light'
-        });
+        });        
       })
       .catch(error => {
         new Toast("Error: " + error.message, {
@@ -52,20 +57,26 @@ export class AuthService {
     this.router.navigate(['login']);
    }
 
-   autoLogin(){
-    this.firebase.onAuthStateChanged((user) => {
+   async autoLogin(){
+    return this.firebase.onAuthStateChanged(async (user) => {
       var userEmail = user?.email;
-      this.adminService.getAdminByEmail(userEmail).subscribe((userRole)=>{
+      await this.adminService.getAdminByEmail(userEmail).subscribe((userRole)=>{
       
         if (user) {
           localStorage.setItem("user", JSON.stringify(user));
           localStorage.setItem("role", JSON.stringify(userRole[0].role))
           this.loggedIn.next(true);
+
+          console.log("IS CALLED")
   
-          if(this.redirectUrl) {
+          if(this.redirectUrl && this.getRole() != null) {
+            console.log(this.getRole());
             this.router.navigate([this.redirectUrl]);
           }
+          
         } else {
+
+          console.log("IS FALSE")
           this.loggedIn.next(false);
         } 
       });
@@ -83,5 +94,17 @@ export class AuthService {
    getRole(){
     return JSON.parse(localStorage.getItem("role")!);
    }
+
+   checkLocalStorage(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const check = this.getRole(); // Change 'token' to your specific key
+      if (check) {
+        resolve(true);
+      } else {
+        this.checkLocalStorage();
+      }
+    });
+  }
+
 
 }
