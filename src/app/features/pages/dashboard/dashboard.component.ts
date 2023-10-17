@@ -1,4 +1,6 @@
+import { DatePipe } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
@@ -10,7 +12,8 @@ import { StudentService } from 'src/app/core/services/student.service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.sass']
+  styleUrls: ['./dashboard.component.sass'],
+  providers: [DatePipe]
 })
 export class DashboardComponent implements OnInit {
   displayedColumns: string[] = ['bookingNo', 'name', 'matriculation', 'date', 'time', 'routeName', 'pickupDropoff', 'isJourneyEnded', 'isAttendanceMarked'];
@@ -25,11 +28,15 @@ export class DashboardComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
 
+  fromDate: String = "";
+  toDate: String = "";
+
   constructor(
     private router: Router,
     private bookingService: BookingService,
     private changeDetector: ChangeDetectorRef,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private datePipe: DatePipe
   ) { 
 
     this.filterSelectObj = [
@@ -54,7 +61,10 @@ export class DashboardComponent implements OnInit {
 
   async refreshBookingTable(): Promise<void>{
     this.spinner.show();
+    this.fromDate = "";
+    this.toDate = "";
     this.listOfBookings = [];
+    this.dataSource.filter = '';
 
     (await this.bookingService.getAllBookings()).subscribe((res: any)=>{
       res.forEach((doc: any, index: number) =>{
@@ -116,8 +126,7 @@ export class DashboardComponent implements OnInit {
 
     this.listOfBookings = this.listOfBookings.filter((items)=>(items.pickupDropoff == this.filterValues["pickupDropoff"]))
 
-    console.log(this.listOfBookings)
-
+    console.log(this.filterValues);
     this.dataSource.filter = JSON.stringify(this.filterValues);
   }
 
@@ -156,12 +165,25 @@ export class DashboardComponent implements OnInit {
     return filterFunction
   }
 
+  onFromDateChange(event: any){
+    this.fromDate = this.datePipe.transform(event.value, 'yyyy-MM-dd') || "";
+  }
+
+  onToDateChange(event: any){
+    this.toDate = this.datePipe.transform(event.value, 'yyyy-MM-dd') || "";
+  }
+
+  filterByDate(){
+    console.log(this.listOfBookings);
+    this.listOfBookings = this.listOfBookings.filter((items)=>(items.date >= this.fromDate && items.date <= this.toDate))
+
+    this.dataSource.data = this.listOfBookings;
+  }
+
   resetFilters() {
-    this.filterValues = {}
-    this.filterSelectObj.forEach((value, key) => {
-      value.modelValue = undefined;
-    })
-    this.dataSource.filter = "";
+    // this.filterSelectObj.forEach((value, key) => {
+    //   value.modelValue = undefined;
+    // })
     this.refreshBookingTable();
   }
 

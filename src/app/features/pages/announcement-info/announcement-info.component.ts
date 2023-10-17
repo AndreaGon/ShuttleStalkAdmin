@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import Toast from 'awesome-toast-component';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -21,8 +21,8 @@ export class AnnouncementInfoComponent implements OnInit {
   ) { }
 
   announcementForm = new FormGroup({
-    title: new FormControl(),
-    content: new FormControl()
+    title: new FormControl('', Validators.required),
+    content: new FormControl('', Validators.required)
   });
 
   announcementModel: Announcement = {
@@ -62,14 +62,22 @@ export class AnnouncementInfoComponent implements OnInit {
     this.announcementModel.title = this.announcementForm.get("title")?.value;
     this.announcementModel.content = this.announcementForm.get("content")?.value;
 
-    (await this.announcementService.updateAnnouncement(this.announcementModel, id)).subscribe(()=>{
-      this.router.navigate(["announcements"]);
-      new Toast("Announcement successfully updated!", {
+    if(this.announcementForm.valid){
+      (await this.announcementService.updateAnnouncement(this.announcementModel, id)).subscribe(()=>{
+        this.router.navigate(["announcements"]);
+        new Toast("Announcement successfully updated!", {
+          position: 'top',
+          theme: 'light'
+        });
+        this.spinner.hide();
+      })
+    }
+    else{
+      new Toast("Error: Please fill up the title and announcement content", {
         position: 'top',
         theme: 'light'
       });
-      this.spinner.hide();
-    })
+    }
   }
 
 }

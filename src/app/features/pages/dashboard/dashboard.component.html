@@ -24,6 +24,27 @@
                                   </mat-select>
                                 </mat-form-field>
                                 &nbsp;
+                                <mat-form-field class="filter-card">
+                                  <input matInput 
+                                    (dateChange)="onFromDateChange($event)"
+                                    [matDatepicker]="fromDate" 
+                                    placeholder="From Date"
+                                  >
+                                  <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>
+                                  <mat-datepicker #fromDate></mat-datepicker>
+                                </mat-form-field>
+                                &nbsp;
+                                <mat-form-field>
+                                  <input matInput 
+                                    (dateChange)="onToDateChange($event)"
+                                    [matDatepicker]="toDate" 
+                                    placeholder="To Date">
+                                  <mat-datepicker-toggle matSuffix [for]="toDate"></mat-datepicker-toggle>
+                                  <mat-datepicker #toDate></mat-datepicker>
+                                </mat-form-field>
+                                &nbsp;
+                                <button mat-flat-button class="action-button reset" (click)="filterByDate()">Date Filter</button>
+                                &nbsp;
                                 <button mat-flat-button class="action-button reset" (click)="resetFilters()">Reset Filter</button>
                             </div>
                         </td>
@@ -61,12 +82,12 @@
           </ng-container>
 
         <ng-container matColumnDef="date">
-          <th mat-header-cell *matHeaderCellDef> Booking date </th>
+          <th mat-header-cell *matHeaderCellDef> Journey date </th>
           <td mat-cell *matCellDef="let element"> {{element.date}} </td>
         </ng-container>
 
         <ng-container matColumnDef="time">
-          <th mat-header-cell *matHeaderCellDef> Booking time </th>
+          <th mat-header-cell *matHeaderCellDef> Journey time </th>
           <td mat-cell *matCellDef="let element"> {{element.time}} </td>
         </ng-container>
 
