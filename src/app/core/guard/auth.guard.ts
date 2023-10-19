@@ -32,14 +32,5 @@ export class AuthGuard implements CanActivate {
         return false;
         
       }))
-
-      // return this.authService.loggedIn$.parse(map(auth => {
-      //   if (isNullOrUndefined(auth)) {
-      //     this.router.navigate(['/login']);
-      //     return false;
-      //   } else {
-      //     return true;
-      //   }
-      // }));
   }  
 }

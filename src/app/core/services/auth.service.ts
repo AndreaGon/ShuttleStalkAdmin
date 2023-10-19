@@ -31,11 +31,6 @@ export class AuthService {
    signIn(email: string, password: string){
       this.firebase.signInWithEmailAndPassword(email, password)
       .then(res => {
-        // this.checkLocalStorage().then(() => {
-        //   this.router.navigate(["dashboard"]);
-        //   console.log(this.getRole());
-        // });
-
         this.redirectUrl = "dashboard";
         new Toast("Successfully logged in!", {
           position: 'top',

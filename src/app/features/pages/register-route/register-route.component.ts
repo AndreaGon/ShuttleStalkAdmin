@@ -127,7 +127,6 @@ export class RegisterRouteComponent implements OnInit {
   }
 
   async registerRoute(){
-    //TODO: add data to firebase
     this.routeForm.get("route")?.setValue(this.listOfAddresses);
 
     if(this.routeForm.valid){
