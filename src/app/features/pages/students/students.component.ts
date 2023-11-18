@@ -103,19 +103,13 @@ export class StudentsComponent implements OnInit {
     this.spinner.show();
     this.listOfStudents = [];
 
-    // (await this.studentService.getAllStudents().then((res)=>{
-    //   res.forEach((doc: any, index: number) =>{
-    //     doc.is_selected = false;
-    //     this.listOfStudents.push(doc);
-    //   })
-    // }))
-
     (await this.studentService.getAllStudents()).subscribe((res: any)=>{
       res.forEach((doc: any, index: number) =>{
         doc.is_selected = false;
         this.listOfStudents.push(doc);
       })
 
+      console.log(this.listOfStudents);
       this.dataSource.data = this.listOfStudents;
       this.dataSource.paginator = this.paginator;
 

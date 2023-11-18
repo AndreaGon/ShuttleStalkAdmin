@@ -86,7 +86,7 @@ export class DashboardComponent implements OnInit {
 
   exportToCSV(){
     var toExport: any = []
-    this.listOfBookings.forEach((items: any, index: number)=>{
+    this.dataSource.data.forEach((items: any, index: number)=>{
       toExport.push({
         "Booking no.": index + 1,
         "Booked by": items.studentName,
@@ -121,13 +121,17 @@ export class DashboardComponent implements OnInit {
 
   // Called on Filter change
   filterChange(filter: any, event: any) {
-    //let filterValues = {}
+    let filteredData = [];
     this.filterValues[filter.columnProp] = event.value.trim();
 
-    this.listOfBookings = this.listOfBookings.filter((items)=>(items.pickupDropoff == this.filterValues["pickupDropoff"]))
-
-    console.log(this.filterValues);
-    this.dataSource.filter = JSON.stringify(this.filterValues);
+    if(filter.columnProp == "routeName"){
+      filteredData = this.listOfBookings.filter((items)=>(items.routeName == this.filterValues["routeName"]))
+    }
+    else{
+      filteredData = this.listOfBookings.filter((items)=>(items.pickupDropoff == this.filterValues["pickupDropoff"]))
+    }
+    
+    this.dataSource.data =  filteredData;
   }
 
   // Custom filter method fot Angular Material Datatable
@@ -148,7 +152,7 @@ export class DashboardComponent implements OnInit {
         let found = false;
         if (isFilterSet) {
           for (const col in searchTerms) {
-            console.log(data);
+            //console.log(data);
             searchTerms[col].trim().toLowerCase().split(' ').forEach((word: any) => {
               if (data[(col == "name") ? "studentName": col].toString().toLowerCase().indexOf(word) != -1 && isFilterSet) {
                 found = true
@@ -174,17 +178,25 @@ export class DashboardComponent implements OnInit {
   }
 
   filterByDate(){
-    console.log(this.listOfBookings);
-    this.listOfBookings = this.listOfBookings.filter((items)=>(items.date >= this.fromDate && items.date <= this.toDate))
+    let filteredData = [];
+    //this.listOfBookings = this.listOfBookings.filter((items)=>(items.date >= this.fromDate && items.date <= this.toDate))
 
-    this.dataSource.data = this.listOfBookings;
+    filteredData = this.listOfBookings.filter((items)=>(items.date >= this.fromDate && items.date <= this.toDate))
+
+    this.dataSource.data = filteredData;
   }
 
   resetFilters() {
-    // this.filterSelectObj.forEach((value, key) => {
-    //   value.modelValue = undefined;
-    // })
-    this.refreshBookingTable();
+    this.filterValues = {}
+    this.filterSelectObj.forEach((value, key) => {
+      value.modelValue = undefined;
+    })
+
+    this.toDate = "";
+    this.fromDate = "";
+    this.dataSource.filter = "";
+
+    this.refreshBookingTable();    
   }
 
 }

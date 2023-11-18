@@ -38,7 +38,7 @@ export class RouteComponent implements OnInit {
   async setRegisteredRoutes(){
     this.spinner.show();
 
-    (await this.routeService.getAllRoutes()).subscribe((res: any[])=>{
+    (this.routeService.getAllRoutes()).subscribe((res: any[])=>{
       res.forEach((doc: any, index: number) => {
         if(doc.routeImage != ""){
           this.routeService.getImageDownloadUrl(doc.routeImage).then((observable)=>{
@@ -49,18 +49,7 @@ export class RouteComponent implements OnInit {
         }
         else{
           res[index].downloadUrl = "no image";
-        }
-
-        // if(doc.shuttleImage != ""){
-        //   (await this.shuttleService.getImageDownloadUrl(doc.shuttleImage)).subscribe((value: any)=>{
-        //     let imagePath = JSON.parse(value);
-        //     res[index].downloadUrl = imagePath.image;
-        //   });
-        // }
-        // else{
-        //   res[index].downloadUrl = "no image";
-        // }
-        
+        }      
         
       })
 

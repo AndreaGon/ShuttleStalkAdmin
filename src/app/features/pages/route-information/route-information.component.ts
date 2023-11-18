@@ -71,7 +71,7 @@ export class RouteInformationComponent implements OnInit {
   ngOnInit(): void {
     this.setDriversData();
     this.setShuttlesData();
-    this.setShuttleInformation();
+    this.setRouteInformation();
 
     this.mapsAPILoader.load().then(() => {
       this.setCurrentLocation();
@@ -111,21 +111,22 @@ export class RouteInformationComponent implements OnInit {
     }
   }
 
-  async setShuttleInformation(){
+  async setRouteInformation(){
     this.spinner.show();
-    let shuttleId = this.route.snapshot.paramMap.get("id") || "";
+    let routeId = this.route.snapshot.paramMap.get("id") || "";
 
-    if(shuttleId != ""){
-      (await this.routeService.getRouteOnQuery(shuttleId)).subscribe((res: any)=>{
+    if(routeId != ""){
+      (await this.routeService.getRouteOnQuery(routeId)).subscribe((res: any)=>{
         this.routeForm.get("routeName")?.setValue(res.routeName);
         this.routeForm.get("pickupTime")?.setValue(res.pickupTime);
         this.routeForm.get("dropoffTime")?.setValue(res.dropoffTime);
         this.routeForm.get("driver")?.setValue(res.driverId);
+        this.routeForm.get("routeImage")?.setValue(res.routeImage);
 
         this.routeForm.get("shuttle")?.setValue(res.shuttleId);
 
-        if(res.shuttleImage != ""){
-          this.imageName = res.shuttleImage;
+        if(res.routeImage != ""){
+          this.imageName = res.routeImage;
         }
         else{
           this.imageName = "No Image";
@@ -159,13 +160,17 @@ export class RouteInformationComponent implements OnInit {
     this.address = {}  
   }
 
-  editShuttle(){
+  editRoute(){
     //TODO: add data to firebase
     this.routeForm.get("route")?.setValue(this.listOfAddresses);
+
+    console.log(this.routeForm.get("shuttleImage")?.value)
 
     if(this.routeForm.valid){
 
       let routeId = this.route.snapshot.paramMap.get("id") || "";
+
+      console.log(this.newRoute.routeImage);
 
       if(this.routeForm.get("routeImage")?.value instanceof File){
         this.routeService.addImageToStorage(this.routeForm.get("routeImage")?.value).then((res)=>{
@@ -181,7 +186,7 @@ export class RouteInformationComponent implements OnInit {
           console.log(this.newRoute);
           this.routeService.updateRoute(this.newRoute, routeId).then(()=>{
             this.router.navigate(["route"]);
-            new Toast("Shuttle successfully updated!", {
+            new Toast("Route successfully updated!", {
               position: 'top',
               theme: 'light'
             });
@@ -203,6 +208,8 @@ export class RouteInformationComponent implements OnInit {
         this.newRoute.shuttle = this.routeForm.get("shuttle")?.value;
 
         this.newRoute.routeImage = this.routeForm.get("routeImage")?.value;
+
+        console.log(this.newRoute.routeImage);
 
         this.routeService.updateRoute(this.newRoute, routeId).then(()=>{
           this.router.navigate(["route"]);
@@ -231,7 +238,7 @@ export class RouteInformationComponent implements OnInit {
     
   }
 
-  cancelEditShuttle(){
+  cancelEditRoute(){
     this.router.navigate(['route']);
   }
 

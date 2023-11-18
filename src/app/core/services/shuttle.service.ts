@@ -23,7 +23,7 @@ export class ShuttleService {
 
   collection: any = collection(this.firestore, "shuttles");
 
-  async getAllShuttles(): Promise<any>{
+  getAllShuttles(){
     return this.http.get<any>(`${API_URL}/get-shuttles`);
   }
 
@@ -31,7 +31,7 @@ export class ShuttleService {
     return this.http.get<any>(`${API_URL}/get-shuttle/${id}`);
   }
 
-  async addNewShuttle(shuttle: Shuttle): Promise<any>{
+  addNewShuttle(shuttle: Shuttle){
     let newShuttle: any = {
       plateNo: shuttle.plateNo,
       shuttleImage: shuttle.shuttleImage,
@@ -39,9 +39,7 @@ export class ShuttleService {
     };
 
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    await this.http.post<any>(`${API_URL}/add-shuttle`, newShuttle, { headers: headers }).subscribe((res)=>{
-      console.log(res);
-    });
+    return this.http.post<any>(`${API_URL}/add-shuttle`, newShuttle, { headers: headers });
   }
 
   async updateShuttle(shuttle: Shuttle, id: string): Promise<any>{

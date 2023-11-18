@@ -22,12 +22,20 @@ export class RouteService {
   ) {}
 
 
-  async getAllRoutes(): Promise<any>{
+  getAllRoutes(){
     return this.http.get<any>(`${API_URL}/get-routes`);
   }
 
   async getRouteOnQuery(id: string): Promise<any>{
     return this.http.get<any>(`${API_URL}/get-route/${id}`);
+  }
+
+  getRouteByShuttleId(id: string){
+    return this.http.get<any>(`${API_URL}/get-route-by-shuttle/${id}`);
+  }
+
+  getRouteByDriverId(id: string){
+    return this.http.get<any>(`${API_URL}/get-route-by-driver/${id}`);
   }
 
   async addNewRoute(route: Route): Promise<any>{

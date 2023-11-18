@@ -32,6 +32,7 @@ export class AuthService {
       this.firebase.signInWithEmailAndPassword(email, password)
       .then(res => {
         this.redirectUrl = "dashboard";
+        this.autoLogin();
         new Toast("Successfully logged in!", {
           position: 'top',
           theme: 'light'
@@ -92,7 +93,7 @@ export class AuthService {
 
    checkLocalStorage(): Promise<any> {
     return new Promise((resolve, reject) => {
-      const check = this.getRole(); // Change 'token' to your specific key
+      const check = this.getRole();
       if (check) {
         resolve(true);
       } else {

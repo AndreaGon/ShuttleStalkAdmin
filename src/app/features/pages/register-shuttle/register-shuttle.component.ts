@@ -62,15 +62,9 @@ export class RegisterShuttleComponent implements OnInit {
             this.newShuttle.plateNo = this.shuttleForm.get("plateNo")?.value;
             this.newShuttle.seats = this.shuttleForm.get("seats")?.value;
     
-            await this.shuttleService.addNewShuttle(this.newShuttle).then(()=>{
+            (this.shuttleService.addNewShuttle(this.newShuttle)).subscribe(()=>{
               this.router.navigate(["shuttle"]);
               new Toast("Shuttle successfully added!", {
-                position: 'top',
-                theme: 'light'
-              });
-            })
-            .catch((error)=>{
-              new Toast("Error: " + error.message, {
                 position: 'top',
                 theme: 'light'
               });
@@ -81,19 +75,13 @@ export class RegisterShuttleComponent implements OnInit {
           this.newShuttle.plateNo = this.shuttleForm.get("plateNo")?.value;
           this.newShuttle.seats = this.shuttleForm.get("seats")?.value;
   
-          await this.shuttleService.addNewShuttle(this.newShuttle).then(()=>{
+          this.shuttleService.addNewShuttle(this.newShuttle).subscribe(()=>{
             this.router.navigate(["shuttle"]);
             new Toast("Shuttle successfully added!", {
               position: 'top',
               theme: 'light'
             });
           })
-          .catch((error)=>{
-            new Toast("Error: " + error.message, {
-              position: 'top',
-              theme: 'light'
-            });
-          });
         }
       } 
       

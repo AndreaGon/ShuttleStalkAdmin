@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import Toast from 'awesome-toast-component';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DriverService } from 'src/app/core/services/driver.service';
+import { RouteService } from 'src/app/core/services/route.service';
 
 @Component({
   selector: 'app-driver',
@@ -22,6 +23,7 @@ export class DriverComponent implements OnInit {
   constructor(
     private router: Router,
     private driverService: DriverService,
+    private routeService: RouteService,
     private changeDetector: ChangeDetectorRef,
     private spinner: NgxSpinnerService
     ) { }
@@ -48,13 +50,24 @@ export class DriverComponent implements OnInit {
   }
 
   async deleteDriver(id: any, email: any){
-    (await this.driverService.deleteDriver(id, email)).subscribe((res)=>{
-      new Toast("Driver successfully deleted!", {
-        position: 'top',
-        theme: 'light'
-      });
-      this.refreshTable();
-    })
+    this.routeService.getRouteByDriverId(id).subscribe(async (res)=>{
+      if(res.length > 0){
+        new Toast("Error: Cannot delete driver as it is connected to a route. Please delete the route first!", {
+          position: 'top',
+          theme: 'light'
+        });
+      }
+      else{
+        (await this.driverService.deleteDriver(id, email)).subscribe((res)=>{
+          new Toast("Driver successfully deleted!", {
+            position: 'top',
+            theme: 'light'
+          });
+          this.refreshTable();
+        })
+      }
+    });
+    
   }
 
 }
