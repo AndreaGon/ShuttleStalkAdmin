@@ -46,8 +46,6 @@ export class RegisterShuttleComponent implements OnInit {
 
 
   async registerShuttle(){
-    //TODO: add data to firebase
-
     if(this.shuttleForm.valid){
 
       if(

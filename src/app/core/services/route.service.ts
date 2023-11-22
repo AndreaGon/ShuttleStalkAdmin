@@ -38,7 +38,7 @@ export class RouteService {
     return this.http.get<any>(`${API_URL}/get-route-by-driver/${id}`);
   }
 
-  async addNewRoute(route: Route): Promise<any>{
+  addNewRoute(route: Route){
     let newShuttle: any = {
       routeName: route.routeName,
       driverId: route.driver,
@@ -96,8 +96,6 @@ export class RouteService {
   }
 
   async deleteRoute(id: string){
-    return this.http.delete(`${API_URL}/delete-route/${id}`).subscribe((value)=>{
-      console.log(value);
-    });
+    return this.http.delete(`${API_URL}/delete-route/${id}`);
   }
 }

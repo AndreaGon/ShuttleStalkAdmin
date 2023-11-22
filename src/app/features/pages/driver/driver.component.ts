@@ -58,12 +58,12 @@ export class DriverComponent implements OnInit {
         });
       }
       else{
-        (await this.driverService.deleteDriver(id, email)).subscribe((res)=>{
+        (await this.driverService.deleteDriver(id, email)).subscribe(()=>{
+          this.refreshTable();
           new Toast("Driver successfully deleted!", {
             position: 'top',
             theme: 'light'
           });
-          this.refreshTable();
         })
       }
     });

@@ -142,7 +142,7 @@ export class RegisterRouteComponent implements OnInit {
           this.newRoute.route = this.routeForm.get("route")?.value;
           this.newRoute.shuttle = this.routeForm.get("shuttle")?.value;
   
-          (await this.routeService.addNewRoute(this.newRoute)).subscribe(()=>{
+          (this.routeService.addNewRoute(this.newRoute)).subscribe(()=>{
             this.router.navigate(["route"]);
             new Toast("Shuttle successfully added!", {
               position: 'top',
@@ -206,17 +206,38 @@ export class RegisterRouteComponent implements OnInit {
   }
 
   updatePickupTime(event: any){
+    //Checking pickup time
     const currentItemsArray = this.routeForm.get('pickupTime')?.value;
     const newItemsArray = [...currentItemsArray, event];
+  
+    let time = newItemsArray[newItemsArray.length-1].replace(":00", "");
+    
+    if(time < 6 || time > 12){
+      new Toast("Error: Pickup time is between 6:00 to 12:00!", {
+        position: 'top',
+        theme: 'light'
+      });
+    }
+    else{
+      this.routeForm.get('pickupTime')?.setValue(newItemsArray);
+    }
 
-    this.routeForm.get('pickupTime')?.setValue(newItemsArray);
   }
 
   updateDropoffTime(event: any){
     const currentItemsArray = this.routeForm.get('dropoffTime')?.value;
     const newItemsArray = [...currentItemsArray, event];
-
-    this.routeForm.get('dropoffTime')?.setValue(newItemsArray);
+    let time = newItemsArray[newItemsArray.length-1].replace(":00", "");
+    
+    if(time < 13 || time > 21){
+      new Toast("Error: Dropoff time is between 13:00 to 21:00!", {
+        position: 'top',
+        theme: 'light'
+      });
+    }
+    else{
+      this.routeForm.get('dropoffTime')?.setValue(newItemsArray);
+    }
   }
 
   timePickerValidator(): ValidatorFn {

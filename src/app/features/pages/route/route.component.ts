@@ -31,8 +31,9 @@ export class RouteComponent implements OnInit {
   }
 
   async deleteRoute(shuttle: any){
-    await this.routeService.deleteRoute(shuttle.id);
-    this.setRegisteredRoutes();
+    (await this.routeService.deleteRoute(shuttle.id)).subscribe(()=>{
+      this.setRegisteredRoutes();
+    });
   }
 
   async setRegisteredRoutes(){
@@ -52,7 +53,7 @@ export class RouteComponent implements OnInit {
         }      
         
       })
-
+      console.log(res);
       this.listOfRoutes = res;
       this.spinner.hide();
     });
