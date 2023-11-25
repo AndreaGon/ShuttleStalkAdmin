@@ -103,7 +103,7 @@ export class StudentsComponent implements OnInit {
     this.spinner.show();
     this.listOfStudents = [];
 
-    (await this.studentService.getAllStudents()).subscribe((res: any)=>{
+    (this.studentService.getAllStudents()).subscribe((res: any)=>{
       res.forEach((doc: any, index: number) =>{
         doc.is_selected = false;
         this.listOfStudents.push(doc);

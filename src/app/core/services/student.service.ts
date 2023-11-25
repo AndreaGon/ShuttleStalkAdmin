@@ -17,8 +17,8 @@ export class StudentService {
   ) { }
 
 
-  async getAllStudents(): Promise<any>{
-      return await this.http.get<any>(`${API_URL}/get-students`);
+  getAllStudents(){
+      return this.http.get<any>(`${API_URL}/get-students`);
   }
 
   async getStudentById(id: string): Promise<any>{

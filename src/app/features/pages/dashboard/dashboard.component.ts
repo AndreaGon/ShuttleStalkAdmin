@@ -95,8 +95,8 @@ export class DashboardComponent implements OnInit {
         "Booking date": items.date,
         "Booking time": items.time,
         "Pickup / Dropoff": items.pickupDropoff,
-        "Is Journey Ended?": (items.is_invalid == "true") ? "YES" : "NO" ,
-        "Is Attendance Marked?": (items.attendance_marked == "true") ? "YES" : "NO"
+        "Is Journey Ended?": (items.is_invalid == true) ? "YES" : "NO" ,
+        "Is Attendance Marked?": (items.attendance_marked == true) ? "YES" : "NO"
       })
     })
     this.bookingService.exportAsExcelFile(toExport, "Booking_Summary_" + Date.now().toString());

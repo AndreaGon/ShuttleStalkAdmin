@@ -15,7 +15,7 @@ export class StudentInformationComponent implements OnInit {
 
   name: string = "";
   email: string = "";
-  ic_number: string = "";
+  matriculation: string = "";
   program: string = "";
   graduation_month: string = "";
   graduation_year: string = "";
@@ -44,7 +44,7 @@ export class StudentInformationComponent implements OnInit {
         console.log(res);
         this.name = res.fullname;
         this.email = res.email;
-        this.ic_number = res.ic_number;
+        this.matriculation = res.matriculation;
         this.program = res.program;
         this.graduation_month = res.graduation_month;
         this.graduation_year = res.graduation_year;
